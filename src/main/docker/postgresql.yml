@@ -2,13 +2,13 @@
 version: '3.8'
 services:
   unit-postgresql:
-    image: postgres:14.2
+    image: postgres:13.1-alpine
     # volumes:
     #   - ~/volumes/jhipster/unit/postgresql/:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=unit
-      - POSTGRES_PASSWORD=
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_PASSWORD=1234
+    #      - POSTGRES_HOST_AUTH_METHOD=trust
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
