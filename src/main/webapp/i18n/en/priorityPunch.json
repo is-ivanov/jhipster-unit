@@ -1,0 +1,26 @@
+{
+  "unitApp": {
+    "priorityPunch": {
+      "home": {
+        "title": "Priority Punches",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Priority Punch",
+        "createOrEditLabel": "Create or edit a Priority Punch",
+        "notFound": "No Priority Punches found"
+      },
+      "created": "A new Priority Punch is created with identifier {{ param }}",
+      "updated": "A Priority Punch is updated with identifier {{ param }}",
+      "deleted": "A Priority Punch is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Priority Punch {{ id }}?"
+      },
+      "detail": {
+        "title": "Priority Punch"
+      },
+      "id": "ID",
+      "priority": "Priority",
+      "name": "Name",
+      "description": "Description"
+    }
+  }
+}

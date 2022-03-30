@@ -48,6 +48,19 @@ public class CacheConfiguration {
             createCache(cm, by.ivanov.unit.domain.User.class.getName());
             createCache(cm, by.ivanov.unit.domain.Authority.class.getName());
             createCache(cm, by.ivanov.unit.domain.User.class.getName() + ".authorities");
+            createCache(cm, by.ivanov.unit.domain.Line.class.getName());
+            createCache(cm, by.ivanov.unit.domain.PriorityPunch.class.getName());
+            createCache(cm, by.ivanov.unit.domain.TypePunch.class.getName());
+            createCache(cm, by.ivanov.unit.domain.Block.class.getName());
+            createCache(cm, by.ivanov.unit.domain.Project.class.getName());
+            createCache(cm, by.ivanov.unit.domain.Project.class.getName() + ".subContractors");
+            createCache(cm, by.ivanov.unit.domain.PunchList.class.getName());
+            createCache(cm, by.ivanov.unit.domain.CommentPunch.class.getName());
+            createCache(cm, by.ivanov.unit.domain.Company.class.getName());
+            createCache(cm, by.ivanov.unit.domain.Company.class.getName() + ".projects");
+            createCache(cm, by.ivanov.unit.domain.PunchItem.class.getName());
+            createCache(cm, by.ivanov.unit.domain.PunchItem.class.getName() + ".comments");
+            createCache(cm, by.ivanov.unit.domain.AppUser.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

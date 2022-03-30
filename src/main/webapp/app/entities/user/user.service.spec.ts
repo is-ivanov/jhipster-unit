@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { User, IUser } from './user.model';
+import { IUser, User } from './user.model';
 
 import { UserService } from './user.service';
 
@@ -31,8 +31,15 @@ describe('User Service', () => {
       });
 
       const req = httpMock.expectOne({ method: 'GET' });
-      req.flush([new User(123, 'user')]);
-      expect(expectedResult).toEqual([{ id: 123, login: 'user' }]);
+      req.flush([new User(123, 'user', 'firstNameUser', 'lastNameUser')]);
+      expect(expectedResult).toEqual([
+        {
+          id: 123,
+          login: 'user',
+          firstName: 'firstNameUser',
+          lastName: 'lastNameUser',
+        },
+      ]);
     });
 
     it('should propagate not found response', () => {

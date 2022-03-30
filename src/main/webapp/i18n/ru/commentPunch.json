@@ -1,0 +1,25 @@
+{
+  "unitApp": {
+    "commentPunch": {
+      "home": {
+        "title": "Comment Punches",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Comment Punch",
+        "createOrEditLabel": "Создать или отредактировать Comment Punch",
+        "notFound": "Comment Punches не найдено"
+      },
+      "created": "Новый Comment Punch создан с идентификатором {{ param }}",
+      "updated": "Comment Punch обновлен с идентификатором {{ param }}",
+      "deleted": "Comment Punch удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Comment Punch {{ id }}?"
+      },
+      "detail": {
+        "title": "Comment Punch"
+      },
+      "id": "ID",
+      "comment": "Comment",
+      "punchItem": "Punch Item"
+    }
+  }
+}

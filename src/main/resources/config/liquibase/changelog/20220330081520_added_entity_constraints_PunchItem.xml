@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity PunchItem.
+    -->
+    <changeSet id="20220330081520-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="type_id"
+                                 baseTableName="punch_item"
+                                 constraintName="fk_punch_item__type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="type_punch"/>
+
+        <addForeignKeyConstraint baseColumnNames="line_id"
+                                 baseTableName="punch_item"
+                                 constraintName="fk_punch_item__line_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="line"/>
+
+        <addForeignKeyConstraint baseColumnNames="punch_list_id"
+                                 baseTableName="punch_item"
+                                 constraintName="fk_punch_item__punch_list_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="punch_list"/>
+
+        <addForeignKeyConstraint baseColumnNames="priority_id"
+                                 baseTableName="punch_item"
+                                 constraintName="fk_punch_item__priority_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="priority_punch"/>
+
+        <addForeignKeyConstraint baseColumnNames="executor_id"
+                                 baseTableName="punch_item"
+                                 constraintName="fk_punch_item__executor_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="company"/>
+
+        <addForeignKeyConstraint baseColumnNames="author_id"
+                                 baseTableName="punch_item"
+                                 constraintName="fk_punch_item__author_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+    </changeSet>
+</databaseChangeLog>

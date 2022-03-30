@@ -1,0 +1,15 @@
+export enum StatusLine {
+  NEW = 'NEW',
+
+  IN_PROGRESS = 'IN_PROGRESS',
+
+  CHANGING = 'CHANGING',
+
+  UNDER_REVIEW = 'UNDER_REVIEW',
+
+  CHECKED = 'CHECKED',
+
+  TESTED = 'TESTED',
+
+  ACCEPTED = 'ACCEPTED',
+}

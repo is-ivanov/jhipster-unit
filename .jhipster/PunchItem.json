@@ -1,0 +1,99 @@
+{
+  "applications": "*",
+  "changelogDate": "20220330081520",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "punch_item",
+  "fields": [
+    {
+      "fieldName": "number",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "location",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "revisionDrawing",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "20"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "StatusPunch",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "INITIATED,READY_FOR_REVIEW,UNDER_REVIEW,NOT_ACCEPTED,CLOSED,VOID"
+    },
+    {
+      "fieldName": "closedDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "PunchItem",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "typePunch",
+      "otherEntityRelationshipName": "punchItem",
+      "relationshipName": "type",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "tag",
+      "otherEntityName": "line",
+      "otherEntityRelationshipName": "punchItem",
+      "relationshipName": "line",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "number",
+      "otherEntityName": "punchList",
+      "otherEntityRelationshipName": "punchItem",
+      "relationshipName": "punchList",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "priorityPunch",
+      "otherEntityRelationshipName": "punchItem",
+      "relationshipName": "priority",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityField": "shortName",
+      "otherEntityName": "company",
+      "otherEntityRelationshipName": "punchItem",
+      "relationshipName": "executor",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "lastName",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "punchItem",
+      "relationshipName": "author",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "commentPunch",
+      "otherEntityRelationshipName": "punchItem",
+      "relationshipName": "comments",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

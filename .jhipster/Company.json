@@ -1,0 +1,38 @@
+{
+  "applications": "*",
+  "changelogDate": "20220330081519",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "company",
+  "fields": [
+    {
+      "fieldName": "shortName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "20"
+    },
+    {
+      "fieldName": "fullName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Company",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "project",
+      "otherEntityRelationshipName": "subContractors",
+      "ownerSide": false,
+      "relationshipName": "projects",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

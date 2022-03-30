@@ -13,7 +13,7 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 
 # Change these settings to your own preference
-indent_style = space
+indent_style = tab
 indent_size = 4
 
 [*.{ts,tsx,js,jsx,json,css,scss,yml,html,vue}]
@@ -21,3 +21,7 @@ indent_size = 2
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.{ts,js,tsx}]
+ij_javascript_spaces_within_imports = true
+

@@ -1,0 +1,25 @@
+{
+  "unitApp": {
+    "typePunch": {
+      "home": {
+        "title": "Type Punches",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Type Punch",
+        "createOrEditLabel": "Create or edit a Type Punch",
+        "notFound": "No Type Punches found"
+      },
+      "created": "A new Type Punch is created with identifier {{ param }}",
+      "updated": "A Type Punch is updated with identifier {{ param }}",
+      "deleted": "A Type Punch is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Type Punch {{ id }}?"
+      },
+      "detail": {
+        "title": "Type Punch"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description"
+    }
+  }
+}

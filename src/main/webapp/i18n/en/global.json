@@ -7,6 +7,16 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entities",
+        "line": "Line",
+        "priorityPunch": "Priority Punch",
+        "typePunch": "Type Punch",
+        "block": "Block",
+        "project": "Project",
+        "punchList": "Punch List",
+        "commentPunch": "Comment Punch",
+        "company": "Company",
+        "punchItem": "Punch Item",
+        "appUser": "App User",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

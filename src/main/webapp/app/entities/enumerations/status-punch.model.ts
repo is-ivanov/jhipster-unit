@@ -1,0 +1,13 @@
+export enum StatusPunch {
+  INITIATED = 'INITIATED',
+
+  READY_FOR_REVIEW = 'READY_FOR_REVIEW',
+
+  UNDER_REVIEW = 'UNDER_REVIEW',
+
+  NOT_ACCEPTED = 'NOT_ACCEPTED',
+
+  CLOSED = 'CLOSED',
+
+  VOID = 'VOID',
+}

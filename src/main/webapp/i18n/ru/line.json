@@ -1,0 +1,27 @@
+{
+  "unitApp": {
+    "line": {
+      "home": {
+        "title": "Lines",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Line",
+        "createOrEditLabel": "Создать или отредактировать Line",
+        "notFound": "Lines не найдено"
+      },
+      "created": "Новый Line создан с идентификатором {{ param }}",
+      "updated": "Line обновлен с идентификатором {{ param }}",
+      "deleted": "Line удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Line {{ id }}?"
+      },
+      "detail": {
+        "title": "Line"
+      },
+      "id": "ID",
+      "tag": "Tag",
+      "revision": "Revision",
+      "status": "Status",
+      "block": "Block"
+    }
+  }
+}
