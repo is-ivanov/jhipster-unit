@@ -2,26 +2,26 @@
   "unitApp": {
     "company": {
       "home": {
-        "title": "Companies",
+        "title": "Организации",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Company",
-        "createOrEditLabel": "Создать или отредактировать Company",
-        "notFound": "Companies не найдено"
+        "createLabel": "Создать организацию",
+        "createOrEditLabel": "Создать или отредактировать организацию",
+        "notFound": "Организаций не найдено"
       },
-      "created": "Новый Company создан с идентификатором {{ param }}",
-      "updated": "Company обновлен с идентификатором {{ param }}",
-      "deleted": "Company удален с идентификатором {{ param }}",
+      "created": "Новая организация создана с идентификатором {{ param }}",
+      "updated": "Организация обновлена с идентификатором {{ param }}",
+      "deleted": "Организация удален с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Company {{ id }}?"
+        "question": "Вы уверены что хотите удалить организацию {{ id }}?"
       },
       "detail": {
-        "title": "Company"
+        "title": "Организация"
       },
       "id": "ID",
-      "shortName": "Short Name",
-      "fullName": "Full Name",
+      "shortName": "Аббревиатура",
+      "fullName": "Название",
       "email": "Email",
-      "projects": "Projects"
+      "projects": "Проекты"
     }
   }
 }

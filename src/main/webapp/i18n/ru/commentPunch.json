@@ -2,24 +2,24 @@
   "unitApp": {
     "commentPunch": {
       "home": {
-        "title": "Comment Punches",
+        "title": "Комментарии к замечаниям",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Comment Punch",
-        "createOrEditLabel": "Создать или отредактировать Comment Punch",
-        "notFound": "Comment Punches не найдено"
+        "createLabel": "Создать комментарий",
+        "createOrEditLabel": "Создать или отредактировать комментарий",
+        "notFound": "Комментариев не найдено"
       },
-      "created": "Новый Comment Punch создан с идентификатором {{ param }}",
-      "updated": "Comment Punch обновлен с идентификатором {{ param }}",
-      "deleted": "Comment Punch удален с идентификатором {{ param }}",
+      "created": "Новый комментарий создан с идентификатором {{ param }}",
+      "updated": "Комментарий обновлён с идентификатором {{ param }}",
+      "deleted": "Комментарий удалён с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Comment Punch {{ id }}?"
+        "question": "Вы уверены что хотите удалить комментарий {{ id }}?"
       },
       "detail": {
-        "title": "Comment Punch"
+        "title": "Комментарий"
       },
       "id": "ID",
-      "comment": "Comment",
-      "punchItem": "Punch Item"
+      "comment": "Комментарий",
+      "punchItem": "Номер замечания"
     }
   }
 }

@@ -2,24 +2,24 @@
   "unitApp": {
     "typePunch": {
       "home": {
-        "title": "Type Punches",
+        "title": "Типы замечаний",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Type Punch",
-        "createOrEditLabel": "Создать или отредактировать Type Punch",
-        "notFound": "Type Punches не найдено"
+        "createLabel": "Создать тип",
+        "createOrEditLabel": "Создать или отредактировать тип",
+        "notFound": "Типов не найдено"
       },
-      "created": "Новый Type Punch создан с идентификатором {{ param }}",
-      "updated": "Type Punch обновлен с идентификатором {{ param }}",
-      "deleted": "Type Punch удален с идентификатором {{ param }}",
+      "created": "Новый тип создан с идентификатором {{ param }}",
+      "updated": "Тип обновлён с идентификатором {{ param }}",
+      "deleted": "Тип удалён с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Type Punch {{ id }}?"
+        "question": "Вы уверены что хотите удалить тип {{ id }}?"
       },
       "detail": {
-        "title": "Type Punch"
+        "title": "Тип замечаний"
       },
       "id": "ID",
-      "name": "Name",
-      "description": "Description"
+      "name": "Название",
+      "description": "Описание"
     }
   }
 }
