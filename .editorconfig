@@ -21,3 +21,7 @@ indent_size = 2
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.{ts,js,tsx}]
+ij_javascript_spaces_within_imports = true
+
