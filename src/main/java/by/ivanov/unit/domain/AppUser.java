@@ -26,9 +26,9 @@ public class AppUser implements Serializable {
     @JoinColumn(name = "id")
     private User user;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties(value = { "projects" }, allowSetters = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn
+	@JsonIgnoreProperties(value = { "projects" }, allowSetters = true)
     private Company company;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

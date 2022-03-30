@@ -52,8 +52,9 @@
       "confirmpassword.label": "Подтверждение нового пароля",
       "confirmpassword.placeholder": "Подтвердите новый пароль",
       "email.label": "Эл. почта",
-      "email.placeholder": "Ваша эл. почта"
-    },
+      "email.placeholder": "Ваша эл. почта",
+			"company.label": "Ваша организация"
+		},
     "messages": {
       "info": {
         "authenticated": {

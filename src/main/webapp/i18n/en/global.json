@@ -52,7 +52,8 @@
       "confirmpassword.label": "New password confirmation",
       "confirmpassword.placeholder": "Confirm the new password",
       "email.label": "Email",
-      "email.placeholder": "Your email"
+      "email.placeholder": "Your email",
+			"company.label": "Your company"
     },
     "messages": {
       "info": {
