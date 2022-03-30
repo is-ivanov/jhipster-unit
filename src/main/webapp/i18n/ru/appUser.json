@@ -9,8 +9,8 @@
         "notFound": "App Users не найдено"
       },
       "created": "Новый App User создан с идентификатором {{ param }}",
-      "updated": "App User обновлен с идентификатором {{ param }}",
-      "deleted": "App User удален с идентификатором {{ param }}",
+      "updated": "App User обновлён с идентификатором {{ param }}",
+      "deleted": "App User удалён с идентификатором {{ param }}",
       "delete": {
         "question": "Вы уверены что хотите удалить App User {{ id }}?"
       },

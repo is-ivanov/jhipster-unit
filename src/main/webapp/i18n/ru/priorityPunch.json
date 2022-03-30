@@ -2,25 +2,25 @@
   "unitApp": {
     "priorityPunch": {
       "home": {
-        "title": "Priority Punches",
+        "title": "Приоритеты замечаний",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Priority Punch",
-        "createOrEditLabel": "Создать или отредактировать Priority Punch",
-        "notFound": "Priority Punches не найдено"
+        "createLabel": "Создать приоритет",
+        "createOrEditLabel": "Создать или отредактировать приоритет",
+        "notFound": "Приоритетов не найдено"
       },
-      "created": "Новый Priority Punch создан с идентификатором {{ param }}",
-      "updated": "Priority Punch обновлен с идентификатором {{ param }}",
-      "deleted": "Priority Punch удален с идентификатором {{ param }}",
+      "created": "Новый приоритет создан с идентификатором {{ param }}",
+      "updated": "Приоритет обновлён с идентификатором {{ param }}",
+      "deleted": "Приоритет удалён с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Priority Punch {{ id }}?"
+        "question": "Вы уверены что хотите удалить приоритет {{ id }}?"
       },
       "detail": {
-        "title": "Priority Punch"
+        "title": "Приоритет замечаний"
       },
       "id": "ID",
-      "priority": "Priority",
-      "name": "Name",
-      "description": "Description"
+      "priority": "Приоритет",
+      "name": "Название",
+      "description": "Описание"
     }
   }
 }

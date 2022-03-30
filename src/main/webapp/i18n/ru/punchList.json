@@ -2,26 +2,26 @@
   "unitApp": {
     "punchList": {
       "home": {
-        "title": "Punch Lists",
+        "title": "Ведомость замечаний",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Punch List",
-        "createOrEditLabel": "Создать или отредактировать Punch List",
-        "notFound": "Punch Lists не найдено"
+        "createLabel": "Создать ведомость",
+        "createOrEditLabel": "Создать или отредактировать ведомость",
+        "notFound": "Ведомостей не найдено"
       },
-      "created": "Новый Punch List создан с идентификатором {{ param }}",
-      "updated": "Punch List обновлен с идентификатором {{ param }}",
-      "deleted": "Punch List удален с идентификатором {{ param }}",
+      "created": "Новая ведомость создана с идентификатором {{ param }}",
+      "updated": "Ведомость обновлена с идентификатором {{ param }}",
+      "deleted": "Ведомость удалена с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Punch List {{ id }}?"
+        "question": "Вы уверены что хотите удалить ведомость {{ id }}?"
       },
       "detail": {
-        "title": "Punch List"
+        "title": "Ведомость замечаний"
       },
       "id": "ID",
-      "number": "Number",
-      "name": "Name",
-      "description": "Description",
-      "project": "Project"
+      "number": "Номер",
+      "name": "Название",
+      "description": "Описание",
+      "project": "Проект"
     }
   }
 }

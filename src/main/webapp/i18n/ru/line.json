@@ -2,26 +2,26 @@
   "unitApp": {
     "line": {
       "home": {
-        "title": "Lines",
+        "title": "Линии",
         "refreshListLabel": "Обновить список",
-        "createLabel": "Создать новый Line",
-        "createOrEditLabel": "Создать или отредактировать Line",
-        "notFound": "Lines не найдено"
+        "createLabel": "Создать линию",
+        "createOrEditLabel": "Создать или отредактировать линию",
+        "notFound": "Линий не найдено"
       },
-      "created": "Новый Line создан с идентификатором {{ param }}",
-      "updated": "Line обновлен с идентификатором {{ param }}",
-      "deleted": "Line удален с идентификатором {{ param }}",
+      "created": "Новая линия создана с идентификатором {{ param }}",
+      "updated": "Линия обновлена с идентификатором {{ param }}",
+      "deleted": "Линия удалена с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить Line {{ id }}?"
+        "question": "Вы уверены что хотите удалить линию {{ id }}?"
       },
       "detail": {
-        "title": "Line"
+        "title": "Линия"
       },
       "id": "ID",
-      "tag": "Tag",
-      "revision": "Revision",
-      "status": "Status",
-      "block": "Block"
+      "tag": "Номер",
+      "revision": "Изм.",
+      "status": "Статус",
+      "block": "Блок"
     }
   }
 }
