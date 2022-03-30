@@ -1,0 +1,25 @@
+{
+  "unitApp": {
+    "commentPunch": {
+      "home": {
+        "title": "Comment Punches",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Comment Punch",
+        "createOrEditLabel": "Create or edit a Comment Punch",
+        "notFound": "No Comment Punches found"
+      },
+      "created": "A new Comment Punch is created with identifier {{ param }}",
+      "updated": "A Comment Punch is updated with identifier {{ param }}",
+      "deleted": "A Comment Punch is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Comment Punch {{ id }}?"
+      },
+      "detail": {
+        "title": "Comment Punch"
+      },
+      "id": "ID",
+      "comment": "Comment",
+      "punchItem": "Punch Item"
+    }
+  }
+}

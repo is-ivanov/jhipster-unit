@@ -1,0 +1,33 @@
+{
+  "applications": "*",
+  "changelogDate": "20220330081521",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "app_user",
+  "fields": [],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "AppUser",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "id": true,
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "appUser",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one",
+      "useJPADerivedIdentifier": true
+    },
+    {
+      "otherEntityField": "shortName",
+      "otherEntityName": "company",
+      "otherEntityRelationshipName": "appUser",
+      "relationshipName": "company",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceImpl"
+}

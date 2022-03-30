@@ -1,0 +1,29 @@
+{
+  "applications": "*",
+  "changelogDate": "20220330081518",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "comment_punch",
+  "fields": [
+    {
+      "fieldName": "comment",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "CommentPunch",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "punchItem",
+      "otherEntityRelationshipName": "comments",
+      "relationshipName": "punchItem",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "service": "serviceImpl"
+}

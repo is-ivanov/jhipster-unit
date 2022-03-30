@@ -1,0 +1,93 @@
+enum StatusLine {
+	NEW,
+    IN_PROGRESS,
+    CHANGING,
+    UNDER_REVIEW,
+    CHECKED,
+    TESTED,
+    ACCEPTED
+}
+enum StatusPunch {
+	INITIATED,
+    READY_FOR_REVIEW,
+    UNDER_REVIEW,
+    NOT_ACCEPTED,
+    CLOSED,
+    VOID
+}
+
+entity Line {
+	tag String required maxlength(50),
+    revision String required maxlength(20),
+    status StatusLine required
+}
+entity PriorityPunch {
+	priority Integer required unique,
+    name String required unique maxlength(20),
+    description String
+}
+entity TypePunch {
+	name String required unique maxlength(20),
+    description String
+}
+entity Block {
+  number Integer required
+  description String required
+}
+entity Project {
+  name String required unique maxlength(30)
+  description String
+}
+entity PunchList {
+  number Integer required
+  name String maxlength(100)
+  description String
+}
+entity CommentPunch {
+	comment String required,
+}
+entity Company {
+	shortName String required maxlength(20) unique,
+    fullName String,
+    email String
+}
+
+entity PunchItem {
+	number Integer required,
+    location String,
+    description String required,
+    revisionDrawing String maxlength(20),
+    status StatusPunch required,
+    closedDate Instant
+}
+
+entity AppUser {
+}
+
+relationship ManyToOne {
+  	Block{project(name) required} to Project
+  	PunchList{project(name) required} to Project
+  	Line{block(number) required} to Block
+  	AppUser{company(shortName) required} to Company
+  	PunchItem{type(name) required} to TypePunch
+  	PunchItem{line(tag) } to Line
+  	PunchItem{punchList(number) required} to PunchList
+  	PunchItem{priority(name) required} to PriorityPunch
+    PunchItem{executor(shortName) } to Company
+    PunchItem{author(lastName) required} to User
+    CommentPunch{punchItem required} to PunchItem{comments}
+    Project{generalContractor} to Company
+}
+
+relationship OneToOne {
+	AppUser{user} to User with jpaDerivedIdentifier
+}
+
+relationship ManyToMany {
+	Project{subContractors} to Company{projects}
+}
+
+dto all with mapstruct
+paginate all with pagination except PriorityPunch, TypePunch
+service all with serviceImpl
+filter Block, PunchList, Line, CommentPunch, PunchItem, AppUser

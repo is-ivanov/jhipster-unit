@@ -1,0 +1,27 @@
+{
+  "unitApp": {
+    "project": {
+      "home": {
+        "title": "Projects",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Project",
+        "createOrEditLabel": "Создать или отредактировать Project",
+        "notFound": "Projects не найдено"
+      },
+      "created": "Новый Project создан с идентификатором {{ param }}",
+      "updated": "Project обновлен с идентификатором {{ param }}",
+      "deleted": "Project удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Project {{ id }}?"
+      },
+      "detail": {
+        "title": "Project"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description",
+      "generalContractor": "General Contractor",
+      "subContractors": "Sub Contractors"
+    }
+  }
+}

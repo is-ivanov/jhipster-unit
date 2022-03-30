@@ -1,0 +1,27 @@
+{
+  "unitApp": {
+    "punchList": {
+      "home": {
+        "title": "Punch Lists",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Punch List",
+        "createOrEditLabel": "Create or edit a Punch List",
+        "notFound": "No Punch Lists found"
+      },
+      "created": "A new Punch List is created with identifier {{ param }}",
+      "updated": "A Punch List is updated with identifier {{ param }}",
+      "deleted": "A Punch List is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Punch List {{ id }}?"
+      },
+      "detail": {
+        "title": "Punch List"
+      },
+      "id": "ID",
+      "number": "Number",
+      "name": "Name",
+      "description": "Description",
+      "project": "Project"
+    }
+  }
+}

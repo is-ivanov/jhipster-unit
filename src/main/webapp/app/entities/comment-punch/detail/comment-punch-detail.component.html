@@ -1,0 +1,38 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="commentPunch">
+      <h2 data-cy="commentPunchDetailsHeading"><span jhiTranslate="unitApp.commentPunch.detail.title">Comment Punch</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ commentPunch.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="unitApp.commentPunch.comment">Comment</span></dt>
+        <dd>
+          <span>{{ commentPunch.comment }}</span>
+        </dd>
+        <dt><span jhiTranslate="unitApp.commentPunch.punchItem">Punch Item</span></dt>
+        <dd>
+          <div *ngIf="commentPunch.punchItem">
+            <a [routerLink]="['/punch-item', commentPunch.punchItem?.id, 'view']">{{ commentPunch.punchItem?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/comment-punch', commentPunch.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
