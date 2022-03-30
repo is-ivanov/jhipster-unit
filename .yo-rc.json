@@ -21,7 +21,7 @@
     "enableTranslation": true,
     "entities": ["Line", "PriorityPunch", "TypePunch", "Block", "Project", "PunchList", "CommentPunch", "Company", "PunchItem", "AppUser"],
     "entitySuffix": "",
-    "herokuAppName": null,
+    "herokuAppName": "unit-jhipster",
     "herokuDeployType": "git",
     "herokuJavaVersion": "11",
     "jhiPrefix": "jhi",
