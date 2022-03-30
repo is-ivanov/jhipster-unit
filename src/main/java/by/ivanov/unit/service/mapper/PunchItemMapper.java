@@ -19,7 +19,7 @@ public interface PunchItemMapper extends EntityMapper<PunchItemDTO, PunchItem> {
     @Mapping(target = "punchList", source = "punchList", qualifiedByName = "number")
     @Mapping(target = "priority", source = "priority", qualifiedByName = "name")
     @Mapping(target = "executor", source = "executor", qualifiedByName = "shortName")
-    @Mapping(target = "author", source = "author", qualifiedByName = "lastName")
+    @Mapping(target = "author", source = "author")
     PunchItemDTO toDto(PunchItem s);
 
     @Named("id")
