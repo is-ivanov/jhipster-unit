@@ -68,7 +68,7 @@ relationship ManyToOne {
   	Block{project(name) required} to Project
   	PunchList{project(name) required} to Project
   	Line{block(number) required} to Block
-  	AppUser{company(shortName) required} to Company
+  	AppUser{company(shortName) } to Company
   	PunchItem{type(name) required} to TypePunch
   	PunchItem{line(tag) } to Line
   	PunchItem{punchList(number) required} to PunchList
