@@ -5,15 +5,12 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from 'app/config/error.constants';
 import { RegisterService } from './register.service';
-import {
-	CompanyService,
-	EntityArrayResponseType
-} from '../../entities/company/service/company.service';
+import { CompanyService, EntityArrayResponseType } from '../../entities/company/service/company.service';
 import { ICompany } from '../../entities/company/company.model';
 
 @Component({
 	selector: 'jhi-register',
-	templateUrl: './register.component.html'
+	templateUrl: './register.component.html',
 })
 export class RegisterComponent implements AfterViewInit, OnInit {
 	@ViewChild('login', { static: false })
@@ -27,30 +24,34 @@ export class RegisterComponent implements AfterViewInit, OnInit {
 	success = false;
 
 	registerForm = this.fb.group({
+		firstName: ['', [Validators.required, Validators.maxLength(50)]],
+		lastName: ['', [Validators.required, Validators.maxLength(50)]],
 		login: [
 			'',
 			[
 				Validators.required,
 				Validators.minLength(1),
 				Validators.maxLength(50),
-				Validators.pattern('^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$')
-			]
+				Validators.pattern('^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$'),
+			],
 		],
 		email: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(254), Validators.email]],
 		password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
 		confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-		company: [null, Validators.required]
+		company: ['', Validators.required],
 	});
 
-	constructor(private translateService: TranslateService, private registerService: RegisterService,
-							private companyService: CompanyService, private fb: FormBuilder) {
-	}
+	constructor(
+		private translateService: TranslateService,
+		private registerService: RegisterService,
+		private companyService: CompanyService,
+		private fb: FormBuilder
+	) {}
 
 	ngOnInit(): void {
-		this.companyService.query().subscribe(
-			(data: EntityArrayResponseType) => {
-				this.companies = data.body ?? [];
-			});
+		this.companyService.query().subscribe((data: EntityArrayResponseType) => {
+			this.companies = data.body ?? [];
+		});
 	}
 
 	ngAfterViewInit(): void {
@@ -69,22 +70,16 @@ export class RegisterComponent implements AfterViewInit, OnInit {
 		if (password !== this.registerForm.get(['confirmPassword'])!.value) {
 			this.doNotMatch = true;
 		} else {
+			const firstName = this.registerForm.get(['firstName'])!.value;
+			const lastName = this.registerForm.get(['lastName'])!.value;
 			const login = this.registerForm.get(['login'])!.value;
 			const email = this.registerForm.get(['email'])!.value;
 			const companyId = +this.registerForm.get(['company'])!.value;
-			// eslint-disable-next-line no-console
-			console.log({
-				login,
-				email,
-				password,
-				companyId,
-				langKey: this.translateService.currentLang
-			});
 			this.registerService
-				.save({ login, email, password, companyId, langKey: this.translateService.currentLang })
+				.save({ firstName, lastName, login, email, password, companyId, langKey: this.translateService.currentLang })
 				.subscribe({
 					next: () => (this.success = true),
-					error: response => this.processError(response)
+					error: (response) => this.processError(response),
 				});
 		}
 	}
@@ -98,5 +93,4 @@ export class RegisterComponent implements AfterViewInit, OnInit {
 			this.error = true;
 		}
 	}
-
 }
