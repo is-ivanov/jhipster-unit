@@ -13,8 +13,8 @@ import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.security.SecurityUtils;
 import by.ivanov.unit.service.dto.AdminUserDTO;
 import by.ivanov.unit.service.dto.UserDTO;
+import by.ivanov.unit.service.exception.MyEntityNotFoundException;
 import by.ivanov.unit.web.rest.CompanyResource;
-import by.ivanov.unit.web.rest.errors.BadRequestAlertException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -143,10 +143,11 @@ public class UserService {
 		this.clearUserCaches(newUser);
 		AppUser appUser = new AppUser();
 		appUser.setUser(newUser);
+		Long companyId = userDTO.getCompanyId();
 		Company company = companyRepository
-			.findById(userDTO.getCompanyId())
+			.findById(companyId)
 			.orElseThrow(() -> {
-				throw new BadRequestAlertException("Entity not found", CompanyResource.ENTITY_NAME, "idnotfound");
+				throw new MyEntityNotFoundException(CompanyResource.ENTITY_NAME, "id", companyId);
 			});
 		appUser.setCompany(company);
 		appUserRepository.save(appUser);
