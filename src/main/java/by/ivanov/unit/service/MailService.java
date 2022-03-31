@@ -73,7 +73,8 @@ public class MailService {
 		// Prepare message using a Spring helper
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 		try {
-			MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart, StandardCharsets.UTF_8.name());
+			MimeMessageHelper message = new MimeMessageHelper(mimeMessage, isMultipart,
+				StandardCharsets.UTF_8.name());
 			message.setTo(to);
 			message.setFrom(jHipsterProperties.getMail().getFrom());
 			message.setSubject(subject);
@@ -123,5 +124,13 @@ public class MailService {
 	public void sendPasswordResetMail(User user) {
 		log.debug("Sending password reset email to '{}'", user.getEmail());
 		sendEmailFromTemplate(user, "mail/passwordResetEmail", "email.reset.title");
+	}
+
+	@Async
+	public void sendSuccessfulNotificationEmails(User user) {
+		log.debug("Sending notification emails after successful activation to {}", user);
+		sendEmailFromTemplate(user, "mail/successfulNotificationEmail",
+			"email.successful.notification.title");
+		// TODO создать 2 шаблона. Один для пользователя. Второй для модераторов
 	}
 }

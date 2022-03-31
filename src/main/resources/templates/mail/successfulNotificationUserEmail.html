@@ -152,11 +152,12 @@
 										line-height: 48px;
 									"
 								>
+<!--										th:text="#{email.activation.greeting(${user.firstName + ' ' + user.lastName})}"-->
 									<h1
-										style="font-size: 40px; margin: 1px"
-										th:text="#{email.activation.greeting(${user.firstName + ' ' + user.lastName})}"
+										style="font-size: 30px; margin: 1px; letter-spacing: 1px"
+										th:text="#{email.activation.greeting}"
 									>
-										Dear
+										Добро пожаловать в Unit!
 									</h1>
 									<img
 										th:src="|cid:handshake.png|"
@@ -186,8 +187,11 @@
 										line-height: 25px;
 									"
 								>
-									<p style="margin: 0" th:text="#{email.activation.text1}">Your JHipster account has been created.</p>
-									<p th:text="#{email.activation.text2}">Please click on the button below to activate it.</p>
+									<p style="margin: 0" th:text="#{email.activation.text1}">Здравствуйте Иван Иванов.</p>
+									<p th:text="#{email.activation.text2}">Важные детали Вашего счета указаны ниже.</p>
+									<p>Ваш логин: дылоадылоадвы </p>
+									<p>Ваш email: ksljflakjfld@lkjflkwje</p>
+									<p>Теперь вы можете войти на сайт по ссылке:</p>
 								</td>
 							</tr>
 							<tr>
@@ -216,7 +220,7 @@
 																"
 																th:text="#{email.activation.text3}"
 															>
-																Activate account
+																Sign in
 															</a>
 														</td>
 													</tr>
@@ -232,7 +236,7 @@
 									bgcolor="#ffffff"
 									align="left"
 									style="
-										padding: 0px 30px 0px 30px;
+										padding: 0px 30px 30px 30px;
 										color: #666666;
 										font-family: 'Lato', Helvetica, Arial, sans-serif;
 										font-size: 18px;
@@ -241,26 +245,8 @@
 									"
 								>
 									<p style="margin: 0" th:text="#{email.activation.text5}">
-										If you run into problems, please copy and paste the following link into your browser:
-									</p>
-								</td>
-							</tr>
-							<!-- COPY -->
-							<tr>
-								<td
-									bgcolor="#ffffff"
-									align="left"
-									style="
-										padding: 20px 30px 20px 30px;
-										color: #666666;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
-										font-size: 18px;
-										font-weight: 400;
-										line-height: 25px;
-									"
-								>
-									<p style="margin: 0">
-										<a th:href="${url}" th:text="${url}">Activation link</a>
+										В данный момент у вас права обычного пользователя. Наши администраторы в ближайшее время настроят вам
+										необходимые права доступа.
 									</p>
 								</td>
 							</tr>
