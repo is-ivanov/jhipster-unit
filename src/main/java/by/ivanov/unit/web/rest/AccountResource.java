@@ -73,11 +73,11 @@ public class AccountResource {
 	 */
 	@GetMapping("/activate")
 	public void activateAccount(@RequestParam(value = "key") String key) {
-		User user = userService.activateRegistration(key)
+		User user = userService
+			.activateRegistration(key)
 			.orElseThrow(() -> {
 				throw new AccountResourceException("No user was found for this activation key");
 			});
-		//TODO добавить отправку письма об успешной активации и письма админам, чтобы установили уровень доступа
 		mailService.sendSuccessfulNotificationEmails(user);
 	}
 

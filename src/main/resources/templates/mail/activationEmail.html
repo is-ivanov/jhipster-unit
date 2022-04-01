@@ -48,6 +48,7 @@
 			a {
 				-webkit-text-size-adjust: 100%;
 				-ms-text-size-adjust: 100%;
+				font-family: "Lato", Helvetica, Arial, sans-serif;
 			}
 
 			table,
@@ -112,14 +113,14 @@
 				font-size: 1px;
 				color: #fefefe;
 				line-height: 1px;
-				font-family: 'Lato', Helvetica, Arial, sans-serif;
 				max-height: 0px;
 				max-width: 0px;
 				opacity: 0;
 				overflow: hidden;
 			"
+			th:text="#{email.activation.text7}"
 		>
-			Подтвердите свой email указанный при регистрации
+			Confirm your email
 		</div>
 		<table border="0" cellpadding="0" cellspacing="0" width="100%">
 			<!-- LOGO -->
@@ -145,7 +146,6 @@
 										padding: 40px 20px 20px 20px;
 										border-radius: 4px 4px 0px 0px;
 										color: #111111;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
 										font-size: 48px;
 										font-weight: 400;
 										letter-spacing: 4px;
@@ -154,7 +154,7 @@
 								>
 									<h1
 										style="font-size: 40px; margin: 1px"
-										th:text="#{email.activation.greeting(${user.firstName + ' ' + user.lastName})}"
+										th:text="#{email.greeting(${user.firstName + ' ' + user.lastName})}"
 									>
 										Dear
 									</h1>
@@ -177,14 +177,7 @@
 								<td
 									bgcolor="#ffffff"
 									align="left"
-									style="
-										padding: 10px 30px;
-										color: #666666;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
-										font-size: 18px;
-										font-weight: 400;
-										line-height: 25px;
-									"
+									style="padding: 10px 30px; color: #666666; font-size: 18px; font-weight: 400; line-height: 25px"
 								>
 									<p style="margin: 0" th:text="#{email.activation.text1}">Your JHipster account has been created.</p>
 									<p th:text="#{email.activation.text2}">Please click on the button below to activate it.</p>
@@ -204,14 +197,13 @@
 																target="_blank"
 																style="
 																	font-size: 20px;
-																	font-family: Helvetica, Arial, sans-serif;
 																	color: #ffffff;
 																	text-decoration: none;
 																	color: #ffffff;
 																	text-decoration: none;
 																	padding: 15px 25px;
 																	border-radius: 2px;
-																	border: 1px solid #3459E6;
+																	border: 1px solid #3459e6;
 																	display: inline-block;
 																"
 																th:text="#{email.activation.text3}"
@@ -234,7 +226,6 @@
 									style="
 										padding: 0px 30px 0px 30px;
 										color: #666666;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
 										font-size: 18px;
 										font-weight: 400;
 										line-height: 25px;
@@ -253,7 +244,6 @@
 									style="
 										padding: 20px 30px 20px 30px;
 										color: #666666;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
 										font-size: 18px;
 										font-weight: 400;
 										line-height: 25px;
@@ -272,14 +262,13 @@
 										padding: 0px 30px 40px 30px;
 										border-radius: 0px 0px 4px 4px;
 										color: #666666;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
 										font-size: 18px;
 										font-weight: 400;
 										line-height: 25px;
 									"
 								>
 									<p style="margin: 0">
-										<span th:text="#{email.activation.text4}">Regards, </span>
+										<span th:text="#{email.regards}">Regards, </span>
 										<br />
 										<em th:text="#{email.signature}">JHipster.</em>
 									</p>
@@ -298,14 +287,13 @@
 									style="
 										padding: 0px 30px 30px 30px;
 										color: #666666;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
 										font-size: 14px;
 										font-weight: 400;
 										line-height: 18px;
 									"
 								>
 									<br />
-									<p style="margin: 0" th:text="#{email.activation.text6}">
+									<p style="margin: 0" th:text="#{email.ignore}">
 										If you received this email in error, please ignore it.
 									</p>
 								</td>

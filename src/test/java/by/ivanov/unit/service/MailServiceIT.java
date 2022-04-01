@@ -7,21 +7,24 @@ import static org.mockito.Mockito.*;
 import by.ivanov.unit.IntegrationTest;
 import by.ivanov.unit.config.Constants;
 import by.ivanov.unit.domain.User;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import by.ivanov.unit.repository.UserRepository;
+import java.io.*;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
@@ -29,6 +32,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.MailSendException;
@@ -59,6 +63,9 @@ class MailServiceIT {
 	@Autowired
 	private SpringTemplateEngine templateEngine;
 
+	@MockBean
+	private UserRepository userRepository;
+
 	@Value("classpath:/templates/mail/images/handshake.png")
 	private Resource handshakeFile;
 
@@ -74,7 +81,15 @@ class MailServiceIT {
 	public void setup() {
 		MockitoAnnotations.openMocks(this);
 		doNothing().when(javaMailSender).send(any(MimeMessage.class));
-		mailService = new MailService(jHipsterProperties, javaMailSender, messageSource, templateEngine, handshakeFile);
+		mailService =
+			new MailService(
+				jHipsterProperties,
+				javaMailSender,
+				messageSource,
+				templateEngine,
+				handshakeFile,
+				userRepository
+			);
 	}
 
 	@Test
@@ -163,10 +178,12 @@ class MailServiceIT {
 		mailService.sendActivationEmail(user);
 		verify(javaMailSender).send(messageCaptor.capture());
 		MimeMessage message = messageCaptor.getValue();
+		MimeMultipart mp = (MimeMultipart) message.getContent();
+		MimeBodyPart part = (MimeBodyPart) ((MimeMultipart) mp.getBodyPart(0).getContent()).getBodyPart(0);
 		assertThat(message.getAllRecipients()[0]).hasToString(user.getEmail());
 		assertThat(message.getFrom()[0]).hasToString(jHipsterProperties.getMail().getFrom());
-		assertThat(message.getContent().toString()).isNotEmpty();
-		assertThat(message.getDataHandler().getContentType()).isEqualTo("text/html;charset=UTF-8");
+		assertThat(message.getContent()).isInstanceOf(Multipart.class);
+		assertThat(part.getDataHandler().getContentType()).isEqualTo("text/html;charset=UTF-8");
 	}
 
 	@Test
@@ -222,15 +239,51 @@ class MailServiceIT {
 
 			String propertyFilePath = "i18n/messages_" + getJavaLocale(langKey) + ".properties";
 			URL resource = this.getClass().getClassLoader().getResource(propertyFilePath);
+			assert resource != null;
 			File file = new File(new URI(resource.getFile()).getPath());
 			Properties properties = new Properties();
-			properties.load(new InputStreamReader(new FileInputStream(file), Charset.forName("UTF-8")));
+			properties.load(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
 
 			String emailTitle = (String) properties.get("email.test.title");
 			assertThat(message.getSubject()).isEqualTo(emailTitle);
 			assertThat(message.getContent().toString())
 				.isEqualToNormalizingNewlines("<html>" + emailTitle + ", http://127.0.0.1:8080, john</html>\n");
 		}
+	}
+
+	@Test
+	@DisplayName("sendSuccessfulNotificationEmails")
+	void sendSuccessfulNotificationEmails() throws Exception {
+		User user = new User();
+		user.setLangKey(Constants.DEFAULT_LANGUAGE);
+		user.setLogin("john");
+		user.setEmail("john.doe@example.com");
+		User admin1 = new User();
+		admin1.setLangKey(Constants.DEFAULT_LANGUAGE);
+		admin1.setLogin("ivan");
+		admin1.setEmail("ivan.doe@example.com");
+		User admin2 = new User();
+		admin2.setLangKey(Constants.DEFAULT_LANGUAGE);
+		admin2.setLogin("oleg");
+		admin2.setEmail("oleg.doe@example.com");
+		List<User> admins = List.of(admin1, admin2);
+
+		when(userRepository.findAllActiveAdmins()).thenReturn(admins);
+
+		mailService.sendSuccessfulNotificationEmails(user);
+
+		verify(javaMailSender, times(3)).send(messageCaptor.capture());
+		MimeMessage firstMessage = messageCaptor.getAllValues().get(0);
+		MimeMessage secondMessage = messageCaptor.getAllValues().get(1);
+		MimeMessage thirdMessage = messageCaptor.getAllValues().get(2);
+		MimeMultipart mp = (MimeMultipart) firstMessage.getContent();
+		MimeBodyPart part = (MimeBodyPart) ((MimeMultipart) mp.getBodyPart(0).getContent()).getBodyPart(0);
+		assertThat(firstMessage.getAllRecipients()[0]).hasToString(user.getEmail());
+		assertThat(secondMessage.getAllRecipients()[0]).hasToString(admin1.getEmail());
+		assertThat(thirdMessage.getAllRecipients()[0]).hasToString(admin2.getEmail());
+		assertThat(firstMessage.getFrom()[0]).hasToString(jHipsterProperties.getMail().getFrom());
+		assertThat(firstMessage.getContent()).isInstanceOf(Multipart.class);
+		assertThat(part.getDataHandler().getContentType()).isEqualTo("text/html;charset=UTF-8");
 	}
 
 	/**

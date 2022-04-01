@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}" lang="en">
+	<head>
+		<title th:text="#{email.notification.admin.title(${user.login})}">User lkjasd have activated account</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="icon" th:href="@{|${baseUrl}/favicon.ico|}" />
+	</head>
+	<body>
+		<p th:text="#{email.greeting(${admin.login})}">Dear Admin</p>
+		<p th:text="#{email.notification.admin.text1(${user.login})}">
+			User lkjasd have activated the account. You need to set permissions for it.
+		</p>
+		<p>
+			<span th:text="#{email.notification.admin.text2}">Go to user profile</span>
+			<br />
+			<a
+				th:with="url=(@{|${baseUrl}/admin/user-management/${user.login}/edit|})"
+				th:href="${url}"
+				th:text="${url}"
+				href="localhost"
+			>
+				Login link
+			</a>
+		</p>
+		<p>
+			<span th:text="#{email.regards}">Regards, </span>
+			<br />
+			<em th:text="#{email.signature}">Unit Team.</em>
+		</p>
+	</body>
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}" lang="en">
 	<head>
-		<title th:text="#{email.activation.title}">JHipster activation</title>
+		<title th:text="#{email.successful.notification.title}">Unit - registration completed successfully</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -48,6 +48,7 @@
 			a {
 				-webkit-text-size-adjust: 100%;
 				-ms-text-size-adjust: 100%;
+				font-family: "Lato", Helvetica, Arial, sans-serif;
 			}
 
 			table,
@@ -112,18 +113,18 @@
 				font-size: 1px;
 				color: #fefefe;
 				line-height: 1px;
-				font-family: 'Lato', Helvetica, Arial, sans-serif;
 				max-height: 0px;
 				max-width: 0px;
 				opacity: 0;
 				overflow: hidden;
 			"
+			th:text="#{email.successful.notification.pre-header}"
 		>
-			Подтвердите свой email указанный при регистрации
+			You have successfully registered
 		</div>
 		<table border="0" cellpadding="0" cellspacing="0" width="100%">
 			<!-- LOGO -->
-			<tbody th:with="url=(@{|${baseUrl}/account/activate?key=${user.activationKey}|})">
+			<tbody th:with="url=(@{|${baseUrl}/login|})">
 				<tr>
 					<td bgcolor="#3459E6" align="center">
 						<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px">
@@ -145,19 +146,17 @@
 										padding: 40px 20px 20px 20px;
 										border-radius: 4px 4px 0px 0px;
 										color: #111111;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
 										font-size: 48px;
 										font-weight: 400;
 										letter-spacing: 4px;
 										line-height: 48px;
 									"
 								>
-<!--										th:text="#{email.activation.greeting(${user.firstName + ' ' + user.lastName})}"-->
 									<h1
 										style="font-size: 30px; margin: 1px; letter-spacing: 1px"
-										th:text="#{email.activation.greeting}"
+										th:text="#{email.successful.notification.greeting}"
 									>
-										Добро пожаловать в Unit!
+										Welcome to Unit!
 									</h1>
 									<img
 										th:src="|cid:handshake.png|"
@@ -178,20 +177,26 @@
 								<td
 									bgcolor="#ffffff"
 									align="left"
-									style="
-										padding: 10px 30px;
-										color: #666666;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
-										font-size: 18px;
-										font-weight: 400;
-										line-height: 25px;
-									"
+									style="padding: 10px 30px; color: #666666; font-size: 18px; font-weight: 400; line-height: 25px"
 								>
-									<p style="margin: 0" th:text="#{email.activation.text1}">Здравствуйте Иван Иванов.</p>
-									<p th:text="#{email.activation.text2}">Важные детали Вашего счета указаны ниже.</p>
-									<p>Ваш логин: дылоадылоадвы </p>
-									<p>Ваш email: ksljflakjfld@lkjflkwje</p>
-									<p>Теперь вы можете войти на сайт по ссылке:</p>
+									<p
+										style="margin: 0"
+										th:text="#{email.successful.notification.text1(${user.firstName + ' ' + user.lastName})}"
+									>
+										Hello FirstName LastName.
+									</p>
+									<p th:text="#{email.successful.notification.text2}">
+										The important details of your account are listed below.
+									</p>
+									<div style="background-color: #2fb380; color: white; display: inline-block">
+										<p style="margin-top: 0" th:text="#{email.successful.notification.text3(${user.login})}">
+											Your login: kljsadf
+										</p>
+										<p style="margin-bottom: 0" th:text="#{email.successful.notification.text4(${user.email})}">
+											Your email: ksljflakjfld@lkjflkwje
+										</p>
+									</div>
+									<p th:text="#{email.successful.notification.text5}">Now you can sign in to the site:</p>
 								</td>
 							</tr>
 							<tr>
@@ -208,17 +213,16 @@
 																target="_blank"
 																style="
 																	font-size: 20px;
-																	font-family: Helvetica, Arial, sans-serif;
 																	color: #ffffff;
 																	text-decoration: none;
 																	color: #ffffff;
 																	text-decoration: none;
 																	padding: 15px 25px;
 																	border-radius: 2px;
-																	border: 1px solid #3459E6;
+																	border: 1px solid #3459e6;
 																	display: inline-block;
 																"
-																th:text="#{email.activation.text3}"
+																th:text="#{email.successful.notification.text6}"
 															>
 																Sign in
 															</a>
@@ -238,15 +242,14 @@
 									style="
 										padding: 0px 30px 30px 30px;
 										color: #666666;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
 										font-size: 18px;
 										font-weight: 400;
 										line-height: 25px;
 									"
 								>
-									<p style="margin: 0" th:text="#{email.activation.text5}">
-										В данный момент у вас права обычного пользователя. Наши администраторы в ближайшее время настроят вам
-										необходимые права доступа.
+									<p style="margin: 0" th:text="#{email.successful.notification.text7}">
+										You currently have user rights. Our administrators will soon set up the necessary access rights for
+										you.
 									</p>
 								</td>
 							</tr>
@@ -258,14 +261,13 @@
 										padding: 0px 30px 40px 30px;
 										border-radius: 0px 0px 4px 4px;
 										color: #666666;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
 										font-size: 18px;
 										font-weight: 400;
 										line-height: 25px;
 									"
 								>
 									<p style="margin: 0">
-										<span th:text="#{email.activation.text4}">Regards, </span>
+										<span th:text="#{email.regards}">Regards, </span>
 										<br />
 										<em th:text="#{email.signature}">JHipster.</em>
 									</p>
@@ -284,14 +286,13 @@
 									style="
 										padding: 0px 30px 30px 30px;
 										color: #666666;
-										font-family: 'Lato', Helvetica, Arial, sans-serif;
 										font-size: 14px;
 										font-weight: 400;
 										line-height: 18px;
 									"
 								>
 									<br />
-									<p style="margin: 0" th:text="#{email.activation.text6}">
+									<p style="margin: 0" th:text="#{email.ignore}">
 										If you received this email in error, please ignore it.
 									</p>
 								</td>
