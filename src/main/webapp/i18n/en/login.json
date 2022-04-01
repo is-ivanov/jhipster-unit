@@ -9,7 +9,8 @@
     },
     "messages": {
       "error": {
-        "authentication": "<strong>Failed to sign in!</strong> Please check your credentials and try again."
+        "authentication": "<strong>Failed to sign in!</strong> Please check your credentials and try again.",
+				"activated": "<strong>Your account hasn't been activated yet.</strong> Please check your email."
       }
     },
     "password": {

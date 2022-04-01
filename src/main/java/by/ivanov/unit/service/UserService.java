@@ -15,10 +15,6 @@ import by.ivanov.unit.service.dto.AdminUserDTO;
 import by.ivanov.unit.service.dto.UserDTO;
 import by.ivanov.unit.service.exception.MyEntityNotFoundException;
 import by.ivanov.unit.web.rest.CompanyResource;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -29,6 +25,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing users.
@@ -46,13 +47,12 @@ public class UserService {
 	private final CompanyRepository companyRepository;
 	private final AppUserRepository appUserRepository;
 
-	public UserService(
-		UserRepository userRepository,
-		PasswordEncoder passwordEncoder,
-		AuthorityRepository authorityRepository,
-		CacheManager cacheManager,
-		CompanyRepository companyRepository,
-		AppUserRepository appUserRepository
+	public UserService(UserRepository userRepository,
+					   PasswordEncoder passwordEncoder,
+					   AuthorityRepository authorityRepository,
+					   CacheManager cacheManager,
+					   CompanyRepository companyRepository,
+					   AppUserRepository appUserRepository
 	) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -292,7 +292,7 @@ public class UserService {
 
 	@Transactional(readOnly = true)
 	public Page<AdminUserDTO> getAllManagedUsers(Pageable pageable) {
-		return userRepository.findAll(pageable).map(AdminUserDTO::new);
+		return appUserRepository.findAll(pageable).map(AdminUserDTO::new);
 	}
 
 	@Transactional(readOnly = true)
