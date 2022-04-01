@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}" lang="en">
 	<head>
-		<title th:text="#{email.activation.title}">JHipster activation</title>
+		<title th:text="#{email.successful.notification.title}">Unit - registration completed successfully</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -118,13 +118,13 @@
 				opacity: 0;
 				overflow: hidden;
 			"
-			th:text="#{email.activation.text7}"
+			th:text="#{email.successful.notification.pre-header}"
 		>
-			Confirm your email
+			You have successfully registered
 		</div>
 		<table border="0" cellpadding="0" cellspacing="0" width="100%">
 			<!-- LOGO -->
-			<tbody th:with="url=(@{|${baseUrl}/account/activate?key=${user.activationKey}|})">
+			<tbody th:with="url=(@{|${baseUrl}/login|})">
 				<tr>
 					<td bgcolor="#3459E6" align="center">
 						<table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px">
@@ -153,10 +153,10 @@
 									"
 								>
 									<h1
-										style="font-size: 40px; margin: 1px"
-										th:text="#{email.greeting(${user.firstName + ' ' + user.lastName})}"
+										style="font-size: 30px; margin: 1px; letter-spacing: 1px"
+										th:text="#{email.successful.notification.greeting}"
 									>
-										Dear
+										Welcome to Unit!
 									</h1>
 									<img
 										th:src="|cid:handshake.png|"
@@ -179,8 +179,24 @@
 									align="left"
 									style="padding: 10px 30px; color: #666666; font-size: 18px; font-weight: 400; line-height: 25px"
 								>
-									<p style="margin: 0" th:text="#{email.activation.text1}">Your JHipster account has been created.</p>
-									<p th:text="#{email.activation.text2}">Please click on the button below to activate it.</p>
+									<p
+										style="margin: 0"
+										th:text="#{email.successful.notification.text1(${user.firstName + ' ' + user.lastName})}"
+									>
+										Hello FirstName LastName.
+									</p>
+									<p th:text="#{email.successful.notification.text2}">
+										The important details of your account are listed below.
+									</p>
+									<div style="background-color: #2fb380; color: white; display: inline-block">
+										<p style="margin-top: 0" th:text="#{email.successful.notification.text3(${user.login})}">
+											Your login: kljsadf
+										</p>
+										<p style="margin-bottom: 0" th:text="#{email.successful.notification.text4(${user.email})}">
+											Your email: ksljflakjfld@lkjflkwje
+										</p>
+									</div>
+									<p th:text="#{email.successful.notification.text5}">Now you can sign in to the site:</p>
 								</td>
 							</tr>
 							<tr>
@@ -206,9 +222,9 @@
 																	border: 1px solid #3459e6;
 																	display: inline-block;
 																"
-																th:text="#{email.activation.text3}"
+																th:text="#{email.successful.notification.text6}"
 															>
-																Activate account
+																Sign in
 															</a>
 														</td>
 													</tr>
@@ -224,33 +240,16 @@
 									bgcolor="#ffffff"
 									align="left"
 									style="
-										padding: 0px 30px 0px 30px;
+										padding: 0px 30px 30px 30px;
 										color: #666666;
 										font-size: 18px;
 										font-weight: 400;
 										line-height: 25px;
 									"
 								>
-									<p style="margin: 0" th:text="#{email.activation.text5}">
-										If you run into problems, please copy and paste the following link into your browser:
-									</p>
-								</td>
-							</tr>
-							<!-- COPY -->
-							<tr>
-								<td
-									bgcolor="#ffffff"
-									align="left"
-									style="
-										padding: 20px 30px 20px 30px;
-										color: #666666;
-										font-size: 18px;
-										font-weight: 400;
-										line-height: 25px;
-									"
-								>
-									<p style="margin: 0">
-										<a th:href="${url}" th:text="${url}">Activation link</a>
+									<p style="margin: 0" th:text="#{email.successful.notification.text7}">
+										You currently have user rights. Our administrators will soon set up the necessary access rights for
+										you.
 									</p>
 								</td>
 							</tr>

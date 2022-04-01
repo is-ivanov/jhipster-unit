@@ -103,7 +103,6 @@ public class UserService {
 	}
 
 	public User registerUser(AdminUserDTO userDTO, String password) {
-		// TODO Добавить получение из базы компании по ID и сохранение у нового юзера этой компании
 		userRepository
 			.findOneByLogin(userDTO.getLogin().toLowerCase())
 			.ifPresent(existingUser -> {

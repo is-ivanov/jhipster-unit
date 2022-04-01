@@ -151,7 +151,6 @@ public class CompanyResource {
 	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of companies in body.
 	 */
 	@GetMapping("/companies")
-	//	@PreAuthorize("permitAll")
 	public ResponseEntity<List<CompanyDTO>> getAllCompanies(
 		@org.springdoc.api.annotations.ParameterObject Pageable pageable
 	) {

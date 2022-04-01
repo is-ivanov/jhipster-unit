@@ -45,10 +45,10 @@ spring:
   liquibase:
     contexts: prod
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp-relay.sendinblue.com
+    port: 587
+    username: npz.unit.construction@gmail.com
+    password: TfP4QRWvNsSUIEAX
   thymeleaf:
     cache: true
   sleuth:
