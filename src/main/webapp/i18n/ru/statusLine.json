@@ -2,13 +2,13 @@
   "unitApp": {
     "StatusLine": {
       "null": "",
-      "NEW": "NEW",
-      "IN_PROGRESS": "IN_PROGRESS",
-      "CHANGING": "CHANGING",
-      "UNDER_REVIEW": "UNDER_REVIEW",
-      "CHECKED": "CHECKED",
-      "TESTED": "TESTED",
-      "ACCEPTED": "ACCEPTED"
+      "NEW": "НОВАЯ",
+      "IN_PROGRESS": "В РАБОТЕ",
+      "CHANGING": "ИЗМЕНЕНА",
+      "UNDER_REVIEW": "НА ПРОВЕРКЕ",
+      "CHECKED": "ПРОВЕРЕНА",
+      "TESTED": "ИСПЫТАНА",
+      "ACCEPTED": "ПРИНЯТА"
     }
   }
 }
