@@ -26,6 +26,8 @@
     "createdBy": "Создал",
     "createdDate": "Дата создания",
     "lastModifiedBy": "Изменено",
-    "lastModifiedDate": "Дата изменения"
+    "lastModifiedDate": "Дата изменения",
+		"companyName": "Организация",
+		"status": "Статус"
   }
 }
