@@ -121,16 +121,9 @@ public class UserService {
 			});
 		User newUser = new User();
 		String encryptedPassword = passwordEncoder.encode(password);
-		newUser.setLogin(userDTO.getLogin().toLowerCase());
 		// new user gets initially a generated password
 		newUser.setPassword(encryptedPassword);
-		newUser.setFirstName(userDTO.getFirstName());
-		newUser.setLastName(userDTO.getLastName());
-		if (userDTO.getEmail() != null) {
-			newUser.setEmail(userDTO.getEmail().toLowerCase());
-		}
-		newUser.setImageUrl(userDTO.getImageUrl());
-		newUser.setLangKey(userDTO.getLangKey());
+		setBasicInfoToUser(userDTO, newUser);
 		// new user is not active
 		newUser.setActivated(false);
 		// new user gets registration key
@@ -140,16 +133,7 @@ public class UserService {
 		newUser.setAuthorities(authorities);
 		userRepository.save(newUser);
 		this.clearUserCaches(newUser);
-		AppUser appUser = new AppUser();
-		appUser.setUser(newUser);
-		Long companyId = userDTO.getCompanyId();
-		Company company = companyRepository
-			.findById(companyId)
-			.orElseThrow(() -> {
-				throw new MyEntityNotFoundException(CompanyResource.ENTITY_NAME, "id", companyId);
-			});
-		appUser.setCompany(company);
-		appUserRepository.save(appUser);
+		updateUserCompany(newUser, userDTO.getCompanyId());
 		log.debug("Created Information for User: {}", newUser);
 		return newUser;
 	}
@@ -166,18 +150,7 @@ public class UserService {
 
 	public User createUser(AdminUserDTO userDTO) {
 		User user = new User();
-		user.setLogin(userDTO.getLogin().toLowerCase());
-		user.setFirstName(userDTO.getFirstName());
-		user.setLastName(userDTO.getLastName());
-		if (userDTO.getEmail() != null) {
-			user.setEmail(userDTO.getEmail().toLowerCase());
-		}
-		user.setImageUrl(userDTO.getImageUrl());
-		if (userDTO.getLangKey() == null) {
-			user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
-		} else {
-			user.setLangKey(userDTO.getLangKey());
-		}
+		setBasicInfoToUser(userDTO, user);
 		String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
 		user.setPassword(encryptedPassword);
 		user.setResetKey(RandomUtil.generateResetKey());
@@ -212,15 +185,8 @@ public class UserService {
 			.map(Optional::get)
 			.map(user -> {
 				this.clearUserCaches(user);
-				user.setLogin(userDTO.getLogin().toLowerCase());
-				user.setFirstName(userDTO.getFirstName());
-				user.setLastName(userDTO.getLastName());
-				if (userDTO.getEmail() != null) {
-					user.setEmail(userDTO.getEmail().toLowerCase());
-				}
-				user.setImageUrl(userDTO.getImageUrl());
+				setBasicInfoToUser(userDTO, user);
 				user.setActivated(userDTO.isActivated());
-				user.setLangKey(userDTO.getLangKey());
 				Set<Authority> managedAuthorities = user.getAuthorities();
 				managedAuthorities.clear();
 				userDTO
@@ -232,7 +198,9 @@ public class UserService {
 					.forEach(managedAuthorities::add);
 				this.clearUserCaches(user);
 				log.debug("Changed Information for User: {}", user);
-				return user;
+				AppUser appUser = updateUserCompany(user, userDTO.getCompanyId());
+				appUser.setUser(user);
+				return appUser;
 			})
 			.map(AdminUserDTO::new);
 	}
@@ -338,10 +306,39 @@ public class UserService {
 		return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
 	}
 
+	private void setBasicInfoToUser(AdminUserDTO userDTO, User user) {
+		user.setLogin(userDTO.getLogin().toLowerCase());
+		user.setFirstName(userDTO.getFirstName());
+		user.setLastName(userDTO.getLastName());
+		if (userDTO.getEmail() != null) {
+			user.setEmail(userDTO.getEmail().toLowerCase());
+		}
+		user.setImageUrl(userDTO.getImageUrl());
+		if (userDTO.getLangKey() == null) {
+			user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language
+		} else {
+			user.setLangKey(userDTO.getLangKey());
+		}
+	}
+
 	private void clearUserCaches(User user) {
 		Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
 		if (user.getEmail() != null) {
 			Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
 		}
+	}
+
+	private AppUser updateUserCompany(User user, Long companyId) {
+		AppUser appUser = appUserRepository.findByUser_Id(user.getId())
+			.orElse(new AppUser());
+		Company company = companyRepository
+			.findById(companyId)
+			.orElseThrow(() -> {
+				throw new MyEntityNotFoundException(CompanyResource.ENTITY_NAME, "id", companyId);
+			});
+		appUser.setCompany(company);
+		appUserRepository.save(appUser);
+		log.debug("Updated Company: {} for User: {}", company.getShortName(), user.getLogin());
+		return appUser;
 	}
 }
