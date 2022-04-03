@@ -26,7 +26,8 @@ public class CommentPunch implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_punch_sequence")
-	@SequenceGenerator(name = "comment_punch_sequence", sequenceName = "comment_punch__seq")
+	@SequenceGenerator(name = "comment_punch_sequence", sequenceName = "comment_punch__seq",
+		initialValue = 100)
 	@Column(name = COLUMN_ID_NAME, nullable = false)
 	private Long id;
 

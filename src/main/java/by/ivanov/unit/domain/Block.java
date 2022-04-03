@@ -27,7 +27,8 @@ public class Block implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "block_sequence")
-	@SequenceGenerator(name = "block_sequence", sequenceName = "block__seq", allocationSize = 20)
+	@SequenceGenerator(name = "block_sequence", sequenceName = "block__seq",
+		initialValue = 100, allocationSize = 20)
 	@Column(name = COLUMN_ID_NAME, nullable = false)
 	private Long id;
 

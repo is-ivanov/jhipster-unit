@@ -30,7 +30,8 @@ public class Line implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "line_sequence")
-	@SequenceGenerator(name = "line_sequence", sequenceName = "line__seq")
+	@SequenceGenerator(name = "line_sequence", sequenceName = "line__seq",
+		initialValue = 100)
 	@Column(name = COLUMN_ID_NAME, nullable = false)
 	private Long id;
 

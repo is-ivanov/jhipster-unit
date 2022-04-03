@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity AppUser.
     -->
-    <changeSet id="20220330081521-2" author="jhipster">
+    <changeSet id="00000000000017-1" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="id"
                                  baseTableName="app_user"

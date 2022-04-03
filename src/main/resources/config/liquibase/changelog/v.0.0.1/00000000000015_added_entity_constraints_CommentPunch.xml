@@ -6,7 +6,7 @@
     <!--
         Added the constraints for entity CommentPunch.
     -->
-    <changeSet id="20220330081518-2" author="jhipster">
+    <changeSet id="00000000000015-1" author="jhipster">
 
         <addForeignKeyConstraint baseColumnNames="punch_item_id"
                                  baseTableName="comment_punch"
