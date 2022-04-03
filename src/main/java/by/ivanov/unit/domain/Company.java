@@ -1,13 +1,16 @@
 package by.ivanov.unit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Company.
@@ -17,142 +20,148 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Company implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	public static final String COLUMN_ID_NAME = "id";
+	public static final String COLUMN_SHORT_NAME_NAME = "short_name";
+	public static final String COLUMN_FULL_NAME_NAME = "full_name";
+	public static final String COLUMN_EMAIL_NAME = "email";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    @NotNull
-    @Size(max = 20)
-    @Column(name = "short_name", length = 20, nullable = false, unique = true)
-    private String shortName;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "company_sequence")
+	@SequenceGenerator(name = "company_sequence", sequenceName = "company__seq", initialValue = 50)
+	@Column(name = COLUMN_ID_NAME, nullable = false)
+	private Long id;
 
-    @Column(name = "full_name")
-    private String fullName;
+	@NotNull
+	@Size(max = 20)
+	@Column(name = COLUMN_SHORT_NAME_NAME, length = 20, nullable = false, unique = true)
+	private String shortName;
 
-    @Column(name = "email")
-    private String email;
+	@Column(name = COLUMN_FULL_NAME_NAME)
+	private String fullName;
 
-    @ManyToMany(mappedBy = "subContractors")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "generalContractor", "subContractors" }, allowSetters = true)
-    private Set<Project> projects = new HashSet<>();
+	@Column(name = COLUMN_EMAIL_NAME)
+	private String email;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
+	@ManyToMany(mappedBy = "subContractors")
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@JsonIgnoreProperties(value = {"generalContractor", "subContractors"}, allowSetters = true)
+	private Set<Project> projects = new HashSet<>();
 
-    public Long getId() {
-        return this.id;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Company id(Long id) {
-        this.setId(id);
-        return this;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getShortName() {
-        return this.shortName;
-    }
+	public Company id(Long id) {
+		this.setId(id);
+		return this;
+	}
 
-    public Company shortName(String shortName) {
-        this.setShortName(shortName);
-        return this;
-    }
+	public String getShortName() {
+		return this.shortName;
+	}
 
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
 
-    public String getFullName() {
-        return this.fullName;
-    }
+	public Company shortName(String shortName) {
+		this.setShortName(shortName);
+		return this;
+	}
 
-    public Company fullName(String fullName) {
-        this.setFullName(fullName);
-        return this;
-    }
+	public String getFullName() {
+		return this.fullName;
+	}
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
 
-    public String getEmail() {
-        return this.email;
-    }
+	public Company fullName(String fullName) {
+		this.setFullName(fullName);
+		return this;
+	}
 
-    public Company email(String email) {
-        this.setEmail(email);
-        return this;
-    }
+	public String getEmail() {
+		return this.email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public Set<Project> getProjects() {
-        return this.projects;
-    }
+	public Company email(String email) {
+		this.setEmail(email);
+		return this;
+	}
 
-    public void setProjects(Set<Project> projects) {
-        if (this.projects != null) {
-            this.projects.forEach(i -> i.removeSubContractors(this));
-        }
-        if (projects != null) {
-            projects.forEach(i -> i.addSubContractors(this));
-        }
-        this.projects = projects;
-    }
+	public Set<Project> getProjects() {
+		return this.projects;
+	}
 
-    public Company projects(Set<Project> projects) {
-        this.setProjects(projects);
-        return this;
-    }
+	public void setProjects(Set<Project> projects) {
+		if (this.projects != null) {
+			this.projects.forEach(i -> i.removeSubContractors(this));
+		}
+		if (projects != null) {
+			projects.forEach(i -> i.addSubContractors(this));
+		}
+		this.projects = projects;
+	}
 
-    public Company addProjects(Project project) {
-        this.projects.add(project);
-        project.getSubContractors().add(this);
-        return this;
-    }
+	public Company projects(Set<Project> projects) {
+		this.setProjects(projects);
+		return this;
+	}
 
-    public Company removeProjects(Project project) {
-        this.projects.remove(project);
-        project.getSubContractors().remove(this);
-        return this;
-    }
+	public Company addProjects(Project project) {
+		this.projects.add(project);
+		project.getSubContractors().add(this);
+		return this;
+	}
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+	public Company removeProjects(Project project) {
+		this.projects.remove(project);
+		project.getSubContractors().remove(this);
+		return this;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Company)) {
-            return false;
-        }
-        return id != null && id.equals(((Company) o).id);
-    }
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
-    @Override
-    public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Company)) {
+			return false;
+		}
+		return id != null && id.equals(((Company) o).id);
+	}
 
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "Company{" +
-            "id=" + getId() +
-            ", shortName='" + getShortName() + "'" +
-            ", fullName='" + getFullName() + "'" +
-            ", email='" + getEmail() + "'" +
-            "}";
-    }
+	@Override
+	public int hashCode() {
+		// see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+		return getClass().hashCode();
+	}
+
+	// prettier-ignore
+	@Override
+	public String toString() {
+		return "Company{" +
+			"id=" + getId() +
+			", shortName='" + getShortName() + "'" +
+			", fullName='" + getFullName() + "'" +
+			", email='" + getEmail() + "'" +
+			"}";
+	}
 }

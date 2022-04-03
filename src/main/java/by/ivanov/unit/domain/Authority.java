@@ -1,5 +1,6 @@
 package by.ivanov.unit.domain;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -19,12 +20,14 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Authority implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @Serial
+	private static final long serialVersionUID = 1L;
+	public static final String COLUMN_NAME_NAME = "name";
 
-    @NotNull
+	@NotNull
     @Size(max = 50)
     @Id
-    @Column(length = 50)
+	@Column(name = COLUMN_NAME_NAME, nullable = false, length = 50)
     private String name;
 
     public String getName() {

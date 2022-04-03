@@ -1,10 +1,13 @@
 package by.ivanov.unit.domain;
 
-import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * A PriorityPunch.
@@ -14,24 +17,29 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class PriorityPunch implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
+	public static final String COLUMN_ID_NAME = "id";
+	public static final String COLUMN_PRIORITY_NAME = "priority";
+	public static final String COLUMN_NAME_NAME = "name";
+	public static final String COLUMN_DESCRIPTION_NAME = "description";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "priority_punch_sequence")
+	@SequenceGenerator(name = "priority_punch_sequence", sequenceName = "priority_punch__seq")
+	@Column(name = COLUMN_ID_NAME, nullable = false)
     private Long id;
 
     @NotNull
-    @Column(name = "priority", nullable = false, unique = true)
+    @Column(name = COLUMN_PRIORITY_NAME, nullable = false, unique = true)
     private Integer priority;
 
     @NotNull
     @Size(max = 20)
-    @Column(name = "name", length = 20, nullable = false, unique = true)
+    @Column(name = COLUMN_NAME_NAME, length = 20, nullable = false, unique = true)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = COLUMN_DESCRIPTION_NAME)
     private String description;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

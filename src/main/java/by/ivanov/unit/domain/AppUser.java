@@ -1,11 +1,12 @@
 package by.ivanov.unit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * A AppUser.
@@ -15,19 +16,23 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AppUser implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "id")
+	public static final String COLUMN_ID_NAME = "id";
+	public static final String COLUMN_COMPANY_NAME = "company_id";
+
+	@Id
+    @Column(name = COLUMN_ID_NAME)
     private Long id;
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = COLUMN_ID_NAME)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn
+	@JoinColumn(name = COLUMN_COMPANY_NAME)
 	@JsonIgnoreProperties(value = { "projects" }, allowSetters = true)
     private Company company;
 
