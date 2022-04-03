@@ -18,17 +18,22 @@ spring:
     name: unit
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:mem:unit;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+#    url: jdbc:h2:mem:unit;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:tc:postgresql:13.1-alpine:///unit?TC_TMPFS=/testtmpfs:rw
     name:
-    username:
+#    username:
+    username: unit
     password:
     hikari:
+      poolName: Hikari
       auto-commit: false
   jackson:
     serialization:
       write-durations-as-timestamps: false
   jpa:
-    database-platform: tech.jhipster.domain.util.FixedH2Dialect
+#    database-platform: tech.jhipster.domain.util.FixedH2Dialect
+    database-platform: tech.jhipster.domain.util.FixedPostgreSQL10Dialect
     open-in-view: false
     hibernate:
       ddl-auto: none
@@ -44,8 +49,11 @@ spring:
       hibernate.hbm2ddl.auto: validate
       hibernate.jdbc.time_zone: UTC
       hibernate.query.fail_on_pagination_over_collection_fetch: true
+      hibernate.format_sql: true
+      hibernate.highlight_sql: true
   liquibase:
     contexts: test
+    change-log: classpath:/config/liquibase/master.xml
   mail:
     host: localhost
   main:

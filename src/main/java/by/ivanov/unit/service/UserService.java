@@ -142,6 +142,10 @@ public class UserService {
 		if (existingUser.isActivated()) {
 			return false;
 		}
+		appUserRepository.findById(existingUser.getId()).ifPresent(appUser -> {
+			appUserRepository.delete(appUser);
+			appUserRepository.flush();
+		});
 		userRepository.delete(existingUser);
 		userRepository.flush();
 		this.clearUserCaches(existingUser);
@@ -209,6 +213,7 @@ public class UserService {
 		userRepository
 			.findOneByLogin(login)
 			.ifPresent(user -> {
+				appUserRepository.findById(user.getId()).ifPresent(appUserRepository::delete);
 				userRepository.delete(user);
 				this.clearUserCaches(user);
 				log.debug("Deleted User: {}", user);
@@ -291,6 +296,7 @@ public class UserService {
 			)
 			.forEach(user -> {
 				log.debug("Deleting not activated user {}", user.getLogin());
+				appUserRepository.findById(user.getId()).ifPresent(appUserRepository::delete);
 				userRepository.delete(user);
 				this.clearUserCaches(user);
 			});
@@ -331,6 +337,7 @@ public class UserService {
 	private AppUser updateUserCompany(User user, Long companyId) {
 		AppUser appUser = appUserRepository.findByUser_Id(user.getId())
 			.orElse(new AppUser());
+		appUser.setUser(user);
 		Company company = companyRepository
 			.findById(companyId)
 			.orElseThrow(() -> {

@@ -1,13 +1,7 @@
 package by.ivanov.unit.web.rest;
 
-import static by.ivanov.unit.web.rest.AccountResourceIT.TEST_USER_LOGIN;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import by.ivanov.unit.IntegrationTest;
 import by.ivanov.unit.config.Constants;
-import by.ivanov.unit.domain.Company;
 import by.ivanov.unit.domain.User;
 import by.ivanov.unit.repository.AuthorityRepository;
 import by.ivanov.unit.repository.CompanyRepository;
@@ -16,11 +10,8 @@ import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.UserService;
 import by.ivanov.unit.service.dto.AdminUserDTO;
 import by.ivanov.unit.service.dto.PasswordChangeDTO;
-import by.ivanov.unit.service.dto.UserDTO;
 import by.ivanov.unit.web.rest.vm.KeyAndPasswordVM;
 import by.ivanov.unit.web.rest.vm.ManagedUserVM;
-import java.time.Instant;
-import java.util.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +21,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
+import static by.ivanov.unit.web.rest.AccountResourceIT.TEST_USER_LOGIN;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link AccountResource} REST controller.
@@ -130,15 +133,9 @@ class AccountResourceIT {
 		validUser.setImageUrl("http://placehold.it/50x50");
 		validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
 		validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
-		long companyId = 1L;
-		validUser.setCompanyId(companyId);
-		Company company = new Company();
-		company.setId(companyId);
-		company.setShortName("Exxon");
-		companyRepository.saveAndFlush(company);
+		validUser.setCompanyId(1L);
 
 		assertThat(userRepository.findOneByLogin("test-register-valid")).isEmpty();
-
 		restAccountMockMvc
 			.perform(
 				post("/api/register")
@@ -267,6 +264,7 @@ class AccountResourceIT {
 		firstUser.setImageUrl("http://placehold.it/50x50");
 		firstUser.setLangKey(Constants.DEFAULT_LANGUAGE);
 		firstUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+		firstUser.setCompanyId(2L);
 
 		// Duplicate login, different email
 		ManagedUserVM secondUser = new ManagedUserVM();
@@ -282,6 +280,7 @@ class AccountResourceIT {
 		secondUser.setLastModifiedBy(firstUser.getLastModifiedBy());
 		secondUser.setLastModifiedDate(firstUser.getLastModifiedDate());
 		secondUser.setAuthorities(new HashSet<>(firstUser.getAuthorities()));
+		secondUser.setCompanyId(3L);
 
 		// First user
 		restAccountMockMvc
@@ -329,6 +328,7 @@ class AccountResourceIT {
 		firstUser.setImageUrl("http://placehold.it/50x50");
 		firstUser.setLangKey(Constants.DEFAULT_LANGUAGE);
 		firstUser.setAuthorities(Collections.singleton(AuthoritiesConstants.USER));
+		firstUser.setCompanyId(3L);
 
 		// Register first user
 		restAccountMockMvc
@@ -352,6 +352,7 @@ class AccountResourceIT {
 		secondUser.setImageUrl(firstUser.getImageUrl());
 		secondUser.setLangKey(firstUser.getLangKey());
 		secondUser.setAuthorities(new HashSet<>(firstUser.getAuthorities()));
+		secondUser.setCompanyId(firstUser.getCompanyId());
 
 		// Register second (non activated) user
 		restAccountMockMvc
@@ -379,6 +380,7 @@ class AccountResourceIT {
 		userWithUpperCaseEmail.setImageUrl(firstUser.getImageUrl());
 		userWithUpperCaseEmail.setLangKey(firstUser.getLangKey());
 		userWithUpperCaseEmail.setAuthorities(new HashSet<>(firstUser.getAuthorities()));
+		userWithUpperCaseEmail.setCompanyId(firstUser.getCompanyId());
 
 		// Register third (not activated) user
 		restAccountMockMvc
@@ -394,7 +396,9 @@ class AccountResourceIT {
 		assertThat(testUser4.get().getEmail()).isEqualTo("test-register-duplicate-email@example.com");
 
 		testUser4.get().setActivated(true);
-		userService.updateUser((new AdminUserDTO(testUser4.get())));
+		AdminUserDTO adminUserDTO = new AdminUserDTO(testUser4.get());
+		adminUserDTO.setCompanyId(1l);
+		userService.updateUser(adminUserDTO);
 
 		// Register 4th (already activated) user
 		restAccountMockMvc
@@ -419,6 +423,7 @@ class AccountResourceIT {
 		validUser.setImageUrl("http://placehold.it/50x50");
 		validUser.setLangKey(Constants.DEFAULT_LANGUAGE);
 		validUser.setAuthorities(Collections.singleton(AuthoritiesConstants.ADMIN));
+		validUser.setCompanyId(2L);
 
 		restAccountMockMvc
 			.perform(
@@ -482,6 +487,7 @@ class AccountResourceIT {
 		userDTO.setImageUrl("http://placehold.it/50x50");
 		userDTO.setLangKey(Constants.DEFAULT_LANGUAGE);
 		userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.ADMIN));
+		userDTO.setCompanyId(2L);
 
 		restAccountMockMvc
 			.perform(
@@ -596,6 +602,7 @@ class AccountResourceIT {
 		userDTO.setImageUrl("http://placehold.it/50x50");
 		userDTO.setLangKey(Constants.DEFAULT_LANGUAGE);
 		userDTO.setAuthorities(Collections.singleton(AuthoritiesConstants.ADMIN));
+		userDTO.setCompanyId(15L);
 
 		restAccountMockMvc
 			.perform(
