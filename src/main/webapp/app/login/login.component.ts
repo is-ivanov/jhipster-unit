@@ -8,7 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
 	selector: 'jhi-login',
-	templateUrl: './login.component.html'
+	templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit, AfterViewInit {
 	@ViewChild('username', { static: false })
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	loginForm = this.fb.group({
 		username: [null, [Validators.required]],
 		password: [null, [Validators.required]],
-		rememberMe: [false]
+		rememberMe: [false],
 	});
 
 	constructor(
@@ -28,8 +28,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		private loginService: LoginService,
 		private router: Router,
 		private fb: FormBuilder
-	) {
-	}
+	) {}
 
 	ngOnInit(): void {
 		// if already authenticated then navigate to home page
@@ -51,7 +50,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 			.login({
 				username: this.loginForm.get('username')!.value,
 				password: this.loginForm.get('password')!.value,
-				rememberMe: this.loginForm.get('rememberMe')!.value
+				rememberMe: this.loginForm.get('rememberMe')!.value,
 			})
 			.subscribe({
 				next: () => {
@@ -60,13 +59,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
 						this.router.navigate(['']);
 					}
 				},
-				error: (response) => this.processError(response)
+				error: (response) => this.processError(response),
 			});
 	}
 
 	private processError(response: HttpErrorResponse): void {
-		// eslint-disable-next-line no-console
-		console.log(response.error.detail);
 		if (response.status === 401 && response.error.detail.includes(' was not activated')) {
 			this.accountNotActivatedError = true;
 		} else {
