@@ -52,7 +52,7 @@
           <td>{{ project.description }}</td>
           <td>
             <div *ngIf="project.generalContractor">
-              <a [routerLink]="['/company', project.generalContractor?.id, 'view']">{{ project.generalContractor?.id }}</a>
+              <a [routerLink]="['/company', project.generalContractor?.id, 'view']">{{ project.generalContractor?.shortName }}</a>
             </div>
           </td>
           <td class="text-end">
