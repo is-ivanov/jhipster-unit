@@ -32,6 +32,8 @@
 		"docker:db:up": "docker compose -f src/main/docker/postgresql.yml up -d",
 		"docker:email:down": "docker compose -f src/main/docker/smtp4dev.yml down -v --remote-orphans",
 		"docker:email:up": "docker compose -f src/main/docker/smtp4dev.yml up -d",
+		"docker:fedora:up": "npm run docker:db:up && npm run docker:email:up",
+		"docker:fedora:down": "npm run docker:db:down && npm run docker:email:down",
 		"docker:others:await": "",
 		"docker:others:down": "",
 		"predocker:others:up": "",

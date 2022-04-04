@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+	<!--
+		Added the entity PriorityPunch.
+	-->
+	<changeSet id="00000000000002-1" author="ivan">
+		<createSequence incrementBy="50" sequenceName="priority_punch__seq" startValue="100"/>
+	</changeSet>
+
+	<changeSet id="00000000000002-2" author="jhipster">
+		<createTable tableName="priority_punch">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="priority" type="integer">
+				<constraints nullable="false" unique="true"
+							 uniqueConstraintName="ux_priority_punch__priority"/>
+			</column>
+			<column name="name" type="varchar(20)">
+				<constraints nullable="false" unique="true"
+							 uniqueConstraintName="ux_priority_punch__name"/>
+			</column>
+			<column name="description" type="varchar(255)">
+				<constraints nullable="true"/>
+			</column>
+			<!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+		</createTable>
+	</changeSet>
+
+	<!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+	<changeSet id="00000000000002-3-data" author="ivan">
+		<loadData
+			file="config/liquibase/data/priority_punch.csv"
+			separator=";"
+			tableName="priority_punch"
+			usePreparedStatements="true">
+			<column name="id" type="numeric"/>
+			<column name="priority" type="numeric"/>
+			<column name="name" type="string"/>
+			<column name="description" type="string"/>
+			<!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+		</loadData>
+	</changeSet>
+</databaseChangeLog>

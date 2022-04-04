@@ -1,11 +1,12 @@
 package by.ivanov.unit.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * A AppUser.
@@ -15,87 +16,91 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class AppUser implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	public static final String COLUMN_ID_NAME = "id";
+	public static final String COLUMN_COMPANY_NAME = "company_id";
 
-    @Id
-    @Column(name = "id")
-    private Long id;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private User user;
+	@Id
+	@Column(name = COLUMN_ID_NAME)
+	private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn
-	@JsonIgnoreProperties(value = { "projects" }, allowSetters = true)
-    private Company company;
+	@OneToOne
+	@MapsId
+	@JoinColumn(name = COLUMN_ID_NAME)
+	private User user;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = COLUMN_COMPANY_NAME)
+	@JsonIgnoreProperties(value = {"projects"}, allowSetters = true)
+	private Company company;
 
-    public Long getId() {
-        return this.id;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public AppUser id(Long id) {
-        this.setId(id);
-        return this;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public User getUser() {
-        return this.user;
-    }
+	public AppUser id(Long id) {
+		this.setId(id);
+		return this;
+	}
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+	public User getUser() {
+		return this.user;
+	}
 
-    public AppUser user(User user) {
-        this.setUser(user);
-        return this;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    public Company getCompany() {
-        return this.company;
-    }
+	public AppUser user(User user) {
+		this.setUser(user);
+		return this;
+	}
 
-    public void setCompany(Company company) {
-        this.company = company;
-    }
+	public Company getCompany() {
+		return this.company;
+	}
 
-    public AppUser company(Company company) {
-        this.setCompany(company);
-        return this;
-    }
+	public void setCompany(Company company) {
+		this.company = company;
+	}
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+	public AppUser company(Company company) {
+		this.setCompany(company);
+		return this;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof AppUser)) {
-            return false;
-        }
-        return id != null && id.equals(((AppUser) o).id);
-    }
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
-    @Override
-    public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof AppUser)) {
+			return false;
+		}
+		return id != null && id.equals(((AppUser) o).id);
+	}
 
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "AppUser{" +
-            "id=" + getId() +
-            "}";
-    }
+	@Override
+	public int hashCode() {
+		// see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+		return getClass().hashCode();
+	}
+
+	// prettier-ignore
+	@Override
+	public String toString() {
+		return "AppUser{" +
+			"id=" + getId() +
+			"}";
+	}
 }

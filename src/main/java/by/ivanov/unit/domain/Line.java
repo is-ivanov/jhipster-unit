@@ -2,11 +2,14 @@ package by.ivanov.unit.domain;
 
 import by.ivanov.unit.domain.enumeration.StatusLine;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * A Line.
@@ -16,128 +19,137 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Line implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	public static final String COLUMN_ID_NAME = "id";
+	public static final String COLUMN_TAG_NAME = "tag";
+	public static final String COLUMN_REVISION_NAME = "revision";
+	public static final String COLUMN_STATUS_NAME = "status";
+	public static final String COLUMN_BLOCK_NAME = "block_id";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    @NotNull
-    @Size(max = 50)
-    @Column(name = "tag", length = 50, nullable = false)
-    private String tag;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "line_sequence")
+	@SequenceGenerator(name = "line_sequence", sequenceName = "line__seq",
+		initialValue = 100)
+	@Column(name = COLUMN_ID_NAME, nullable = false)
+	private Long id;
 
-    @NotNull
-    @Size(max = 20)
-    @Column(name = "revision", length = 20, nullable = false)
-    private String revision;
+	@NotNull
+	@Size(max = 50)
+	@Column(name = COLUMN_TAG_NAME, length = 50, nullable = false)
+	private String tag;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private StatusLine status;
+	@NotNull
+	@Size(max = 20)
+	@Column(name = COLUMN_REVISION_NAME, length = 20, nullable = false)
+	private String revision;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties(value = { "project" }, allowSetters = true)
-    private Block block;
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = COLUMN_STATUS_NAME, nullable = false)
+	private StatusLine status;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = COLUMN_BLOCK_NAME, nullable = false)
+	@JsonIgnoreProperties(value = {"project"}, allowSetters = true)
+	private Block block;
 
-    public Long getId() {
-        return this.id;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public Line id(Long id) {
-        this.setId(id);
-        return this;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getTag() {
-        return this.tag;
-    }
+	public Line id(Long id) {
+		this.setId(id);
+		return this;
+	}
 
-    public Line tag(String tag) {
-        this.setTag(tag);
-        return this;
-    }
+	public String getTag() {
+		return this.tag;
+	}
 
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
+	public void setTag(String tag) {
+		this.tag = tag;
+	}
 
-    public String getRevision() {
-        return this.revision;
-    }
+	public Line tag(String tag) {
+		this.setTag(tag);
+		return this;
+	}
 
-    public Line revision(String revision) {
-        this.setRevision(revision);
-        return this;
-    }
+	public String getRevision() {
+		return this.revision;
+	}
 
-    public void setRevision(String revision) {
-        this.revision = revision;
-    }
+	public void setRevision(String revision) {
+		this.revision = revision;
+	}
 
-    public StatusLine getStatus() {
-        return this.status;
-    }
+	public Line revision(String revision) {
+		this.setRevision(revision);
+		return this;
+	}
 
-    public Line status(StatusLine status) {
-        this.setStatus(status);
-        return this;
-    }
+	public StatusLine getStatus() {
+		return this.status;
+	}
 
-    public void setStatus(StatusLine status) {
-        this.status = status;
-    }
+	public void setStatus(StatusLine status) {
+		this.status = status;
+	}
 
-    public Block getBlock() {
-        return this.block;
-    }
+	public Line status(StatusLine status) {
+		this.setStatus(status);
+		return this;
+	}
 
-    public void setBlock(Block block) {
-        this.block = block;
-    }
+	public Block getBlock() {
+		return this.block;
+	}
 
-    public Line block(Block block) {
-        this.setBlock(block);
-        return this;
-    }
+	public void setBlock(Block block) {
+		this.block = block;
+	}
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+	public Line block(Block block) {
+		this.setBlock(block);
+		return this;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Line)) {
-            return false;
-        }
-        return id != null && id.equals(((Line) o).id);
-    }
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
-    @Override
-    public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Line)) {
+			return false;
+		}
+		return id != null && id.equals(((Line) o).id);
+	}
 
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "Line{" +
-            "id=" + getId() +
-            ", tag='" + getTag() + "'" +
-            ", revision='" + getRevision() + "'" +
-            ", status='" + getStatus() + "'" +
-            "}";
-    }
+	@Override
+	public int hashCode() {
+		// see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+		return getClass().hashCode();
+	}
+
+	// prettier-ignore
+	@Override
+	public String toString() {
+		return "Line{" +
+			"id=" + getId() +
+			", tag='" + getTag() + "'" +
+			", revision='" + getRevision() + "'" +
+			", status='" + getStatus() + "'" +
+			"}";
+	}
 }

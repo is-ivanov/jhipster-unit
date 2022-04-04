@@ -1,10 +1,13 @@
 package by.ivanov.unit.domain;
 
-import java.io.Serializable;
-import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * A PriorityPunch.
@@ -14,107 +17,114 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class PriorityPunch implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	public static final String COLUMN_ID_NAME = "id";
+	public static final String COLUMN_PRIORITY_NAME = "priority";
+	public static final String COLUMN_NAME_NAME = "name";
+	public static final String COLUMN_DESCRIPTION_NAME = "description";
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
-    @Column(name = "id")
-    private Long id;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    @NotNull
-    @Column(name = "priority", nullable = false, unique = true)
-    private Integer priority;
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "priority_punch_sequence")
+	@SequenceGenerator(name = "priority_punch_sequence", sequenceName = "priority_punch__seq",
+		initialValue = 100)
+	@Column(name = COLUMN_ID_NAME, nullable = false)
+	private Long id;
 
-    @NotNull
-    @Size(max = 20)
-    @Column(name = "name", length = 20, nullable = false, unique = true)
-    private String name;
+	@NotNull
+	@Column(name = COLUMN_PRIORITY_NAME, nullable = false, unique = true)
+	private Integer priority;
 
-    @Column(name = "description")
-    private String description;
+	@NotNull
+	@Size(max = 20)
+	@Column(name = COLUMN_NAME_NAME, length = 20, nullable = false, unique = true)
+	private String name;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
+	@Column(name = COLUMN_DESCRIPTION_NAME)
+	private String description;
 
-    public Long getId() {
-        return this.id;
-    }
+	// jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public PriorityPunch id(Long id) {
-        this.setId(id);
-        return this;
-    }
+	public Long getId() {
+		return this.id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Integer getPriority() {
-        return this.priority;
-    }
+	public PriorityPunch id(Long id) {
+		this.setId(id);
+		return this;
+	}
 
-    public PriorityPunch priority(Integer priority) {
-        this.setPriority(priority);
-        return this;
-    }
+	public Integer getPriority() {
+		return this.priority;
+	}
 
-    public void setPriority(Integer priority) {
-        this.priority = priority;
-    }
+	public void setPriority(Integer priority) {
+		this.priority = priority;
+	}
 
-    public String getName() {
-        return this.name;
-    }
+	public PriorityPunch priority(Integer priority) {
+		this.setPriority(priority);
+		return this;
+	}
 
-    public PriorityPunch name(String name) {
-        this.setName(name);
-        return this;
-    }
+	public String getName() {
+		return this.name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getDescription() {
-        return this.description;
-    }
+	public PriorityPunch name(String name) {
+		this.setName(name);
+		return this;
+	}
 
-    public PriorityPunch description(String description) {
-        this.setDescription(description);
-        return this;
-    }
+	public String getDescription() {
+		return this.description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+	public PriorityPunch description(String description) {
+		this.setDescription(description);
+		return this;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof PriorityPunch)) {
-            return false;
-        }
-        return id != null && id.equals(((PriorityPunch) o).id);
-    }
+	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
-    @Override
-    public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof PriorityPunch)) {
+			return false;
+		}
+		return id != null && id.equals(((PriorityPunch) o).id);
+	}
 
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "PriorityPunch{" +
-            "id=" + getId() +
-            ", priority=" + getPriority() +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            "}";
-    }
+	@Override
+	public int hashCode() {
+		// see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+		return getClass().hashCode();
+	}
+
+	// prettier-ignore
+	@Override
+	public String toString() {
+		return "PriorityPunch{" +
+			"id=" + getId() +
+			", priority=" + getPriority() +
+			", name='" + getName() + "'" +
+			", description='" + getDescription() + "'" +
+			"}";
+	}
 }

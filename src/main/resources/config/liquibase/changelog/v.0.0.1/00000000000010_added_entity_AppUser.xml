@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+	<!--
+		Added the entity AppUser.
+	-->
+	<changeSet id="00000000000010-1" author="jhipster">
+		<createTable tableName="app_user">
+			<column name="id" type="bigint">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="company_id" type="bigint">
+				<constraints nullable="true"/>
+			</column>
+			<!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+		</createTable>
+	</changeSet>
+
+	<!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+	<changeSet id="00000000000010-2-data" author="ivan">
+		<loadData
+			file="config/liquibase/data/app_user.csv"
+			separator=";"
+			tableName="app_user"
+			usePreparedStatements="true">
+			<column name="id" type="numeric"/>
+			<column name="company_id" type="numeric"/>
+			<!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+		</loadData>
+	</changeSet>
+
+</databaseChangeLog>
