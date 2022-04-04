@@ -4,8 +4,8 @@
 <configuration scan="true">
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
-<!--    <logger name="by.ivanov.unit" level="INFO"/>-->
-    <logger name="by.ivanov.unit" level="DEBUG"/>
+    <logger name="by.ivanov.unit" level="INFO"/>
+<!--    <logger name="by.ivanov.unit" level="DEBUG"/>-->
 
     <logger name="tech.jhipster" level="WARN"/>
 
@@ -30,7 +30,7 @@
     <logger name="org.hibernate.validator" level="WARN"/>
     <logger name="org.hibernate" level="WARN"/>
 
-	<logger name="org.hibernate.SQL" level="DEBUG" />
+<!--	<logger name="org.hibernate.SQL" level="DEBUG" />-->
 
 	<logger name="org.hibernate.ejb.HibernatePersistence" level="OFF"/>
     <logger name="org.postgresql.jdbc" level="WARN"/>
