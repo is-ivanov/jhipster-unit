@@ -1,6 +1,7 @@
 package by.ivanov.unit.web.rest;
 
 import by.ivanov.unit.repository.ProjectRepository;
+import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.ProjectService;
 import by.ivanov.unit.service.dto.ProjectDTO;
 import by.ivanov.unit.web.rest.errors.BadRequestAlertException;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -53,15 +55,19 @@ public class ProjectResource {
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
 	@PostMapping("/projects")
-	public ResponseEntity<ProjectDTO> createProject(@Valid @RequestBody ProjectDTO projectDTO) throws URISyntaxException {
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	public ResponseEntity<ProjectDTO> createProject(@Valid @RequestBody ProjectDTO projectDTO)
+		throws URISyntaxException {
 		log.debug("REST request to save Project : {}", projectDTO);
 		if (projectDTO.getId() != null) {
-			throw new BadRequestAlertException("A new project cannot already have an ID", ENTITY_NAME, "idexists");
+			throw new BadRequestAlertException("A new project cannot already have an ID",
+				ENTITY_NAME, "idexists");
 		}
 		ProjectDTO result = projectService.save(projectDTO);
 		return ResponseEntity
 			.created(new URI("/api/projects/" + result.getId()))
-			.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
+			.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME,
+				result.getId().toString()))
 			.body(result);
 	}
 
@@ -76,6 +82,7 @@ public class ProjectResource {
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
 	@PutMapping("/projects/{id}")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
 	public ResponseEntity<ProjectDTO> updateProject(
 		@PathVariable(value = "id", required = false) final Long id,
 		@Valid @RequestBody ProjectDTO projectDTO
@@ -95,7 +102,8 @@ public class ProjectResource {
 		ProjectDTO result = projectService.save(projectDTO);
 		return ResponseEntity
 			.ok()
-			.headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectDTO.getId().toString()))
+			.headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,
+				projectDTO.getId().toString()))
 			.body(result);
 	}
 
@@ -111,6 +119,7 @@ public class ProjectResource {
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
 	@PatchMapping(value = "/projects/{id}", consumes = {"application/json", "application/merge-patch+json"})
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
 	public ResponseEntity<ProjectDTO> partialUpdateProject(
 		@PathVariable(value = "id", required = false) final Long id,
 		@NotNull @RequestBody ProjectDTO projectDTO
@@ -131,7 +140,8 @@ public class ProjectResource {
 
 		return ResponseUtil.wrapOrNotFound(
 			result,
-			HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectDTO.getId().toString())
+			HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,
+				projectDTO.getId().toString())
 		);
 	}
 
@@ -153,7 +163,9 @@ public class ProjectResource {
 		} else {
 			page = projectService.findAll(pageable);
 		}
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+		HttpHeaders headers =
+			PaginationUtil.generatePaginationHttpHeaders(
+				ServletUriComponentsBuilder.fromCurrentRequest(), page);
 		return ResponseEntity.ok().headers(headers).body(page.getContent());
 	}
 
@@ -177,12 +189,14 @@ public class ProjectResource {
 	 * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
 	 */
 	@DeleteMapping("/projects/{id}")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
 	public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
 		log.debug("REST request to delete Project : {}", id);
 		projectService.delete(id);
 		return ResponseEntity
 			.noContent()
-			.headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
+			.headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME,
+				id.toString()))
 			.build();
 	}
 }
