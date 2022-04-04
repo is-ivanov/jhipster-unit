@@ -4,6 +4,7 @@ import by.ivanov.unit.domain.User;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
  * Spring Data JPA repository for the {@link User} entity.
  */
 @Repository
+@JaversSpringDataAuditable
 public interface UserRepository extends JpaRepository<User, Long> {
 	String USERS_BY_LOGIN_CACHE = "usersByLogin";
 
