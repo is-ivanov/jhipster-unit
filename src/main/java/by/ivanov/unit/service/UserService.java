@@ -15,6 +15,10 @@ import by.ivanov.unit.service.dto.AdminUserDTO;
 import by.ivanov.unit.service.dto.UserDTO;
 import by.ivanov.unit.service.exception.MyEntityNotFoundException;
 import by.ivanov.unit.web.rest.CompanyResource;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -25,11 +29,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
-
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Service class for managing users.
@@ -47,12 +46,13 @@ public class UserService {
 	private final CompanyRepository companyRepository;
 	private final AppUserRepository appUserRepository;
 
-	public UserService(UserRepository userRepository,
-					   PasswordEncoder passwordEncoder,
-					   AuthorityRepository authorityRepository,
-					   CacheManager cacheManager,
-					   CompanyRepository companyRepository,
-					   AppUserRepository appUserRepository
+	public UserService(
+		UserRepository userRepository,
+		PasswordEncoder passwordEncoder,
+		AuthorityRepository authorityRepository,
+		CacheManager cacheManager,
+		CompanyRepository companyRepository,
+		AppUserRepository appUserRepository
 	) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -142,10 +142,12 @@ public class UserService {
 		if (existingUser.isActivated()) {
 			return false;
 		}
-		appUserRepository.findById(existingUser.getId()).ifPresent(appUser -> {
-			appUserRepository.delete(appUser);
-			appUserRepository.flush();
-		});
+		appUserRepository
+			.findById(existingUser.getId())
+			.ifPresent(appUser -> {
+				appUserRepository.delete(appUser);
+				appUserRepository.flush();
+			});
 		userRepository.delete(existingUser);
 		userRepository.flush();
 		this.clearUserCaches(existingUser);
@@ -202,9 +204,7 @@ public class UserService {
 					.forEach(managedAuthorities::add);
 				this.clearUserCaches(user);
 				log.debug("Changed Information for User: {}", user);
-				AppUser appUser = updateUserCompany(user, userDTO.getCompanyId());
-				appUser.setUser(user);
-				return appUser;
+				return updateUserCompany(user, userDTO.getCompanyId());
 			})
 			.map(AdminUserDTO::new);
 	}
@@ -335,17 +335,20 @@ public class UserService {
 	}
 
 	private AppUser updateUserCompany(User user, Long companyId) {
-		AppUser appUser = appUserRepository.findByUser_Id(user.getId())
-			.orElse(new AppUser());
+		AppUser appUser = appUserRepository.findByUser_Id(user.getId()).orElse(new AppUser());
 		appUser.setUser(user);
-		Company company = companyRepository
-			.findById(companyId)
-			.orElseThrow(() -> {
-				throw new MyEntityNotFoundException(CompanyResource.ENTITY_NAME, "id", companyId);
-			});
-		appUser.setCompany(company);
+		Company company;
+		if (companyId != null) {
+			company =
+				companyRepository
+					.findById(companyId)
+					.orElseThrow(() -> {
+						throw new MyEntityNotFoundException(CompanyResource.ENTITY_NAME, "id", companyId);
+					});
+			appUser.setCompany(company);
+		}
 		appUserRepository.save(appUser);
-		log.debug("Updated Company: {} for User: {}", company.getShortName(), user.getLogin());
+		log.debug("Save AppUser for User: {}", user.getLogin());
 		return appUser;
 	}
 }

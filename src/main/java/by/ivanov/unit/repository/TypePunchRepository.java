@@ -1,6 +1,7 @@
 package by.ivanov.unit.repository;
 
 import by.ivanov.unit.domain.TypePunch;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
+@JaversSpringDataAuditable
 public interface TypePunchRepository extends JpaRepository<TypePunch, Long> {}

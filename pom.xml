@@ -60,6 +60,7 @@
         <jaxb-runtime.version>2.3.3</jaxb-runtime.version>
         <archunit-junit5.version>0.22.0</archunit-junit5.version>
         <mapstruct.version>1.4.2.Final</mapstruct.version>
+		<javers.version>6.6.3</javers.version>
         <!-- Plugin versions -->
         <maven-clean-plugin.version>3.1.0</maven-clean-plugin.version>
         <maven-site-plugin.version>3.11.0</maven-site-plugin.version>
@@ -312,7 +313,13 @@
             <scope>provided</scope>
         </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
-    </dependencies>
+		<dependency>
+			<groupId>org.javers</groupId>
+			<artifactId>javers-spring-boot-starter-sql</artifactId>
+			<version>${javers.version}</version>
+		</dependency>
+
+	</dependencies>
 
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>

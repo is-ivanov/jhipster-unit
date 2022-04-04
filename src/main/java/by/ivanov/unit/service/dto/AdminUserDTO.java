@@ -49,7 +49,6 @@ public class AdminUserDTO {
 
 	private Set<String> authorities;
 
-	@NotNull
 	private Long companyId;
 
 	public AdminUserDTO() {
