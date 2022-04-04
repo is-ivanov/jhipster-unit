@@ -33,9 +33,9 @@ spring:
       enabled: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/unit
-    username: unit
-    password:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -45,10 +45,16 @@ spring:
   liquibase:
     contexts: prod
   mail:
-    host: smtp-relay.sendinblue.com
-    port: 587
-    username: npz.unit.construction@gmail.com
-    password: TfP4QRWvNsSUIEAX
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   thymeleaf:
     cache: true
   sleuth:
@@ -115,7 +121,7 @@ jhipster:
         # - In the JHipster Registry (which includes a Spring Cloud Config server)
         # - In a separate `application-prod.yml` file, in the same folder as your executable JAR file
         # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
-        base64-secret: Y2JiYzE2MjBhMDcxZGE0ODAwODc5YjQ0M2YxOGIxMDQxMTBiYWYyNzg5YzIzMTgzMDI1ZDgxNmJmYjcyYTRkYTNhYThmOTIwNDNkN2YwZjMzYzI5ZGY1ODliNDcwMmQyZDNlZGM5ODUwNGEyZTFlYjExM2I5Mzc5MDQxNDliOTA=
+        #        base64-secret:
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000

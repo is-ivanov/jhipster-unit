@@ -162,3 +162,5 @@ Desktop.ini
 # Visual Paradigm
 ######################
 *.vpp.b*
+
+.secret
