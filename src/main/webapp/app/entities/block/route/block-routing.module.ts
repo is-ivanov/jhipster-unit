@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 
-import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
-import { BlockComponent } from '../list/block.component';
-import { BlockDetailComponent } from '../detail/block-detail.component';
-import { BlockUpdateComponent } from '../update/block-update.component';
-import { BlockRoutingResolveService } from './block-routing-resolve.service';
+import { UserRouteAccessService } from "app/core/auth/user-route-access.service";
+import { BlockComponent } from "../list/block.component";
+import { BlockDetailComponent } from "../detail/block-detail.component";
+import { BlockUpdateComponent } from "../update/block-update.component";
+import { BlockRoutingResolveService } from "./block-routing-resolve.service";
 
 const blockRoute: Routes = [
 	{
@@ -30,6 +30,9 @@ const blockRoute: Routes = [
 		resolve: {
 			block: BlockRoutingResolveService,
 		},
+		data: {
+			authorities: ['ROLE_ADMIN'],
+		},
 		canActivate: [UserRouteAccessService],
 	},
 	{
@@ -37,6 +40,9 @@ const blockRoute: Routes = [
 		component: BlockUpdateComponent,
 		resolve: {
 			block: BlockRoutingResolveService,
+		},
+		data: {
+			authorities: ['ROLE_ADMIN'],
 		},
 		canActivate: [UserRouteAccessService],
 	},

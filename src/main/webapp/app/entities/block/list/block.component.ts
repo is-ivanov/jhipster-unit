@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from "@angular/core";
+import { HttpHeaders, HttpResponse } from "@angular/common/http";
+import { ActivatedRoute, Router } from "@angular/router";
+import { combineLatest } from "rxjs";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
-import { IBlock } from '../block.model';
+import { IBlock } from "../block.model";
 
-import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants';
-import { BlockService } from '../service/block.service';
-import { BlockDeleteDialogComponent } from '../delete/block-delete-dialog.component';
-import { IProject } from '../../project/project.model';
-import { ProjectService } from '../../project/service/project.service';
-import { map } from 'rxjs/operators';
+import { ASC, DESC, ITEMS_PER_PAGE, SORT } from "app/config/pagination.constants";
+import { BlockService } from "../service/block.service";
+import { BlockDeleteDialogComponent } from "../delete/block-delete-dialog.component";
+import { IProject } from "../../project/project.model";
+import { ProjectService } from "../../project/service/project.service";
+import { map } from "rxjs/operators";
 
 @Component({
 	selector: 'jhi-block',
@@ -27,6 +27,9 @@ export class BlockComponent implements OnInit {
 	ascending!: boolean;
 	ngbPaginationPage = 1;
 	projectsSharedCollection: IProject[] = [];
+	filterNumber?: number;
+	filterDescription?: string;
+	filterProjectId?: number;
 
 	constructor(
 		protected blockService: BlockService,
