@@ -8,42 +8,42 @@ import { BlockUpdateComponent } from '../update/block-update.component';
 import { BlockRoutingResolveService } from './block-routing-resolve.service';
 
 const blockRoute: Routes = [
-  {
-    path: '',
-    component: BlockComponent,
-    data: {
-      defaultSort: 'id,asc',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/view',
-    component: BlockDetailComponent,
-    resolve: {
-      block: BlockRoutingResolveService,
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'new',
-    component: BlockUpdateComponent,
-    resolve: {
-      block: BlockRoutingResolveService,
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: BlockUpdateComponent,
-    resolve: {
-      block: BlockRoutingResolveService,
-    },
-    canActivate: [UserRouteAccessService],
-  },
+	{
+		path: '',
+		component: BlockComponent,
+		data: {
+			defaultSort: 'id,asc',
+		},
+		// canActivate: [UserRouteAccessService],
+	},
+	{
+		path: ':id/view',
+		component: BlockDetailComponent,
+		resolve: {
+			block: BlockRoutingResolveService,
+		},
+		// canActivate: [UserRouteAccessService],
+	},
+	{
+		path: 'new',
+		component: BlockUpdateComponent,
+		resolve: {
+			block: BlockRoutingResolveService,
+		},
+		canActivate: [UserRouteAccessService],
+	},
+	{
+		path: ':id/edit',
+		component: BlockUpdateComponent,
+		resolve: {
+			block: BlockRoutingResolveService,
+		},
+		canActivate: [UserRouteAccessService],
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(blockRoute)],
-  exports: [RouterModule],
+	imports: [RouterModule.forChild(blockRoute)],
+	exports: [RouterModule],
 })
 export class BlockRoutingModule {}
