@@ -12,23 +12,21 @@ import org.mapstruct.Named;
  */
 @Mapper(componentModel = "spring", uses = { CompanyMapper.class })
 public interface ProjectMapper extends EntityMapper<ProjectDTO, Project> {
-
 	@Named("generalContractorId")
-    @Mapping(target = "generalContractor", source = "generalContractor", qualifiedByName = "id")
-    @Mapping(target = "subContractors", source = "subContractors", qualifiedByName = "idSet")
-    ProjectDTO toDto(Project s);
+	@Mapping(target = "generalContractor", source = "generalContractor", qualifiedByName = "id")
+	@Mapping(target = "subContractors", source = "subContractors", qualifiedByName = "idSet")
+	ProjectDTO toDto(Project s);
 
-    @Mapping(target = "removeSubContractors", ignore = true)
-    Project toEntity(ProjectDTO projectDTO);
+	@Mapping(target = "removeSubContractors", ignore = true)
+	Project toEntity(ProjectDTO projectDTO);
 
-    @Named("name")
-    @BeanMapping(ignoreByDefault = true)
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "name", source = "name")
-    ProjectDTO toDtoName(Project project);
+	@Named("name")
+	@BeanMapping(ignoreByDefault = true)
+	@Mapping(target = "id", source = "id")
+	@Mapping(target = "name", source = "name")
+	ProjectDTO toDtoName(Project project);
 
-	@Mapping(target = "generalContractor", source = "generalContractor",
-		qualifiedByName = "shortName")
+	@Mapping(target = "generalContractor", source = "generalContractor", qualifiedByName = "shortName")
 	@Mapping(target = "subContractors", source = "subContractors", qualifiedByName = "idSet")
 	ProjectDTO toDtoGenContractorName(Project project);
 }

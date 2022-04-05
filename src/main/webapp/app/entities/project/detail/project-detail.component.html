@@ -1,49 +1,56 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
-    <div *ngIf="project">
-      <h2 data-cy="projectDetailsHeading"><span jhiTranslate="unitApp.project.detail.title">Project</span></h2>
+	<div class="col-8">
+		<div *ngIf="project">
+			<h2 data-cy="projectDetailsHeading"><span jhiTranslate="unitApp.project.detail.title">Project</span></h2>
 
-      <hr />
+			<hr />
 
-      <jhi-alert-error></jhi-alert-error>
+			<jhi-alert-error></jhi-alert-error>
 
-      <jhi-alert></jhi-alert>
+			<jhi-alert></jhi-alert>
 
-      <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="global.field.id">ID</span></dt>
-        <dd>
-          <span>{{ project.id }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.project.name">Name</span></dt>
-        <dd>
-          <span>{{ project.name }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.project.description">Description</span></dt>
-        <dd>
-          <span>{{ project.description }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.project.generalContractor">General Contractor</span></dt>
-        <dd>
-          <div *ngIf="project.generalContractor">
-            <a [routerLink]="['/company', project.generalContractor?.id, 'view']">{{ project.generalContractor?.id }}</a>
-          </div>
-        </dd>
-        <dt><span jhiTranslate="unitApp.project.subContractors">Sub Contractors</span></dt>
-        <dd>
-          <span *ngFor="let subContractors of project.subContractors; let last = last">
-            <a [routerLink]="['/company', subContractors?.id, 'view']">{{ subContractors.id }}</a
-            >{{ last ? '' : ', ' }}
-          </span>
-        </dd>
-      </dl>
+			<dl class="row-md jh-entity-details">
+				<dt><span jhiTranslate="global.field.id">ID</span></dt>
+				<dd>
+					<span>{{ project.id }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.project.name">Name</span></dt>
+				<dd>
+					<span>{{ project.name }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.project.description">Description</span></dt>
+				<dd>
+					<span>{{ project.description }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.project.generalContractor">General Contractor</span></dt>
+				<dd>
+					<div *ngIf="project.generalContractor">
+						<a [routerLink]="['/company', project.generalContractor?.id, 'view']">{{
+							project.generalContractor?.shortName
+						}}</a>
+					</div>
+				</dd>
+				<dt><span jhiTranslate="unitApp.project.subContractors">Sub Contractors</span></dt>
+				<dd>
+					<div *ngFor="let subContractors of project.subContractors; let last = last">
+						<a [routerLink]="['/company', subContractors?.id, 'view']">{{ subContractors.shortName }}</a>
+						{{ last ? "" : ", " }}
+					</div>
+				</dd>
+			</dl>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
-      </button>
+			<button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+				<fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+			</button>
 
-      <button type="button" [routerLink]="['/project', project.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
-      </button>
-    </div>
-  </div>
+			<button
+				*jhiHasAnyAuthority="'ROLE_ADMIN'"
+				type="button"
+				[routerLink]="['/project', project.id, 'edit']"
+				class="btn btn-warning"
+			>
+				<fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+			</button>
+		</div>
+	</div>
 </div>
