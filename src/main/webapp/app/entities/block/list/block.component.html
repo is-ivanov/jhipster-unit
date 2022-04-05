@@ -33,11 +33,11 @@
 		<table class="table table-striped" aria-describedby="page-heading">
 			<thead>
 				<tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
-					<th scope="col" jhiSortBy="id">
+					<th scope="col" jhiSortBy="id" class="text-center">
 						<span jhiTranslate="global.field.id">ID</span>
 						<fa-icon icon="sort"></fa-icon>
 					</th>
-					<th scope="col" jhiSortBy="number">
+					<th scope="col" jhiSortBy="number" class="col-1 text-center">
 						<span jhiTranslate="unitApp.block.number">Number</span>
 						<fa-icon icon="sort"></fa-icon>
 					</th>
@@ -53,11 +53,41 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let block of blocks; trackBy: trackId" data-cy="entityTable">
+				<tr>
+					<td></td>
 					<td>
+						<input
+							type="number"
+							class="form-control"
+							name="number"
+							id="field_number"
+							placeholder="{{ 'unitApp.block.filter.number.placeholder' | translate }}"
+						/>
+					</td>
+					<td>
+						<input
+							type="text"
+							class="form-control"
+							name="description"
+							id="field_description"
+							placeholder="{{ 'unitApp.block.filter.description.placeholder' | translate }}"
+						/>
+					</td>
+					<td>
+						<select class="form-control" id="field_project" name="project">
+							<option value=""></option>
+							<option *ngFor="let project of projectsSharedCollection; trackBy: trackProjectById">
+								{{ project.name }}
+							</option>
+						</select>
+					</td>
+					<td></td>
+				</tr>
+				<tr *ngFor="let block of blocks; trackBy: trackId" data-cy="entityTable">
+					<td class="text-center">
 						<a [routerLink]="['/block', block.id, 'view']">{{ block.id }}</a>
 					</td>
-					<td>{{ block.number }}</td>
+					<td class="text-center">{{ block.number }}</td>
 					<td>{{ block.description }}</td>
 					<td>
 						<div *ngIf="block.project">
