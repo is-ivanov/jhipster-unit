@@ -260,8 +260,9 @@
 								[jhiActiveMenu]="language"
 								href="javascript:void(0);"
 								(click)="changeLanguage(language); collapseNavbar()"
-								>{{ language | findLanguageFromKey }}</a
 							>
+								{{ language | findLanguageFromKey }}
+							</a>
 						</li>
 					</ul>
 				</li>
@@ -279,13 +280,18 @@
 						id="account-menu"
 						data-cy="accountMenu"
 					>
-						<span *ngIf="!account?.imageUrl">
-							<fa-icon icon="user"></fa-icon>
-							<span jhiTranslate="global.menu.account.main">Account</span>
-						</span>
-						<span *ngIf="account?.imageUrl">
+						<span *ngIf="account?.imageUrl; else elseIcon">
 							<img [src]="account!.imageUrl" class="profile-image rounded-circle" alt="Avatar" />
 						</span>
+						<ng-template #elseIcon>
+							<fa-icon icon="user"></fa-icon>
+						</ng-template>
+						<span *ngIf="account !== null; else nonAuthorise">
+							{{ account.firstName?.charAt(0) + ". " + account.lastName }}
+						</span>
+						<ng-template #nonAuthorise>
+							<span jhiTranslate="global.menu.account.main">Account</span>
+						</ng-template>
 					</a>
 					<ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
 						<li *ngSwitchCase="true">
