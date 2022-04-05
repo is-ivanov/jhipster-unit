@@ -5,20 +5,20 @@ import { IProject } from '../project.model';
 import { ProjectService } from '../service/project.service';
 
 @Component({
-  templateUrl: './project-delete-dialog.component.html',
+	templateUrl: './project-delete-dialog.component.html',
 })
 export class ProjectDeleteDialogComponent {
-  project?: IProject;
+	project?: IProject;
 
-  constructor(protected projectService: ProjectService, protected activeModal: NgbActiveModal) {}
+	constructor(protected projectService: ProjectService, protected activeModal: NgbActiveModal) {}
 
-  cancel(): void {
-    this.activeModal.dismiss();
-  }
+	cancel(): void {
+		this.activeModal.dismiss();
+	}
 
-  confirmDelete(id: number): void {
-    this.projectService.delete(id).subscribe(() => {
-      this.activeModal.close('deleted');
-    });
-  }
+	confirmDelete(id: number): void {
+		this.projectService.delete(id).subscribe(() => {
+			this.activeModal.close('deleted');
+		});
+	}
 }
