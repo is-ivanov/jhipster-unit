@@ -30,6 +30,9 @@ const projectRoute: Routes = [
 		resolve: {
 			project: ProjectRoutingResolveService,
 		},
+		data: {
+			authorities: ['ROLE_ADMIN'],
+		},
 		canActivate: [UserRouteAccessService],
 	},
 	{
@@ -37,6 +40,9 @@ const projectRoute: Routes = [
 		component: ProjectUpdateComponent,
 		resolve: {
 			project: ProjectRoutingResolveService,
+		},
+		data: {
+			authorities: ['ROLE_ADMIN'],
 		},
 		canActivate: [UserRouteAccessService],
 	},
