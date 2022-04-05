@@ -1,27 +1,27 @@
 {
-  "unitApp": {
-    "project": {
-      "home": {
-        "title": "Проекты",
-        "refreshListLabel": "Обновить список",
-        "createLabel": "Создать проект",
-        "createOrEditLabel": "Создать или отредактировать проект",
-        "notFound": "Проектов не найдено"
-      },
-      "created": "Новый проект создан с идентификатором {{ param }}",
-      "updated": "Проект обновлён с идентификатором {{ param }}",
-      "deleted": "Проект удалён с идентификатором {{ param }}",
-      "delete": {
-        "question": "Вы уверены что хотите удалить проект {{ id }}?"
-      },
-      "detail": {
-        "title": "Проект"
-      },
-      "id": "ID",
-      "name": "Название",
-      "description": "Полное название",
-      "generalContractor": "Генподрядчик",
-      "subContractors": "Субподрядчики"
-    }
-  }
+	"unitApp": {
+		"project": {
+			"home": {
+				"title": "Проекты",
+				"refreshListLabel": "Обновить список",
+				"createLabel": "Создать проект",
+				"createOrEditLabel": "Создать или отредактировать проект",
+				"notFound": "Проектов не найдено"
+			},
+			"created": "Новый проект создан с идентификатором {{ param }}",
+			"updated": "Проект обновлён с идентификатором {{ param }}",
+			"deleted": "Проект удалён с идентификатором {{ param }}",
+			"delete": {
+				"question": "Вы уверены что хотите удалить проект <strong>{{ name }}</strong> c ID {{ id }}?"
+			},
+			"detail": {
+				"title": "Проект"
+			},
+			"id": "ID",
+			"name": "Название",
+			"description": "Полное название",
+			"generalContractor": "Генподрядчик",
+			"subContractors": "Субподрядчики"
+		}
+	}
 }

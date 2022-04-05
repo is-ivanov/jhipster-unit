@@ -8,42 +8,48 @@ import { ProjectUpdateComponent } from '../update/project-update.component';
 import { ProjectRoutingResolveService } from './project-routing-resolve.service';
 
 const projectRoute: Routes = [
-  {
-    path: '',
-    component: ProjectComponent,
-    data: {
-      defaultSort: 'id,asc',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/view',
-    component: ProjectDetailComponent,
-    resolve: {
-      project: ProjectRoutingResolveService,
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'new',
-    component: ProjectUpdateComponent,
-    resolve: {
-      project: ProjectRoutingResolveService,
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: ProjectUpdateComponent,
-    resolve: {
-      project: ProjectRoutingResolveService,
-    },
-    canActivate: [UserRouteAccessService],
-  },
+	{
+		path: '',
+		component: ProjectComponent,
+		data: {
+			defaultSort: 'id,asc',
+		},
+		// canActivate: [UserRouteAccessService],
+	},
+	{
+		path: ':id/view',
+		component: ProjectDetailComponent,
+		resolve: {
+			project: ProjectRoutingResolveService,
+		},
+		// canActivate: [UserRouteAccessService],
+	},
+	{
+		path: 'new',
+		component: ProjectUpdateComponent,
+		resolve: {
+			project: ProjectRoutingResolveService,
+		},
+		data: {
+			authorities: ['ROLE_ADMIN'],
+		},
+		canActivate: [UserRouteAccessService],
+	},
+	{
+		path: ':id/edit',
+		component: ProjectUpdateComponent,
+		resolve: {
+			project: ProjectRoutingResolveService,
+		},
+		data: {
+			authorities: ['ROLE_ADMIN'],
+		},
+		canActivate: [UserRouteAccessService],
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(projectRoute)],
-  exports: [RouterModule],
+	imports: [RouterModule.forChild(projectRoute)],
+	exports: [RouterModule],
 })
 export class ProjectRoutingModule {}

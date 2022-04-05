@@ -1,10 +1,11 @@
 package by.ivanov.unit.service.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link by.ivanov.unit.domain.Project} entity.
@@ -68,12 +69,11 @@ public class ProjectDTO implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ProjectDTO)) {
+        if (!(o instanceof ProjectDTO projectDTO)) {
             return false;
         }
 
-        ProjectDTO projectDTO = (ProjectDTO) o;
-        if (this.id == null) {
+		if (this.id == null) {
             return false;
         }
         return Objects.equals(this.id, projectDTO.id);
