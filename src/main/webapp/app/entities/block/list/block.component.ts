@@ -1,17 +1,17 @@
-import { Component, OnInit } from "@angular/core";
-import { HttpHeaders, HttpResponse } from "@angular/common/http";
-import { ActivatedRoute, Router } from "@angular/router";
-import { combineLatest } from "rxjs";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit } from '@angular/core';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { combineLatest } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IBlock } from "../block.model";
+import { IBlock } from '../block.model';
 
-import { ASC, DESC, ITEMS_PER_PAGE, SORT } from "app/config/pagination.constants";
-import { BlockService } from "../service/block.service";
-import { BlockDeleteDialogComponent } from "../delete/block-delete-dialog.component";
-import { IProject } from "../../project/project.model";
-import { ProjectService } from "../../project/service/project.service";
-import { map } from "rxjs/operators";
+import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants';
+import { BlockService } from '../service/block.service';
+import { BlockDeleteDialogComponent } from '../delete/block-delete-dialog.component';
+import { IProject } from '../../project/project.model';
+import { ProjectService } from '../../project/service/project.service';
+import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'jhi-block',
@@ -29,7 +29,7 @@ export class BlockComponent implements OnInit {
 	projectsSharedCollection: IProject[] = [];
 	filterNumber?: number;
 	filterDescription?: string;
-	filterProjectId?: number;
+	filterProjectId?: IProject;
 
 	constructor(
 		protected blockService: BlockService,
@@ -43,22 +43,31 @@ export class BlockComponent implements OnInit {
 		this.isLoading = true;
 		const pageToLoad: number = page ?? this.page ?? 1;
 
-		this.blockService
-			.query({
-				page: pageToLoad - 1,
-				size: this.itemsPerPage,
-				sort: this.sort(),
-			})
-			.subscribe({
-				next: (res: HttpResponse<IBlock[]>) => {
-					this.isLoading = false;
-					this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
-				},
-				error: () => {
-					this.isLoading = false;
-					this.onError();
-				},
-			});
+		const req = {};
+		Object.assign(req, { page: pageToLoad - 1 });
+		Object.assign(req, { size: this.itemsPerPage });
+		Object.assign(req, { sort: this.sort() });
+
+		if (this.filterNumber) {
+			Object.assign(req, { 'number.equals': this.filterNumber });
+		}
+		if (this.filterDescription) {
+			Object.assign(req, { 'description.contains': this.filterDescription });
+		}
+		if (this.filterProjectId) {
+			Object.assign(req, { 'projectId.equals': this.filterProjectId });
+		}
+
+		this.blockService.query(req).subscribe({
+			next: (res: HttpResponse<IBlock[]>) => {
+				this.isLoading = false;
+				this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
+			},
+			error: () => {
+				this.isLoading = false;
+				this.onError();
+			},
+		});
 	}
 
 	ngOnInit(): void {
@@ -85,6 +94,10 @@ export class BlockComponent implements OnInit {
 		});
 	}
 
+	filter(): void {
+		this.loadPage();
+	}
+
 	protected sort(): string[] {
 		const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];
 		if (this.predicate !== 'id') {
@@ -107,14 +120,11 @@ export class BlockComponent implements OnInit {
 			}
 		});
 	}
-	//TODO !!!!!!!!!!!!!!!!!!!!!
+
 	protected loadRelationshipsOptions(): void {
 		this.projectService
 			.query({ sort: ['name,asc'] })
 			.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
-			// .pipe(
-			// 	map((projects: IProject[]) => this.projectService.addProjectToCollectionIfMissing(projects, this.editForm.get('project')!.value))
-			// )
 			.subscribe((projects: IProject[]) => (this.projectsSharedCollection = projects));
 	}
 

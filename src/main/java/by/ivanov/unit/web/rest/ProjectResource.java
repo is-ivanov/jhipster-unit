@@ -5,6 +5,13 @@ import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.ProjectService;
 import by.ivanov.unit.service.dto.ProjectDTO;
 import by.ivanov.unit.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springdoc.api.annotations.ParameterObject;
@@ -20,14 +27,6 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 /**
  * REST controller for managing {@link by.ivanov.unit.domain.Project}.
  */
@@ -39,6 +38,7 @@ public class ProjectResource {
 	private final Logger log = LoggerFactory.getLogger(ProjectResource.class);
 	private final ProjectService projectService;
 	private final ProjectRepository projectRepository;
+
 	@Value("${jhipster.clientApp.name}")
 	private String applicationName;
 
@@ -60,14 +60,14 @@ public class ProjectResource {
 		throws URISyntaxException {
 		log.debug("REST request to save Project : {}", projectDTO);
 		if (projectDTO.getId() != null) {
-			throw new BadRequestAlertException("A new project cannot already have an ID",
-				ENTITY_NAME, "idexists");
+			throw new BadRequestAlertException("A new project cannot already have an ID", ENTITY_NAME, "idexists");
 		}
 		ProjectDTO result = projectService.save(projectDTO);
 		return ResponseEntity
 			.created(new URI("/api/projects/" + result.getId()))
-			.headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME,
-				result.getId().toString()))
+			.headers(
+				HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString())
+			)
 			.body(result);
 	}
 
@@ -102,8 +102,9 @@ public class ProjectResource {
 		ProjectDTO result = projectService.save(projectDTO);
 		return ResponseEntity
 			.ok()
-			.headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,
-				projectDTO.getId().toString()))
+			.headers(
+				HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectDTO.getId().toString())
+			)
 			.body(result);
 	}
 
@@ -118,7 +119,7 @@ public class ProjectResource {
 	 * or with status {@code 500 (Internal Server Error)} if the projectDTO couldn't be updated.
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
-	@PatchMapping(value = "/projects/{id}", consumes = {"application/json", "application/merge-patch+json"})
+	@PatchMapping(value = "/projects/{id}", consumes = { "application/json", "application/merge-patch+json" })
 	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
 	public ResponseEntity<ProjectDTO> partialUpdateProject(
 		@PathVariable(value = "id", required = false) final Long id,
@@ -140,8 +141,7 @@ public class ProjectResource {
 
 		return ResponseUtil.wrapOrNotFound(
 			result,
-			HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,
-				projectDTO.getId().toString())
+			HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectDTO.getId().toString())
 		);
 	}
 
@@ -153,19 +153,22 @@ public class ProjectResource {
 	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of projects in body.
 	 */
 	@GetMapping("/projects")
-	public ResponseEntity<List<ProjectDTO>> getAllProjects(@ParameterObject Pageable pageable,
-	                                                       @RequestParam(required = false,
-		                                                       defaultValue = "true") boolean eagerload) {
+	public ResponseEntity<List<ProjectDTO>> getAllProjects(
+		@ParameterObject Pageable pageable,
+		@RequestParam(required = false, defaultValue = "true") boolean eagerload
+	) {
 		log.debug("REST request to get a page of Projects");
 		Page<ProjectDTO> page;
-		if (eagerload) {
-			page = projectService.findAllWithEagerRelationships(pageable);
-		} else {
-			page = projectService.findAll(pageable);
-		}
-		HttpHeaders headers =
-			PaginationUtil.generatePaginationHttpHeaders(
-				ServletUriComponentsBuilder.fromCurrentRequest(), page);
+		page = projectService.findAll(pageable);
+		//		if (eagerload) {
+		//			page = projectService.findAllWithEagerRelationships(pageable);
+		//		} else {
+		//			page = projectService.findAll(pageable);
+		//		}
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+			ServletUriComponentsBuilder.fromCurrentRequest(),
+			page
+		);
 		return ResponseEntity.ok().headers(headers).body(page.getContent());
 	}
 
@@ -195,8 +198,7 @@ public class ProjectResource {
 		projectService.delete(id);
 		return ResponseEntity
 			.noContent()
-			.headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME,
-				id.toString()))
+			.headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
 			.build();
 	}
 }
