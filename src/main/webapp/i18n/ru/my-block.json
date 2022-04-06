@@ -12,7 +12,7 @@
 			"updated": "Блок обновлён с идентификатором {{ param }}",
 			"deleted": "Блок удалён с идентификатором {{ param }}",
 			"delete": {
-				"question": "Вы уверены что хотите удалить блок {{ id }}?"
+				"question": "Вы уверены что хотите удалить блок <strong>{{ number }}</strong> проекта <strong>{{ project }}</strong> с ID {{ id }}?"
 			},
 			"detail": {
 				"title": "Блок"
@@ -23,8 +23,7 @@
 			"project": "Проект",
 			"filter": {
 				"number.placeholder": "Номер",
-				"description.placeholder": "Описание",
-				"project.placeholder": "Проект"
+				"description.placeholder": "Описание"
 			}
 		}
 	}
