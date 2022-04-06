@@ -6,7 +6,8 @@
 				"refreshListLabel": "Refresh list",
 				"createLabel": "Create a new Block",
 				"createOrEditLabel": "Create or edit a Block",
-				"notFound": "No Blocks found"
+				"notFound": "No Blocks found",
+				"clearFilters": "Clear filters"
 			},
 			"created": "A new Block is created with identifier {{ param }}",
 			"updated": "A Block is updated with identifier {{ param }}",

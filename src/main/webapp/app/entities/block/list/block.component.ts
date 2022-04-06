@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'jhi-block',
-	templateUrl: './block.component.html',
+	templateUrl: './block.component.html'
 })
 export class BlockComponent implements OnInit {
 	blocks?: IBlock[];
@@ -37,7 +37,8 @@ export class BlockComponent implements OnInit {
 		protected router: Router,
 		protected modalService: NgbModal,
 		protected projectService: ProjectService
-	) {}
+	) {
+	}
 
 	loadPage(page?: number, dontNavigate?: boolean): void {
 		this.isLoading = true;
@@ -66,7 +67,7 @@ export class BlockComponent implements OnInit {
 			error: () => {
 				this.isLoading = false;
 				this.onError();
-			},
+			}
 		});
 	}
 
@@ -84,7 +85,10 @@ export class BlockComponent implements OnInit {
 	}
 
 	delete(block: IBlock): void {
-		const modalRef = this.modalService.open(BlockDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+		const modalRef = this.modalService.open(BlockDeleteDialogComponent, {
+			size: 'lg',
+			backdrop: 'static'
+		});
 		modalRef.componentInstance.block = block;
 		// unsubscribe not needed because closed completes on modal close
 		modalRef.closed.subscribe((reason) => {
@@ -96,6 +100,13 @@ export class BlockComponent implements OnInit {
 
 	filter(): void {
 		this.loadPage();
+	}
+
+	clearFilter(): void {
+		this.filterNumber = undefined;
+		this.filterDescription = undefined;
+		this.filterProjectId = undefined;
+		// this.loadPage();
 	}
 
 	protected sort(): string[] {
@@ -136,8 +147,8 @@ export class BlockComponent implements OnInit {
 				queryParams: {
 					page: this.page,
 					size: this.itemsPerPage,
-					sort: this.predicate + ',' + (this.ascending ? ASC : DESC),
-				},
+					sort: this.predicate + ',' + (this.ascending ? ASC : DESC)
+				}
 			});
 		}
 		this.blocks = data ?? [];
@@ -147,4 +158,5 @@ export class BlockComponent implements OnInit {
 	protected onError(): void {
 		this.ngbPaginationPage = this.page ?? 1;
 	}
+
 }

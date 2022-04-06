@@ -91,7 +91,10 @@
 					</select>
 				</td>
 				<td>
-					<button class="btn btn-secondary" id="clear-filter">Очистить фильтр</button>
+					<button class="btn btn-secondary" id="clear-filter" (click)='clearFilter()'>
+						<fa-icon icon="times"></fa-icon>
+						<span jhiTranslate="unitApp.block.home.clearFilters"> Clear filters </span>
+					</button>
 				</td>
 			</tr>
 		</thead>
