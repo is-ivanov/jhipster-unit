@@ -72,7 +72,8 @@ export class BlockComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.handleNavigation();
-		this.loadRelationshipsOptions();
+		// this.loadRelationshipsOptions();
+		this.projectService.loadProjectsIntoArray();
 	}
 
 	trackId(index: number, item: IBlock): number {

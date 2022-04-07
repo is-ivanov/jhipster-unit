@@ -29,7 +29,6 @@
 		<span jhiTranslate="unitApp.block.home.notFound">No blocks found</span>
 	</div>
 
-	<!--	<div class="table-responsive" id="entities" *ngIf="blocks && blocks.length > 0">-->
 	<table class="table table-striped" aria-describedby="page-heading">
 		<thead>
 			<tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
@@ -59,7 +58,7 @@
 						type="number"
 						class="form-control"
 						name="number"
-						id="field_number"
+						id="field-number"
 						placeholder="{{ 'unitApp.block.filter.number.placeholder' | translate }}"
 						[(ngModel)]="filterNumber"
 						(change)="loadPage(1)"
@@ -70,7 +69,7 @@
 						type="search"
 						class="form-control"
 						name="description"
-						id="field_description"
+						id="field-description"
 						placeholder="{{ 'unitApp.block.filter.description.placeholder' | translate }}"
 						[(ngModel)]="filterDescription"
 						(change)="loadPage(1)"
@@ -79,13 +78,13 @@
 				<td>
 					<select
 						class="form-select"
-						id="field_project"
+						id="field-project"
 						name="project"
 						[(ngModel)]="filterProjectId"
 						(ngModelChange)="loadPage(1)"
 					>
 						<option value=""></option>
-						<option [value]="project.id" *ngFor="let project of projectsSharedCollection; trackBy: trackProjectById">
+						<option *ngFor="let project of projectsSharedCollection; trackBy: trackProjectById" [value]="project.id">
 							{{ project.name }}
 						</option>
 					</select>
@@ -148,9 +147,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<!--	</div>-->
 
-	<!--	<div *ngIf="(filterNumber || filterDescription || filterProjectId) || (blocks && blocks.length > 0)">-->
 	<div *ngIf="blocks && blocks.length > 0">
 		<div class="d-flex justify-content-center">
 			<jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>

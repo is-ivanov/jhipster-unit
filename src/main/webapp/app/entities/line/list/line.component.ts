@@ -9,109 +9,123 @@ import { ILine } from '../line.model';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants';
 import { LineService } from '../service/line.service';
 import { LineDeleteDialogComponent } from '../delete/line-delete-dialog.component';
+import { IProject } from '../../project/project.model';
+import { ProjectService } from '../../project/service/project.service';
+import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'jhi-line',
-  templateUrl: './line.component.html',
+	selector: 'jhi-line',
+	templateUrl: './line.component.html',
 })
 export class LineComponent implements OnInit {
-  lines?: ILine[];
-  isLoading = false;
-  totalItems = 0;
-  itemsPerPage = ITEMS_PER_PAGE;
-  page?: number;
-  predicate!: string;
-  ascending!: boolean;
-  ngbPaginationPage = 1;
+	lines?: ILine[];
+	isLoading = false;
+	totalItems = 0;
+	itemsPerPage = ITEMS_PER_PAGE;
+	page?: number;
+	predicate!: string;
+	ascending!: boolean;
+	ngbPaginationPage = 1;
+	projectsSharedCollection: IProject[] = [];
+	filterProjectId?: IProject;
 
-  constructor(
-    protected lineService: LineService,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router,
-    protected modalService: NgbModal
-  ) {}
+	constructor(
+		protected lineService: LineService,
+		protected activatedRoute: ActivatedRoute,
+		protected router: Router,
+		protected modalService: NgbModal,
+		protected projectService: ProjectService
+	) {}
 
-  loadPage(page?: number, dontNavigate?: boolean): void {
-    this.isLoading = true;
-    const pageToLoad: number = page ?? this.page ?? 1;
+	loadPage(page?: number, dontNavigate?: boolean): void {
+		this.isLoading = true;
+		const pageToLoad: number = page ?? this.page ?? 1;
 
-    this.lineService
-      .query({
-        page: pageToLoad - 1,
-        size: this.itemsPerPage,
-        sort: this.sort(),
-      })
-      .subscribe({
-        next: (res: HttpResponse<ILine[]>) => {
-          this.isLoading = false;
-          this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
-        },
-        error: () => {
-          this.isLoading = false;
-          this.onError();
-        },
-      });
-  }
+		this.lineService
+			.query({
+				page: pageToLoad - 1,
+				size: this.itemsPerPage,
+				sort: this.sort(),
+			})
+			.subscribe({
+				next: (res: HttpResponse<ILine[]>) => {
+					this.isLoading = false;
+					this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
+				},
+				error: () => {
+					this.isLoading = false;
+					this.onError();
+				},
+			});
+	}
 
-  ngOnInit(): void {
-    this.handleNavigation();
-  }
+	ngOnInit(): void {
+		this.handleNavigation();
+		this.projectService.loadProjectsIntoArray();
+	}
 
-  trackId(index: number, item: ILine): number {
-    return item.id!;
-  }
+	trackId(index: number, item: ILine): number {
+		return item.id!;
+	}
 
-  delete(line: ILine): void {
-    const modalRef = this.modalService.open(LineDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
-    modalRef.componentInstance.line = line;
-    // unsubscribe not needed because closed completes on modal close
-    modalRef.closed.subscribe(reason => {
-      if (reason === 'deleted') {
-        this.loadPage();
-      }
-    });
-  }
+	trackProjectById(index: number, item: IProject): number {
+		return item.id!;
+	}
 
-  protected sort(): string[] {
-    const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];
-    if (this.predicate !== 'id') {
-      result.push('id');
-    }
-    return result;
-  }
+	delete(line: ILine): void {
+		const modalRef = this.modalService.open(LineDeleteDialogComponent, {
+			size: 'lg',
+			backdrop: 'static',
+		});
+		modalRef.componentInstance.line = line;
+		// unsubscribe not needed because closed completes on modal close
+		modalRef.closed.subscribe((reason) => {
+			if (reason === 'deleted') {
+				this.loadPage();
+			}
+		});
+	}
 
-  protected handleNavigation(): void {
-    combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([data, params]) => {
-      const page = params.get('page');
-      const pageNumber = +(page ?? 1);
-      const sort = (params.get(SORT) ?? data['defaultSort']).split(',');
-      const predicate = sort[0];
-      const ascending = sort[1] === ASC;
-      if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
-        this.predicate = predicate;
-        this.ascending = ascending;
-        this.loadPage(pageNumber, true);
-      }
-    });
-  }
+	protected sort(): string[] {
+		const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];
+		if (this.predicate !== 'id') {
+			result.push('id');
+		}
+		return result;
+	}
 
-  protected onSuccess(data: ILine[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
-    this.totalItems = Number(headers.get('X-Total-Count'));
-    this.page = page;
-    if (navigate) {
-      this.router.navigate(['/line'], {
-        queryParams: {
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.predicate + ',' + (this.ascending ? ASC : DESC),
-        },
-      });
-    }
-    this.lines = data ?? [];
-    this.ngbPaginationPage = this.page;
-  }
+	protected handleNavigation(): void {
+		combineLatest([this.activatedRoute.data, this.activatedRoute.queryParamMap]).subscribe(([data, params]) => {
+			const page = params.get('page');
+			const pageNumber = +(page ?? 1);
+			const sort = (params.get(SORT) ?? data['defaultSort']).split(',');
+			const predicate = sort[0];
+			const ascending = sort[1] === ASC;
+			if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
+				this.predicate = predicate;
+				this.ascending = ascending;
+				this.loadPage(pageNumber, true);
+			}
+		});
+	}
 
-  protected onError(): void {
-    this.ngbPaginationPage = this.page ?? 1;
-  }
+	protected onSuccess(data: ILine[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
+		this.totalItems = Number(headers.get('X-Total-Count'));
+		this.page = page;
+		if (navigate) {
+			this.router.navigate(['/line'], {
+				queryParams: {
+					page: this.page,
+					size: this.itemsPerPage,
+					sort: this.predicate + ',' + (this.ascending ? ASC : DESC),
+				},
+			});
+		}
+		this.lines = data ?? [];
+		this.ngbPaginationPage = this.page;
+	}
+
+	protected onError(): void {
+		this.ngbPaginationPage = this.page ?? 1;
+	}
 }
