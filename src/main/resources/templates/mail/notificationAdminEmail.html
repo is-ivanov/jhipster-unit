@@ -7,7 +7,7 @@
 	</head>
 	<body>
 		<p th:text="#{email.greeting(${admin.login})}">Dear Admin</p>
-		<p th:text="#{email.notification.admin.text1(${user.login})}">
+		<p th:text="#{email.notification.admin.text1(${user.login}, ${user.firstName}, ${user.lastName})}">
 			User lkjasd have activated the account. You need to set permissions for it.
 		</p>
 		<p>
