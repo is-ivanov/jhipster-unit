@@ -15,7 +15,7 @@ import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'jhi-block',
-	templateUrl: './block.component.html'
+	templateUrl: './block.component.html',
 })
 export class BlockComponent implements OnInit {
 	blocks?: IBlock[];
@@ -37,8 +37,7 @@ export class BlockComponent implements OnInit {
 		protected router: Router,
 		protected modalService: NgbModal,
 		protected projectService: ProjectService
-	) {
-	}
+	) {}
 
 	loadPage(page?: number, dontNavigate?: boolean): void {
 		this.isLoading = true;
@@ -67,7 +66,7 @@ export class BlockComponent implements OnInit {
 			error: () => {
 				this.isLoading = false;
 				this.onError();
-			}
+			},
 		});
 	}
 
@@ -87,7 +86,7 @@ export class BlockComponent implements OnInit {
 	delete(block: IBlock): void {
 		const modalRef = this.modalService.open(BlockDeleteDialogComponent, {
 			size: 'lg',
-			backdrop: 'static'
+			backdrop: 'static',
 		});
 		modalRef.componentInstance.block = block;
 		// unsubscribe not needed because closed completes on modal close
@@ -98,15 +97,11 @@ export class BlockComponent implements OnInit {
 		});
 	}
 
-	filter(): void {
-		this.loadPage();
-	}
-
 	clearFilter(): void {
 		this.filterNumber = undefined;
 		this.filterDescription = undefined;
 		this.filterProjectId = undefined;
-		// this.loadPage();
+		this.loadPage();
 	}
 
 	protected sort(): string[] {
@@ -134,7 +129,10 @@ export class BlockComponent implements OnInit {
 
 	protected loadRelationshipsOptions(): void {
 		this.projectService
-			.query({ sort: ['name,asc'] })
+			.query({
+				eagerload: false,
+				sort: ['name,asc'],
+			})
 			.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
 			.subscribe((projects: IProject[]) => (this.projectsSharedCollection = projects));
 	}
@@ -144,11 +142,7 @@ export class BlockComponent implements OnInit {
 		this.page = page;
 		if (navigate) {
 			this.router.navigate(['/block'], {
-				queryParams: {
-					page: this.page,
-					size: this.itemsPerPage,
-					sort: this.predicate + ',' + (this.ascending ? ASC : DESC)
-				}
+				queryParams: this.prepareQueryParam(),
 			});
 		}
 		this.blocks = data ?? [];
@@ -159,4 +153,20 @@ export class BlockComponent implements OnInit {
 		this.ngbPaginationPage = this.page ?? 1;
 	}
 
+	protected prepareQueryParam(): any {
+		const param = {};
+		Object.assign(param, { page: this.page });
+		Object.assign(param, { size: this.itemsPerPage });
+		Object.assign(param, { sort: this.predicate + ',' + (this.ascending ? ASC : DESC) });
+		if (this.filterNumber) {
+			Object.assign(param, { 'number.equals': this.filterNumber });
+		}
+		if (this.filterDescription) {
+			Object.assign(param, { 'description.contains': this.filterDescription });
+		}
+		if (this.filterProjectId) {
+			Object.assign(param, { 'projectId.equals': this.filterProjectId });
+		}
+		return param;
+	}
 }

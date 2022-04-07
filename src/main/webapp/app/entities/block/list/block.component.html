@@ -62,7 +62,7 @@
 						id="field_number"
 						placeholder="{{ 'unitApp.block.filter.number.placeholder' | translate }}"
 						[(ngModel)]="filterNumber"
-						(change)="filter()"
+						(change)="loadPage(1)"
 					/>
 				</td>
 				<td>
@@ -73,7 +73,7 @@
 						id="field_description"
 						placeholder="{{ 'unitApp.block.filter.description.placeholder' | translate }}"
 						[(ngModel)]="filterDescription"
-						(change)="filter()"
+						(change)="loadPage(1)"
 					/>
 				</td>
 				<td>
@@ -82,7 +82,7 @@
 						id="field_project"
 						name="project"
 						[(ngModel)]="filterProjectId"
-						(ngModelChange)="filter()"
+						(ngModelChange)="loadPage(1)"
 					>
 						<option value=""></option>
 						<option [value]="project.id" *ngFor="let project of projectsSharedCollection; trackBy: trackProjectById">
@@ -91,8 +91,8 @@
 					</select>
 				</td>
 				<td>
-					<button class="btn btn-secondary" id="clear-filter" (click)='clearFilter()'>
-						<fa-icon icon="times"></fa-icon>
+					<button class="btn btn-secondary" id="clear-filter" (click)="clearFilter()">
+						<fa-icon icon="filter-circle-xmark"></fa-icon>
 						<span jhiTranslate="unitApp.block.home.clearFilters"> Clear filters </span>
 					</button>
 				</td>
@@ -150,6 +150,7 @@
 	</table>
 	<!--	</div>-->
 
+	<!--	<div *ngIf="(filterNumber || filterDescription || filterProjectId) || (blocks && blocks.length > 0)">-->
 	<div *ngIf="blocks && blocks.length > 0">
 		<div class="d-flex justify-content-center">
 			<jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
