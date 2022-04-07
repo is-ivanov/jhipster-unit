@@ -39,4 +39,7 @@ public interface LineRepository extends JpaRepository<Line, Long>, JpaSpecificat
 
 	@Query("select line from Line line left join fetch line.block where line.id =:id")
 	Optional<Line> findOneWithToOneRelationships(@Param("id") Long id);
+
+	@Query("SELECT l FROM Line l WHERE l.status <> 'DELETED'")
+	List<Line> findAllNonDeleted();
 }
