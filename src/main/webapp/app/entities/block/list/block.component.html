@@ -76,18 +76,19 @@
 					/>
 				</td>
 				<td>
-					<select
-						class="form-select"
-						id="field-project"
-						name="project"
-						[(ngModel)]="filterProjectId"
-						(ngModelChange)="loadPage(1)"
-					>
-						<option value=""></option>
-						<option *ngFor="let project of projectsSharedCollection; trackBy: trackProjectById" [value]="project.id">
-							{{ project.name }}
-						</option>
-					</select>
+<!--					<select-->
+<!--						class="form-select"-->
+<!--						id="field-project"-->
+<!--						name="project"-->
+<!--						[(ngModel)]="filterProjectId"-->
+<!--						(ngModelChange)="loadPage(1)"-->
+<!--					>-->
+<!--						<option value=""></option>-->
+<!--						<option *ngFor="let project of projectsSharedCollection; trackBy: trackProjectById" [value]="project.id">-->
+<!--							{{ project.name }}-->
+<!--						</option>-->
+<!--					</select>-->
+					<jhi-projects></jhi-projects>
 				</td>
 				<td>
 					<button class="btn btn-secondary" id="clear-filter" (click)="clearFilter()">

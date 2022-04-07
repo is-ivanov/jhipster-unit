@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { IProject, getProjectIdentifier } from '../project.model';
-import { map } from 'rxjs/operators';
+import { getProjectIdentifier, IProject } from '../project.model';
 
 export type EntityResponseType = HttpResponse<IProject>;
 export type EntityArrayResponseType = HttpResponse<IProject[]>;
@@ -65,16 +64,16 @@ export class ProjectService {
 		}
 		return projectCollection;
 	}
-	//TODO
-	loadProjectsIntoArray(): void {
-		let result: IProject[] = [];
-		this.query({
-			eagerload: false,
-			sort: ['name,asc'],
-		})
-			.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
-			.subscribe((projects: IProject[]) => (result = projects));
-		// eslint-disable-next-line no-console
-		console.log(result);
-	}
+	// //TODO
+	// loadProjectsIntoArray(): void {
+	// 	let result: IProject[] = [];
+	// 	this.query({
+	// 		eagerload: false,
+	// 		sort: ['name,asc'],
+	// 	})
+	// 		.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
+	// 		.subscribe((projects: IProject[]) => (result = projects));
+	// 	// eslint-disable-next-line no-console
+	// 	console.log(result);
+	// }
 }

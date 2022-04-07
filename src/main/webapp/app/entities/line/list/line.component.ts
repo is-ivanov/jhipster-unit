@@ -11,7 +11,6 @@ import { LineService } from '../service/line.service';
 import { LineDeleteDialogComponent } from '../delete/line-delete-dialog.component';
 import { IProject } from '../../project/project.model';
 import { ProjectService } from '../../project/service/project.service';
-import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'jhi-line',
@@ -61,7 +60,7 @@ export class LineComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.handleNavigation();
-		this.projectService.loadProjectsIntoArray();
+		// this.projectService.loadProjectsIntoArray();
 	}
 
 	trackId(index: number, item: ILine): number {

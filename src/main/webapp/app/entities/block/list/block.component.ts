@@ -11,7 +11,6 @@ import { BlockService } from '../service/block.service';
 import { BlockDeleteDialogComponent } from '../delete/block-delete-dialog.component';
 import { IProject } from '../../project/project.model';
 import { ProjectService } from '../../project/service/project.service';
-import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'jhi-block',
@@ -26,7 +25,7 @@ export class BlockComponent implements OnInit {
 	predicate!: string;
 	ascending!: boolean;
 	ngbPaginationPage = 1;
-	projectsSharedCollection: IProject[] = [];
+	// projectsSharedCollection: IProject[] = [];
 	filterNumber?: number;
 	filterDescription?: string;
 	filterProjectId?: IProject;
@@ -73,7 +72,7 @@ export class BlockComponent implements OnInit {
 	ngOnInit(): void {
 		this.handleNavigation();
 		// this.loadRelationshipsOptions();
-		this.projectService.loadProjectsIntoArray();
+		// this.projectService.loadProjectsIntoArray();
 	}
 
 	trackId(index: number, item: IBlock): number {
@@ -128,15 +127,15 @@ export class BlockComponent implements OnInit {
 		});
 	}
 
-	protected loadRelationshipsOptions(): void {
-		this.projectService
-			.query({
-				eagerload: false,
-				sort: ['name,asc'],
-			})
-			.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
-			.subscribe((projects: IProject[]) => (this.projectsSharedCollection = projects));
-	}
+	// protected loadRelationshipsOptions(): void {
+	// 	this.projectService
+	// 		.query({
+	// 			eagerload: false,
+	// 			sort: ['name,asc'],
+	// 		})
+	// 		.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
+	// 		.subscribe((projects: IProject[]) => (this.projectsSharedCollection = projects));
+	// }
 
 	protected onSuccess(data: IBlock[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
 		this.totalItems = Number(headers.get('X-Total-Count'));
