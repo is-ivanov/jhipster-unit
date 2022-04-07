@@ -1,26 +1,31 @@
 {
-  "unitApp": {
-    "block": {
-      "home": {
-        "title": "Blocks",
-        "refreshListLabel": "Refresh list",
-        "createLabel": "Create a new Block",
-        "createOrEditLabel": "Create or edit a Block",
-        "notFound": "No Blocks found"
-      },
-      "created": "A new Block is created with identifier {{ param }}",
-      "updated": "A Block is updated with identifier {{ param }}",
-      "deleted": "A Block is deleted with identifier {{ param }}",
-      "delete": {
-        "question": "Are you sure you want to delete Block {{ id }}?"
-      },
-      "detail": {
-        "title": "Block"
-      },
-      "id": "ID",
-      "number": "Number",
-      "description": "Description",
-      "project": "Project"
-    }
-  }
+	"unitApp": {
+		"block": {
+			"home": {
+				"title": "Blocks",
+				"refreshListLabel": "Refresh list",
+				"createLabel": "Create a new Block",
+				"createOrEditLabel": "Create or edit a Block",
+				"notFound": "No Blocks found",
+				"clearFilters": "Clear filters"
+			},
+			"created": "A new Block is created with identifier {{ param }}",
+			"updated": "A Block is updated with identifier {{ param }}",
+			"deleted": "A Block is deleted with identifier {{ param }}",
+			"delete": {
+				"question": "Are you sure you want to delete Block {{ id }}?"
+			},
+			"detail": {
+				"title": "Block"
+			},
+			"id": "ID",
+			"number": "Number",
+			"description": "Description",
+			"project": "Project",
+			"filter": {
+				"number.placeholder": "Number",
+				"description.placeholder": "Description"
+			}
+		}
+	}
 }

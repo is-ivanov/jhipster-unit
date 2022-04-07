@@ -1,42 +1,47 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
-    <div *ngIf="block">
-      <h2 data-cy="blockDetailsHeading"><span jhiTranslate="unitApp.block.detail.title">Block</span></h2>
+	<div class="col-8">
+		<div *ngIf="block">
+			<h2 data-cy="blockDetailsHeading"><span jhiTranslate="unitApp.block.detail.title">Block</span></h2>
 
-      <hr />
+			<hr />
 
-      <jhi-alert-error></jhi-alert-error>
+			<jhi-alert-error></jhi-alert-error>
 
-      <jhi-alert></jhi-alert>
+			<jhi-alert></jhi-alert>
 
-      <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="global.field.id">ID</span></dt>
-        <dd>
-          <span>{{ block.id }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.block.number">Number</span></dt>
-        <dd>
-          <span>{{ block.number }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.block.description">Description</span></dt>
-        <dd>
-          <span>{{ block.description }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.block.project">Project</span></dt>
-        <dd>
-          <div *ngIf="block.project">
-            <a [routerLink]="['/project', block.project?.id, 'view']">{{ block.project?.name }}</a>
-          </div>
-        </dd>
-      </dl>
+			<dl class="row-md jh-entity-details">
+				<dt><span jhiTranslate="global.field.id">ID</span></dt>
+				<dd>
+					<span>{{ block.id }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.block.number">Number</span></dt>
+				<dd>
+					<span>{{ block.number }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.block.description">Description</span></dt>
+				<dd>
+					<span>{{ block.description }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.block.project">Project</span></dt>
+				<dd>
+					<div *ngIf="block.project">
+						<a [routerLink]="['/project', block.project?.id, 'view']">{{ block.project?.name }}</a>
+					</div>
+				</dd>
+			</dl>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
-      </button>
+			<button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+				<fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+			</button>
 
-      <button type="button" [routerLink]="['/block', block.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
-      </button>
-    </div>
-  </div>
+			<button
+				*jhiHasAnyAuthority="'ROLE_ADMIN'"
+				type="button"
+				[routerLink]="['/block', block.id, 'edit']"
+				class="btn btn-primary"
+			>
+				<fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+			</button>
+		</div>
+	</div>
 </div>

@@ -21,9 +21,11 @@ public class AdminUserDTO {
 	@Size(min = 1, max = 50)
 	private String login;
 
+	@NotBlank
 	@Size(max = 50)
 	private String firstName;
 
+	@NotBlank
 	@Size(max = 50)
 	private String lastName;
 

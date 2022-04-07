@@ -11,101 +11,106 @@ import { IProject } from 'app/entities/project/project.model';
 import { ProjectService } from 'app/entities/project/service/project.service';
 
 @Component({
-  selector: 'jhi-block-update',
-  templateUrl: './block-update.component.html',
+	selector: 'jhi-block-update',
+	templateUrl: './block-update.component.html',
 })
 export class BlockUpdateComponent implements OnInit {
-  isSaving = false;
+	isSaving = false;
 
-  projectsSharedCollection: IProject[] = [];
+	projectsSharedCollection: IProject[] = [];
 
-  editForm = this.fb.group({
-    id: [],
-    number: [null, [Validators.required]],
-    description: [null, [Validators.required]],
-    project: [null, Validators.required],
-  });
+	editForm = this.fb.group({
+		id: [],
+		number: [null, [Validators.required]],
+		description: [null, [Validators.required]],
+		project: [null, Validators.required],
+	});
 
-  constructor(
-    protected blockService: BlockService,
-    protected projectService: ProjectService,
-    protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder
-  ) {}
+	constructor(
+		protected blockService: BlockService,
+		protected projectService: ProjectService,
+		protected activatedRoute: ActivatedRoute,
+		protected fb: FormBuilder
+	) {}
 
-  ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ block }) => {
-      this.updateForm(block);
+	ngOnInit(): void {
+		this.activatedRoute.data.subscribe(({ block }) => {
+			this.updateForm(block);
 
-      this.loadRelationshipsOptions();
-    });
-  }
+			this.loadRelationshipsOptions();
+		});
+	}
 
-  previousState(): void {
-    window.history.back();
-  }
+	previousState(): void {
+		window.history.back();
+	}
 
-  save(): void {
-    this.isSaving = true;
-    const block = this.createFromForm();
-    if (block.id !== undefined) {
-      this.subscribeToSaveResponse(this.blockService.update(block));
-    } else {
-      this.subscribeToSaveResponse(this.blockService.create(block));
-    }
-  }
+	save(): void {
+		this.isSaving = true;
+		const block = this.createFromForm();
+		if (block.id !== undefined) {
+			this.subscribeToSaveResponse(this.blockService.update(block));
+		} else {
+			this.subscribeToSaveResponse(this.blockService.create(block));
+		}
+	}
 
-  trackProjectById(index: number, item: IProject): number {
-    return item.id!;
-  }
+	trackProjectById(index: number, item: IProject): number {
+		return item.id!;
+	}
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IBlock>>): void {
-    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
-      next: () => this.onSaveSuccess(),
-      error: () => this.onSaveError(),
-    });
-  }
+	protected subscribeToSaveResponse(result: Observable<HttpResponse<IBlock>>): void {
+		result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+			next: () => this.onSaveSuccess(),
+			error: () => this.onSaveError(),
+		});
+	}
 
-  protected onSaveSuccess(): void {
-    this.previousState();
-  }
+	protected onSaveSuccess(): void {
+		this.previousState();
+	}
 
-  protected onSaveError(): void {
-    // Api for inheritance.
-  }
+	protected onSaveError(): void {
+		// Api for inheritance.
+	}
 
-  protected onSaveFinalize(): void {
-    this.isSaving = false;
-  }
+	protected onSaveFinalize(): void {
+		this.isSaving = false;
+	}
 
-  protected updateForm(block: IBlock): void {
-    this.editForm.patchValue({
-      id: block.id,
-      number: block.number,
-      description: block.description,
-      project: block.project,
-    });
+	protected updateForm(block: IBlock): void {
+		this.editForm.patchValue({
+			id: block.id,
+			number: block.number,
+			description: block.description,
+			project: block.project,
+		});
 
-    this.projectsSharedCollection = this.projectService.addProjectToCollectionIfMissing(this.projectsSharedCollection, block.project);
-  }
+		this.projectsSharedCollection = this.projectService.addProjectToCollectionIfMissing(
+			this.projectsSharedCollection,
+			block.project
+		);
+	}
 
-  protected loadRelationshipsOptions(): void {
-    this.projectService
-      .query()
-      .pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
-      .pipe(
-        map((projects: IProject[]) => this.projectService.addProjectToCollectionIfMissing(projects, this.editForm.get('project')!.value))
-      )
-      .subscribe((projects: IProject[]) => (this.projectsSharedCollection = projects));
-  }
+	protected loadRelationshipsOptions(): void {
+		this.projectService
+			.query({ sort: ['name,asc'] })
+			.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
+			.pipe(
+				map((projects: IProject[]) =>
+					this.projectService.addProjectToCollectionIfMissing(projects, this.editForm.get('project')!.value)
+				)
+			)
+			.subscribe((projects: IProject[]) => (this.projectsSharedCollection = projects));
+	}
 
-  protected createFromForm(): IBlock {
-    return {
-      ...new Block(),
-      id: this.editForm.get(['id'])!.value,
-      number: this.editForm.get(['number'])!.value,
-      description: this.editForm.get(['description'])!.value,
-      project: this.editForm.get(['project'])!.value,
-    };
-  }
+	protected createFromForm(): IBlock {
+		return {
+			...new Block(),
+			id: this.editForm.get(['id'])!.value,
+			number: this.editForm.get(['number'])!.value,
+			description: this.editForm.get(['description'])!.value,
+			project: this.editForm.get(['project'])!.value,
+		};
+	}
 }

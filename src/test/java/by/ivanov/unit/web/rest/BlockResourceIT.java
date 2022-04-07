@@ -1,21 +1,12 @@
 package by.ivanov.unit.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import by.ivanov.unit.IntegrationTest;
 import by.ivanov.unit.domain.Block;
 import by.ivanov.unit.domain.Project;
 import by.ivanov.unit.repository.BlockRepository;
-import by.ivanov.unit.service.criteria.BlockCriteria;
+import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.dto.BlockDTO;
 import by.ivanov.unit.service.mapper.BlockMapper;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +15,16 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link BlockResource} REST controller.
@@ -109,6 +110,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void createBlock() throws Exception {
         int databaseSizeBeforeCreate = blockRepository.findAll().size();
         // Create the Block
@@ -127,6 +129,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void createBlockWithExistingId() throws Exception {
         // Create the Block with an existing ID
         block.setId(1L);
@@ -146,6 +149,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void checkNumberIsRequired() throws Exception {
         int databaseSizeBeforeTest = blockRepository.findAll().size();
         // set the field null
@@ -486,6 +490,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void putNewBlock() throws Exception {
         // Initialize the database
         blockRepository.saveAndFlush(block);
@@ -517,6 +522,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void putNonExistingBlock() throws Exception {
         int databaseSizeBeforeUpdate = blockRepository.findAll().size();
         block.setId(count.incrementAndGet());
@@ -540,6 +546,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void putWithIdMismatchBlock() throws Exception {
         int databaseSizeBeforeUpdate = blockRepository.findAll().size();
         block.setId(count.incrementAndGet());
@@ -582,6 +589,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void partialUpdateBlockWithPatch() throws Exception {
         // Initialize the database
         blockRepository.saveAndFlush(block);
@@ -612,6 +620,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void fullUpdateBlockWithPatch() throws Exception {
         // Initialize the database
         blockRepository.saveAndFlush(block);
@@ -642,6 +651,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void patchNonExistingBlock() throws Exception {
         int databaseSizeBeforeUpdate = blockRepository.findAll().size();
         block.setId(count.incrementAndGet());
@@ -665,6 +675,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void patchWithIdMismatchBlock() throws Exception {
         int databaseSizeBeforeUpdate = blockRepository.findAll().size();
         block.setId(count.incrementAndGet());
@@ -707,6 +718,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
+    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
     void deleteBlock() throws Exception {
         // Initialize the database
         blockRepository.saveAndFlush(block);
