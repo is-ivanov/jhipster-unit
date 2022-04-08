@@ -13,37 +13,46 @@ import { SortByDirective } from './sort/sort-by.directive';
 import { SortDirective } from './sort/sort.directive';
 import { ItemCountComponent } from './pagination/item-count.component';
 import { ProjectsComponent } from './selectors/projects/projects.component';
+import { StatusesLinesComponent } from './selectors/statuses-lines/statuses-lines.component';
+import { BlocksComponent } from './selectors/blocks/blocks.component';
+import { ClearFilterComponent } from './buttons/clear-filter/clear-filter.component';
 
 @NgModule({
-  imports: [SharedLibsModule],
-  declarations: [
-    FindLanguageFromKeyPipe,
-    TranslateDirective,
-    AlertComponent,
-    AlertErrorComponent,
-    HasAnyAuthorityDirective,
-    DurationPipe,
-    FormatMediumDatetimePipe,
-    FormatMediumDatePipe,
-    SortByDirective,
-    SortDirective,
-    ItemCountComponent,
-	  ProjectsComponent,
-  ],
-  exports: [
-    SharedLibsModule,
-    FindLanguageFromKeyPipe,
-    TranslateDirective,
-    AlertComponent,
-    AlertErrorComponent,
-    HasAnyAuthorityDirective,
-    DurationPipe,
-    FormatMediumDatetimePipe,
-    FormatMediumDatePipe,
-    SortByDirective,
-    SortDirective,
-    ItemCountComponent,
-	  ProjectsComponent,
-  ],
+	imports: [SharedLibsModule],
+	declarations: [
+		FindLanguageFromKeyPipe,
+		TranslateDirective,
+		AlertComponent,
+		AlertErrorComponent,
+		HasAnyAuthorityDirective,
+		DurationPipe,
+		FormatMediumDatetimePipe,
+		FormatMediumDatePipe,
+		SortByDirective,
+		SortDirective,
+		ItemCountComponent,
+		ProjectsComponent,
+		StatusesLinesComponent,
+		BlocksComponent,
+		ClearFilterComponent,
+	],
+	exports: [
+		SharedLibsModule,
+		FindLanguageFromKeyPipe,
+		TranslateDirective,
+		AlertComponent,
+		AlertErrorComponent,
+		HasAnyAuthorityDirective,
+		DurationPipe,
+		FormatMediumDatetimePipe,
+		FormatMediumDatePipe,
+		SortByDirective,
+		SortDirective,
+		ItemCountComponent,
+		ProjectsComponent,
+		StatusesLinesComponent,
+		BlocksComponent,
+		ClearFilterComponent,
+	],
 })
 export class SharedModule {}

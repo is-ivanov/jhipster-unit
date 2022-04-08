@@ -2,12 +2,10 @@
 	class="form-select"
 	id="filter-project"
 	name="filter-project"
-	[(ngModel)]="selectedProject"
-	(ngModelChange)="loadPage(1)"
+	[(ngModel)]="selectedProjectId"
+	(ngModelChange)="updateFilter()"
 >
-	<option [ngValue]="undefined" disabled selected jhiTranslate="unitApp.project.home.selector">
-		Select Project
-	</option>
+	<option [ngValue]="undefined" selected jhiTranslate="unitApp.project.home.selector">Select Project</option>
 	<option *ngFor="let project of projects; trackBy: trackProjectById" [value]="project.id">
 		{{ project.name }}
 	</option>

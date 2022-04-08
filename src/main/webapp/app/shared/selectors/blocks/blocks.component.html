@@ -1,0 +1,12 @@
+<select
+	class="form-select"
+	id="filter-block"
+	name="filter-block"
+	[(ngModel)]="selectedBlockId"
+	(ngModelChange)="updateFilter()"
+>
+	<option [ngValue]="undefined" selected jhiTranslate="unitApp.block.home.selector">Select Block</option>
+	<option *ngFor="let block of blocks; trackBy: trackBlockById" [value]="block.id">
+		{{ block.number }}
+	</option>
+</select>
