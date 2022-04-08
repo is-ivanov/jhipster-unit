@@ -12,6 +12,7 @@ import { LineDeleteDialogComponent } from '../delete/line-delete-dialog.componen
 import { IProject } from '../../project/project.model';
 import { ProjectService } from '../../project/service/project.service';
 import { IBlock } from '../../block/block.model';
+import { Item } from '../../../shared/multi-dropdown/multi-dropdown.model';
 
 @Component({
 	selector: 'jhi-line',
@@ -32,6 +33,13 @@ export class LineComponent implements OnInit {
 	filterStatusLine?: string;
 	filterBlockId?: number;
 	revisions?: string[] = ['1', '2a', '5FY'];
+
+	items: Item[] = [];
+	showSearch = true;
+	showError = false;
+	showAll = true;
+	showStatus = true;
+
 	// TODO https://codeomelet.com/posts/creating-multi-select-dropdown-with-angular-and-bootstrap-5
 
 	constructor(

@@ -90,22 +90,31 @@
 					<!--						[(ngModel)]="filterRevision"-->
 					<!--						(change)="loadPage(1)"-->
 					<!--					/>-->
-					<select
-						class="form-select"
-						multiple
-						size="1"
-						id="filter-revision"
-						name="filter-revision"
-						[(ngModel)]="filterRevision"
-						(ngModelChange)="loadPage(1)"
-					>
-						<option [ngValue]="undefined" selected jhiTranslate="unitApp.line.filter.revision.placeholder">
-							Select Revisions
-						</option>
-						<option *ngFor="let rev of revisions" [value]="rev">
-							{{ rev }}
-						</option>
-					</select>
+<!--					<select-->
+<!--						class="form-select"-->
+<!--						multiple-->
+<!--						size="1"-->
+<!--						id="filter-revision"-->
+<!--						name="filter-revision"-->
+<!--						[(ngModel)]="filterRevision"-->
+<!--						(ngModelChange)="loadPage(1)"-->
+<!--					>-->
+<!--						<option [ngValue]="undefined" selected jhiTranslate="unitApp.line.filter.revision.placeholder">-->
+<!--							Select Revisions-->
+<!--						</option>-->
+<!--						<option *ngFor="let rev of revisions" [value]="rev">-->
+<!--							{{ rev }}-->
+<!--						</option>-->
+<!--					</select>-->
+					<jhi-multi-dropdown
+						[setItems]="items"
+						[showSearch]="showSearch"
+						[showAll]="showAll"
+						[showStatus]="showStatus"
+						[showError]="showError"
+						placeholder="Select Foods"
+						(itemChange)="onItemChange($event)">
+					</jhi-multi-dropdown>
 				</td>
 				<td>
 					<jhi-statuses-lines

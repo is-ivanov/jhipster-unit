@@ -16,6 +16,7 @@ import { ProjectsComponent } from './selectors/projects/projects.component';
 import { StatusesLinesComponent } from './selectors/statuses-lines/statuses-lines.component';
 import { BlocksComponent } from './selectors/blocks/blocks.component';
 import { ClearFilterComponent } from './buttons/clear-filter/clear-filter.component';
+import { MultiDropdownComponent } from './multi-dropdown/multi-dropdown.component';
 
 @NgModule({
 	imports: [SharedLibsModule],
@@ -35,6 +36,7 @@ import { ClearFilterComponent } from './buttons/clear-filter/clear-filter.compon
 		StatusesLinesComponent,
 		BlocksComponent,
 		ClearFilterComponent,
+		MultiDropdownComponent
 	],
 	exports: [
 		SharedLibsModule,
@@ -53,6 +55,7 @@ import { ClearFilterComponent } from './buttons/clear-filter/clear-filter.compon
 		StatusesLinesComponent,
 		BlocksComponent,
 		ClearFilterComponent,
+		MultiDropdownComponent
 	],
 })
 export class SharedModule {}

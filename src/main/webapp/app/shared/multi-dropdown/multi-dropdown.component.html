@@ -20,7 +20,7 @@
 				<input type="text" class="form-control" placeholder="Search" [(ngModel)]="search" />
 				<div class="input-group-append">
 					<span class="input-group-text h-100">
-						<img src="/assets/icons/search.svg" alt="" title="Bootstrap" />
+						<fa-icon icon="search"></fa-icon>
 					</span>
 				</div>
 			</div>
@@ -50,7 +50,7 @@
 				</div>
 			</div>
 
-			<ng-container *ngFor="let item of filtered; let i = index; trackBy: trackByUuid">
+			<ng-container *ngFor="let item of filtered; let i = index; trackBy: trackById">
 				<div
 					class="dropdown-item"
 					onclick="event.stopPropagation();"
@@ -79,7 +79,7 @@
 
 		<!-- status -->
 		<div *ngIf="showStatus" class="dropdown-count text-dark">
-			<span><b>Count:</b> {{ _items.length }}</span>
+			<span><b>Count:</b> {{ _setItems.length }}</span>
 			<span><b>Checked:</b> {{ checked }}</span>
 			<span *ngIf="search"><b>Search Count:</b> {{ filtered.length }}</span>
 		</div>

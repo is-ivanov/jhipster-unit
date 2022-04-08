@@ -1,14 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Item } from './multi-dropdown.model';
-import { v4 } from 'uuid';
 
 @Component({
-	selector: 'app-multi-dropdown',
+	selector: 'jhi-multi-dropdown',
 	templateUrl: './multi-dropdown.component.html',
 	styleUrls: ['./multi-dropdown.component.scss'],
 })
 export class MultiDropdownComponent {
-	_items: Item[] = [];
+	items: Item[] = [];
 
 	@Input() placeholder: string;
 	@Input() showSearch = true;
@@ -17,15 +16,14 @@ export class MultiDropdownComponent {
 	@Input() showError = false;
 	@Output() itemChange = new EventEmitter<Item>(null);
 
-	@Input('items')
-	set items(items: Item[]) {
-		this._items = items;
-		this._items.map((item) => {
-			item.uuid = item.uuid || v4();
-			item.checked = item.checked || false;
-			item.visible = item.visible || true;
+	@Input()
+	set setItems(items: Item[]) {
+		this.items = items;
+		this.items.map((item) => {
+			item.checked = item.checked ?? false;
+			item.visible = item.visible ?? true;
 		});
-		this.filtered = [...this._items];
+		this.filtered = [...this.items];
 
 		if (!this.filtered.length) {
 			this.all.visible = false;
@@ -38,7 +36,6 @@ export class MultiDropdownComponent {
 	all: Item = {
 		id: null,
 		name: 'All',
-		uuid: v4(),
 		checked: false,
 		visible: true,
 	};
@@ -54,11 +51,11 @@ export class MultiDropdownComponent {
 
 		const search = this.searchText.toLowerCase();
 		if (!search) {
-			this.filtered = [...this._items];
+			this.filtered = [...this.items];
 			this.all.visible = true;
 			return;
 		}
-		this.filtered = this._items.filter((i) => i.name.toLowerCase().indexOf(search) !== -1);
+		this.filtered = this.items.filter((i) => i.name.toLowerCase().indexOf(search) !== -1);
 		if (this.all.name.toLowerCase().indexOf(search) !== -1) {
 			this.all.visible = true;
 		} else {
@@ -69,7 +66,7 @@ export class MultiDropdownComponent {
 	get selected(): string {
 		return this.all && this.all.checked
 			? this.all.name
-			: this._items
+			: this.items
 					.filter((i) => i.checked && i.visible)
 					.map((i) => i.name)
 					.join(', ');
@@ -80,24 +77,24 @@ export class MultiDropdownComponent {
 	}
 
 	get checked(): number {
-		return this._items.filter((i) => i.checked).length;
+		return this.items.filter((i) => i.checked).length;
 	}
 
-	trackByUuid(index: number, item: Item): string {
-		return item.uuid;
+	trackById(index: number, item: Item): number {
+		return item.id!;
 	}
 
 	onChange($event: any, item: Item): void {
 		const checked = $event.target.checked;
-		const index = this._items.findIndex((i) => i.id === item.id);
+		const index = this.items.findIndex((i) => i.id === item.id);
 
 		if (item.id === null) {
 			this.all.checked = checked;
-			for (const iterator of this._items) {
+			for (const iterator of this.items) {
 				iterator.checked = checked;
 			}
 		} else {
-			this._items[index].checked = checked;
+			this.items[index].checked = checked;
 
 			/* istanbul ignore else*/
 			if (this.all) {
@@ -105,7 +102,7 @@ export class MultiDropdownComponent {
 				if (this.all.checked) {
 					this.all.checked = false;
 				}
-				const allChecked = this._items.filter((i) => i.id !== null).every((i) => i.checked);
+				const allChecked = this.items.filter((i) => i.id !== null).every((i) => i.checked);
 				this.all.checked = allChecked;
 			}
 		}

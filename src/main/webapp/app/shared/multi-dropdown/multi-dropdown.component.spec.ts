@@ -18,7 +18,7 @@ describe('MultiDropdownComponent', () => {
 	beforeEach(() => {
 		fixture = TestBed.createComponent(MultiDropdownComponent);
 		component = fixture.componentInstance;
-		component.items = [
+		component.setItems = [
 			{
 				uuid: v4(),
 				id: 4,
@@ -55,26 +55,26 @@ describe('MultiDropdownComponent', () => {
 
 	it('should not filter list on empty search', () => {
 		component.search = '';
-		expect(component.filtered.length).toEqual(component.items.length);
+		expect(component.filtered.length).toEqual(component.setItems.length);
 	});
 
 	it('should get selected item names from list', () => {
-		component.items[0].checked = false;
-		component.items[0].visible = false;
+		component.setItems[0].checked = false;
+		component.setItems[0].visible = false;
 
-		component.items[component.items.length - 1].checked = false;
-		component.items[component.items.length - 1].visible = false;
+		component.setItems[component.setItems.length - 1].checked = false;
+		component.setItems[component.setItems.length - 1].visible = false;
 
 		expect(component.selected).toEqual(
-			component.items
+			component.setItems
 				.map((i) => i.name)
-				.slice(1, component.items.length - 1)
+				.slice(1, component.setItems.length - 1)
 				.join(', ')
 		);
 	});
 
 	it('should return true if nothing is visible in the list', () => {
-		component.items.forEach((i) => (i.visible = false));
+		component.setItems.forEach((i) => (i.visible = false));
 		expect(component.isEmpty).toBeTrue();
 	});
 
@@ -85,7 +85,7 @@ describe('MultiDropdownComponent', () => {
 
 	it('should initialize component onInit', () => {
 		fixture.detectChanges();
-		expect(component.filtered.length).toEqual(component.items.length);
+		expect(component.filtered.length).toEqual(component.setItems.length);
 	});
 
 	it('should emit itemChange output event onChange', () => {
@@ -96,22 +96,22 @@ describe('MultiDropdownComponent', () => {
 					checked: true,
 				},
 			},
-			{ ...component.items[0] }
+			{ ...component.setItems[0] }
 		);
 		expect(component.itemChange.emit).toHaveBeenCalled();
 	});
 
 	it('should check item incase of unchecked onChange', () => {
-		component.items[1].checked = false;
+		component.setItems[1].checked = false;
 		component.onChange(
 			{
 				target: {
 					checked: true,
 				},
 			},
-			{ ...component.items[1] }
+			{ ...component.setItems[1] }
 		);
-		expect(component.items[1].checked).toBeTrue();
+		expect(component.setItems[1].checked).toBeTrue();
 	});
 
 	it('should un-check item incase of checked onChange', () => {
@@ -121,8 +121,8 @@ describe('MultiDropdownComponent', () => {
 					checked: false,
 				},
 			},
-			{ ...component.items[1] }
+			{ ...component.setItems[1] }
 		);
-		expect(component.items[1].checked).toBeFalse();
+		expect(component.setItems[1].checked).toBeFalse();
 	});
 });
