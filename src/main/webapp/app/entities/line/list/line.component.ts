@@ -28,9 +28,11 @@ export class LineComponent implements OnInit {
 	ngbPaginationPage = 1;
 	filterProjectId?: number;
 	filterTag?: string;
-	filterRevision?: string;
+	filterRevision?: string[];
 	filterStatusLine?: string;
 	filterBlockId?: number;
+	revisions?: string[] = ['1', '2a', '5FY'];
+	// TODO https://codeomelet.com/posts/creating-multi-select-dropdown-with-angular-and-bootstrap-5
 
 	constructor(
 		protected lineService: LineService,

@@ -81,15 +81,31 @@
 					/>
 				</td>
 				<td>
-					<input
-						type="search"
-						class="form-control"
-						name="revision"
-						id="field-revision"
-						placeholder="{{ 'unitApp.line.filter.revision.placeholder' | translate }}"
+					<!--					<input-->
+					<!--						type="search"-->
+					<!--						class="form-control"-->
+					<!--						name="revision"-->
+					<!--						id="field-revision"-->
+					<!--						placeholder="{{ 'unitApp.line.filter.revision.placeholder' | translate }}"-->
+					<!--						[(ngModel)]="filterRevision"-->
+					<!--						(change)="loadPage(1)"-->
+					<!--					/>-->
+					<select
+						class="form-select"
+						multiple
+						size="1"
+						id="filter-revision"
+						name="filter-revision"
 						[(ngModel)]="filterRevision"
-						(change)="loadPage(1)"
-					/>
+						(ngModelChange)="loadPage(1)"
+					>
+						<option [ngValue]="undefined" selected jhiTranslate="unitApp.line.filter.revision.placeholder">
+							Select Revisions
+						</option>
+						<option *ngFor="let rev of revisions" [value]="rev">
+							{{ rev }}
+						</option>
+					</select>
 				</td>
 				<td>
 					<jhi-statuses-lines
