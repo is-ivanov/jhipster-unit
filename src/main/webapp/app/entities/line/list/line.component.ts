@@ -11,6 +11,7 @@ import { LineService } from '../service/line.service';
 import { LineDeleteDialogComponent } from '../delete/line-delete-dialog.component';
 import { IProject } from '../../project/project.model';
 import { ProjectService } from '../../project/service/project.service';
+import { IBlock } from '../../block/block.model';
 
 @Component({
 	selector: 'jhi-line',
@@ -25,8 +26,11 @@ export class LineComponent implements OnInit {
 	predicate!: string;
 	ascending!: boolean;
 	ngbPaginationPage = 1;
-	projectsSharedCollection: IProject[] = [];
-	filterProjectId?: IProject;
+	filterProjectId?: number;
+	filterTag?: string;
+	filterRevision?: string;
+	filterStatusLine?: string;
+	filterBlockId?: number;
 
 	constructor(
 		protected lineService: LineService,
@@ -67,10 +71,6 @@ export class LineComponent implements OnInit {
 		return item.id!;
 	}
 
-	trackProjectById(index: number, item: IProject): number {
-		return item.id!;
-	}
-
 	delete(line: ILine): void {
 		const modalRef = this.modalService.open(LineDeleteDialogComponent, {
 			size: 'lg',
@@ -83,6 +83,30 @@ export class LineComponent implements OnInit {
 				this.loadPage();
 			}
 		});
+	}
+
+	onUpdateFilterProject(project: IProject): void {
+		this.filterProjectId = project.id;
+		this.loadPage(1);
+	}
+
+	onUpdateFilterStatusLine(status: string): void {
+		this.filterStatusLine = status;
+		this.loadPage(1);
+	}
+
+	onUpdateFilterBlock(block: IBlock): void {
+		this.filterBlockId = block.id;
+		this.loadPage(1);
+	}
+
+	clearFilter(): void {
+		this.filterProjectId = undefined;
+		this.filterBlockId = undefined;
+		this.filterTag = undefined;
+		this.filterRevision = undefined;
+		this.filterStatusLine = undefined;
+		this.loadPage();
 	}
 
 	protected sort(): string[] {

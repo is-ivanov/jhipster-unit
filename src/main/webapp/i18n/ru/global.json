@@ -57,7 +57,10 @@
 			"firstName.label": "Имя",
 			"firstName.placeholder": "Ваше имя",
 			"lastName.label": "Фамилия",
-			"lastName.placeholder": "Ваша фамилия"
+			"lastName.placeholder": "Ваша фамилия",
+			"buttons": {
+				"clearFilters": "Сбросить фильтры"
+			}
 		},
 		"messages": {
 			"info": {

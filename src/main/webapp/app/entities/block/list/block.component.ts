@@ -25,10 +25,9 @@ export class BlockComponent implements OnInit {
 	predicate!: string;
 	ascending!: boolean;
 	ngbPaginationPage = 1;
-	// projectsSharedCollection: IProject[] = [];
 	filterNumber?: number;
 	filterDescription?: string;
-	filterProjectId?: IProject;
+	filterProjectId?: number;
 
 	constructor(
 		protected blockService: BlockService,
@@ -79,10 +78,6 @@ export class BlockComponent implements OnInit {
 		return item.id!;
 	}
 
-	trackProjectById(index: number, item: IProject): number {
-		return item.id!;
-	}
-
 	delete(block: IBlock): void {
 		const modalRef = this.modalService.open(BlockDeleteDialogComponent, {
 			size: 'lg',
@@ -102,6 +97,11 @@ export class BlockComponent implements OnInit {
 		this.filterDescription = undefined;
 		this.filterProjectId = undefined;
 		this.loadPage();
+	}
+
+	onUpdateFilterProject(project: IProject): void {
+		this.filterProjectId = project.id;
+		this.loadPage(1);
 	}
 
 	protected sort(): string[] {
@@ -126,16 +126,6 @@ export class BlockComponent implements OnInit {
 			}
 		});
 	}
-
-	// protected loadRelationshipsOptions(): void {
-	// 	this.projectService
-	// 		.query({
-	// 			eagerload: false,
-	// 			sort: ['name,asc'],
-	// 		})
-	// 		.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
-	// 		.subscribe((projects: IProject[]) => (this.projectsSharedCollection = projects));
-	// }
 
 	protected onSuccess(data: IBlock[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
 		this.totalItems = Number(headers.get('X-Total-Count'));

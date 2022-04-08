@@ -12,16 +12,22 @@
 			"updated": "Линия обновлена с идентификатором {{ param }}",
 			"deleted": "Линия удалена с идентификатором {{ param }}",
 			"delete": {
-				"question": "Вы уверены что хотите удалить линию <strong>{{ tag }}</strong> блока <strong>{{ block }}</strong> с ID {{ id }}?"
+				"question": "Вы уверены что хотите <strong>ПОЛНОСТЬЮ</strong> удалить линию <strong>{{ tag }}</strong> блока <strong>{{ block }}</strong> с ID {{ id }}?"
 			},
 			"detail": {
 				"title": "Линия"
 			},
 			"id": "ID",
-			"tag": "Номер",
+			"tag": "Наименование",
 			"revision": "Изм.",
 			"status": "Статус",
-			"block": "Блок"
+			"block": "Блок",
+			"filter": {
+				"tag.placeholder": "Фильтр по номеру",
+				"revision.placeholder": "Фильтр по изм.",
+				"status-line.selector": "Выберите статус",
+				"block.placeholder": "Фильтр по номеру блока"
+			}
 		}
 	}
 }

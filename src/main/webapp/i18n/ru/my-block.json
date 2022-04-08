@@ -7,7 +7,7 @@
 				"createLabel": "Создать блок",
 				"createOrEditLabel": "Создать или отредактировать блок",
 				"notFound": "Блоков не найдено",
-				"clearFilters": "Сбросить фильтры"
+				"selector": "Блок"
 			},
 			"created": "Новый блок создан с идентификатором {{ param }}",
 			"updated": "Блок обновлён с идентификатором {{ param }}",
@@ -23,8 +23,8 @@
 			"description": "Описание",
 			"project": "Проект",
 			"filter": {
-				"number.placeholder": "Номер",
-				"description.placeholder": "Описание"
+				"number.placeholder": "Фильтр по номеру",
+				"description.placeholder": "Фильтр по описанию"
 			}
 		}
 	}
