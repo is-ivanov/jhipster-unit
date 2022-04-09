@@ -5,13 +5,15 @@ import by.ivanov.unit.repository.LineRepository;
 import by.ivanov.unit.service.LineService;
 import by.ivanov.unit.service.dto.LineDTO;
 import by.ivanov.unit.service.mapper.LineMapper;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link Line}.
@@ -77,4 +79,11 @@ public class LineServiceImpl implements LineService {
         log.debug("Request to delete Line : {}", id);
         lineRepository.deleteById(id);
     }
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> findAllRevisions() {
+		log.debug("Request to get revisions for all Lines");
+		return lineRepository.findAllRevisions();
+	}
 }
