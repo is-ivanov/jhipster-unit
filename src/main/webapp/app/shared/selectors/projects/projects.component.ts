@@ -3,6 +3,7 @@ import { IProject } from '../../../entities/project/project.model';
 import { ProjectService } from '../../../entities/project/service/project.service';
 import { map } from 'rxjs/operators';
 import { HttpResponse } from '@angular/common/http';
+import { DropdownDataService } from '../../dropdown-data.service';
 
 @Component({
 	selector: 'jhi-projects',
@@ -13,7 +14,8 @@ export class ProjectsComponent implements OnInit {
 	@Input() selectedProjectId?: number;
 	@Output() updateProjectInFilter = new EventEmitter<IProject>();
 
-	constructor(protected projectService: ProjectService) {}
+	constructor(protected projectService: ProjectService,
+	            protected dropdownDataService: DropdownDataService) {}
 
 	ngOnInit(): void {
 		this.loadProjects();
@@ -23,6 +25,7 @@ export class ProjectsComponent implements OnInit {
 		this.updateProjectInFilter.emit({
 			id: this.selectedProjectId,
 		});
+		this.dropdownDataService.notifyAboutChange(this.selectedProjectId);
 	}
 
 	trackProjectById(index: number, item: IProject): number {

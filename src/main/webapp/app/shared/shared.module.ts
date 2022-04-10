@@ -16,10 +16,11 @@ import { ProjectsComponent } from './selectors/projects/projects.component';
 import { StatusesLinesComponent } from './selectors/statuses-lines/statuses-lines.component';
 import { BlocksComponent } from './selectors/blocks/blocks.component';
 import { ClearFilterComponent } from './buttons/clear-filter/clear-filter.component';
-import { MultiDropdownComponent } from './multi-dropdown/multi-dropdown.component';
+import { RevisionsComponent } from './selectors/revisions/revisions.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
-	imports: [SharedLibsModule],
+	imports: [SharedLibsModule, NgMultiSelectDropDownModule],
 	declarations: [
 		FindLanguageFromKeyPipe,
 		TranslateDirective,
@@ -36,7 +37,7 @@ import { MultiDropdownComponent } from './multi-dropdown/multi-dropdown.componen
 		StatusesLinesComponent,
 		BlocksComponent,
 		ClearFilterComponent,
-		MultiDropdownComponent
+		RevisionsComponent
 	],
 	exports: [
 		SharedLibsModule,
@@ -55,7 +56,8 @@ import { MultiDropdownComponent } from './multi-dropdown/multi-dropdown.componen
 		StatusesLinesComponent,
 		BlocksComponent,
 		ClearFilterComponent,
-		MultiDropdownComponent
-	],
+		RevisionsComponent
+	]
 })
-export class SharedModule {}
+export class SharedModule {
+}

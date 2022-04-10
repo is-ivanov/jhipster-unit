@@ -205,3 +205,12 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
 	}
 }
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+ng-multiselect-dropdown .dropdown-list {
+	width: 150px !important;
+	font-size: small !important;
+}
+
+h5 {
+	font-size: medium !important;
+}

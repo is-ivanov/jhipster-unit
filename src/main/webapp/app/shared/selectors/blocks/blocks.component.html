@@ -7,6 +7,6 @@
 >
 	<option [ngValue]="undefined" selected jhiTranslate="unitApp.block.home.selector">Select Block</option>
 	<option *ngFor="let block of blocks; trackBy: trackBlockById" [value]="block.id">
-		{{ block.number }}
+		{{ block.number + ' - ' + block.project?.name }}
 	</option>
 </select>

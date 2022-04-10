@@ -14,7 +14,7 @@ import { ProjectService } from '../../project/service/project.service';
 
 @Component({
 	selector: 'jhi-block',
-	templateUrl: './block.component.html',
+	templateUrl: './block.component.html'
 })
 export class BlockComponent implements OnInit {
 	blocks?: IBlock[];
@@ -29,13 +29,12 @@ export class BlockComponent implements OnInit {
 	filterDescription?: string;
 	filterProjectId?: number;
 
-	constructor(
-		protected blockService: BlockService,
-		protected activatedRoute: ActivatedRoute,
-		protected router: Router,
-		protected modalService: NgbModal,
-		protected projectService: ProjectService
-	) {}
+	constructor(protected blockService: BlockService,
+	            protected activatedRoute: ActivatedRoute,
+	            protected router: Router,
+	            protected modalService: NgbModal,
+	            protected projectService: ProjectService) {
+	}
 
 	loadPage(page?: number, dontNavigate?: boolean): void {
 		this.isLoading = true;
@@ -64,7 +63,7 @@ export class BlockComponent implements OnInit {
 			error: () => {
 				this.isLoading = false;
 				this.onError();
-			},
+			}
 		});
 	}
 
@@ -81,7 +80,7 @@ export class BlockComponent implements OnInit {
 	delete(block: IBlock): void {
 		const modalRef = this.modalService.open(BlockDeleteDialogComponent, {
 			size: 'lg',
-			backdrop: 'static',
+			backdrop: 'static'
 		});
 		modalRef.componentInstance.block = block;
 		// unsubscribe not needed because closed completes on modal close
@@ -132,7 +131,7 @@ export class BlockComponent implements OnInit {
 		this.page = page;
 		if (navigate) {
 			this.router.navigate(['/block'], {
-				queryParams: this.prepareQueryParam(),
+				queryParams: this.prepareQueryParam()
 			});
 		}
 		this.blocks = data ?? [];

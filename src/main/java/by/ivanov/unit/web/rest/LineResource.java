@@ -218,14 +218,9 @@ public class LineResource {
 	 *
 	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of lines in body.
 	 */
-	@GetMapping("/lines")
-	public ResponseEntity<List<LineDTO>> getRevisions() {
+	@GetMapping("/lines/revisions")
+	public List<String> getRevisions() {
 		log.debug("REST request to get revisions of all lines");
-		Page<LineDTO> page = lineQueryService.findByCriteria(criteria, pageable);
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
-			ServletUriComponentsBuilder.fromCurrentRequest(),
-			page
-		);
-		return ResponseEntity.ok().headers(headers).body(page.getContent());
+		return lineService.findAllRevisions();
 	}
 }

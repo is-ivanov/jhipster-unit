@@ -8,6 +8,7 @@ import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import dayjs from 'dayjs/esm';
 import { NgbDateAdapter, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import './config/dayjs';
@@ -37,7 +38,8 @@ import { ErrorComponent } from './layouts/error/error.component';
 		ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
 		HttpClientModule,
 		NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
-		TranslationModule
+		TranslationModule,
+		NgMultiSelectDropDownModule.forRoot()
 	],
 	providers: [
 		Title,

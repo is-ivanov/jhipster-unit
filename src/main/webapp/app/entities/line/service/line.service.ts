@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
-import { ILine, getLineIdentifier } from '../line.model';
+import { getLineIdentifier, ILine } from '../line.model';
 
 export type EntityResponseType = HttpResponse<ILine>;
 export type EntityArrayResponseType = HttpResponse<ILine[]>;
@@ -13,6 +13,7 @@ export type EntityArrayResponseType = HttpResponse<ILine[]>;
 @Injectable({ providedIn: 'root' })
 export class LineService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/lines');
+  protected revisionsUrl = this.applicationConfigService.getEndpointFor('api/lines/revisions');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -57,4 +58,8 @@ export class LineService {
     }
     return lineCollection;
   }
+
+	getAllRevisions(): Observable<string[]> {
+		return this.http.get<string[]>(this.revisionsUrl);
+	}
 }
