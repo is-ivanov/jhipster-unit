@@ -11,12 +11,11 @@ import { LineService } from '../service/line.service';
 import { LineDeleteDialogComponent } from '../delete/line-delete-dialog.component';
 import { ProjectService } from '../../project/service/project.service';
 import { IBlock } from '../../block/block.model';
-import { IRevision } from '../../../shared/selectors/revisions/revision.model';
 import { DropdownDataService } from '../../../shared/dropdown-data.service';
 
 @Component({
 	selector: 'jhi-line',
-	templateUrl: './line.component.html',
+	templateUrl: './line.component.html'
 })
 export class LineComponent implements OnInit, OnDestroy {
 	lines?: ILine[];
@@ -35,22 +34,31 @@ export class LineComponent implements OnInit, OnDestroy {
 	filterBlockId?: number;
 	filterBlocks?: IBlock[];
 
-	projectNotifierSubscription: Subscription = this.dropdownDataService.blocksNotifier.subscribe((blocks) => {
-		this.filterBlockId = undefined;
-		this.filterBlocks = blocks;
-		this.loadPage(1);
-	});
+	projectNotifierSubscription: Subscription =
+		this.dropdownDataService.blocksNotifier.subscribe((blocks) => {
+			this.filterBlockId = undefined;
+			this.filterBlocks = blocks;
+			this.loadPage(1);
+		});
 
-	blockNotifierSubscription: Subscription = this.dropdownDataService.blockNotifier.subscribe((blockId) => {
-		this.filterBlocks = undefined;
-		this.filterBlockId = blockId;
-		this.loadPage(1);
-	});
+	blockNotifierSubscription: Subscription =
+		this.dropdownDataService.blockNotifier.subscribe((blockId) => {
+			this.filterBlocks = undefined;
+			this.filterBlockId = blockId;
+			this.loadPage(1);
+		});
 
-	statusLineNotifierSubscription: Subscription = this.dropdownDataService.statusLineNotifier.subscribe((status) => {
-		this.filterStatusLine = status;
-		this.loadPage(1);
-	});
+	statusLineNotifierSubscription: Subscription =
+		this.dropdownDataService.statusLineNotifier.subscribe((status) => {
+			this.filterStatusLine = status;
+			this.loadPage(1);
+		});
+
+	revisionsNotifierSubscription: Subscription =
+		this.dropdownDataService.revisionNotifier.subscribe((revisions) => {
+			this.filterRevision = revisions;
+			this.loadPage(1);
+		});
 
 	constructor(
 		protected lineService: LineService,
@@ -59,7 +67,8 @@ export class LineComponent implements OnInit, OnDestroy {
 		protected modalService: NgbModal,
 		protected projectService: ProjectService,
 		protected dropdownDataService: DropdownDataService
-	) {}
+	) {
+	}
 
 	ngOnInit(): void {
 		this.handleNavigation();
@@ -74,7 +83,7 @@ export class LineComponent implements OnInit, OnDestroy {
 		Object.assign(req, { size: this.itemsPerPage });
 		Object.assign(req, { sort: this.sort() });
 
-		if (this.filterBlocks) {
+		if (this.filterBlocks && this.filterBlocks.length > 0) {
 			const filterBlockIds: (number | undefined)[] = this.filterBlocks.map((block) => block.id);
 			Object.assign(req, { 'blockId.in': filterBlockIds });
 		}
@@ -101,7 +110,7 @@ export class LineComponent implements OnInit, OnDestroy {
 			error: () => {
 				this.isLoading = false;
 				this.onError();
-			},
+			}
 		});
 	}
 
@@ -112,7 +121,7 @@ export class LineComponent implements OnInit, OnDestroy {
 	delete(line: ILine): void {
 		const modalRef = this.modalService.open(LineDeleteDialogComponent, {
 			size: 'lg',
-			backdrop: 'static',
+			backdrop: 'static'
 		});
 		modalRef.componentInstance.line = line;
 		// unsubscribe not needed because closed completes on modal close
@@ -123,15 +132,6 @@ export class LineComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	onUpdateFilterRevision(revisions: IRevision[]): void {
-		this.filterRevision = [];
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (revisions !== undefined && revisions.length > 0) {
-			revisions.forEach((rev) => this.filterRevision?.push(rev.revision));
-		}
-		this.loadPage(1);
-	}
-
 	clearFilter(): void {
 		this.filterProjectId = undefined;
 		this.filterBlockId = undefined;
@@ -139,6 +139,8 @@ export class LineComponent implements OnInit, OnDestroy {
 		this.filterRevision = undefined;
 		this.filterStatusLine = undefined;
 		this.filterBlocks = undefined;
+		// TODO fill dropdowns for block and revisions and
+		this.dropdownDataService.notifyClearFilter();
 		this.loadPage(1);
 	}
 
@@ -146,6 +148,7 @@ export class LineComponent implements OnInit, OnDestroy {
 		this.projectNotifierSubscription.unsubscribe();
 		this.blockNotifierSubscription.unsubscribe();
 		this.statusLineNotifierSubscription.unsubscribe();
+		this.revisionsNotifierSubscription.unsubscribe();
 	}
 
 	protected sort(): string[] {
@@ -179,8 +182,8 @@ export class LineComponent implements OnInit, OnDestroy {
 				queryParams: {
 					page: this.page,
 					size: this.itemsPerPage,
-					sort: this.predicate + ',' + (this.ascending ? ASC : DESC),
-				},
+					sort: this.predicate + ',' + (this.ascending ? ASC : DESC)
+				}
 			});
 		}
 		this.lines = data ?? [];

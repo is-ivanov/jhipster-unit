@@ -64,16 +64,4 @@ export class ProjectService {
 		}
 		return projectCollection;
 	}
-	// //TODO
-	// loadProjectsIntoArray(): void {
-	// 	let result: IProject[] = [];
-	// 	this.query({
-	// 		eagerload: false,
-	// 		sort: ['name,asc'],
-	// 	})
-	// 		.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
-	// 		.subscribe((projects: IProject[]) => (result = projects));
-	// 	// eslint-disable-next-line no-console
-	// 	console.log(result);
-	// }
 }

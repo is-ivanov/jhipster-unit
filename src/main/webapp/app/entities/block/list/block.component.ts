@@ -9,7 +9,6 @@ import { IBlock } from '../block.model';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants';
 import { BlockService } from '../service/block.service';
 import { BlockDeleteDialogComponent } from '../delete/block-delete-dialog.component';
-import { IProject } from '../../project/project.model';
 import { ProjectService } from '../../project/service/project.service';
 import { DropdownDataService } from '../../../shared/dropdown-data.service';
 
@@ -106,11 +105,6 @@ export class BlockComponent implements OnInit {
 		this.filterProjectId = undefined;
 		this.loadPage();
 	}
-
-	// onUpdateFilterProject(project: number): void {
-	// 	this.filterProjectId = project;
-	// 	this.loadPage(1);
-	// }
 
 	protected sort(): string[] {
 		const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];

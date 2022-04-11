@@ -8,18 +8,30 @@ import { DropdownDataService } from '../../dropdown-data.service';
 
 @Component({
 	selector: 'jhi-blocks',
-	templateUrl: './blocks.component.html',
+	templateUrl: './blocks.component.html'
 })
 export class BlocksComponent implements OnInit, OnDestroy {
 	blocks?: IBlock[] = [];
 	@Input() selectedBlockId?: number;
 	selectedProjectId?: number;
-	projectNotifierSubscription: Subscription = this.dropdownDataService.projectNotifier.subscribe((projectId) => {
-		this.selectedProjectId = projectId;
-		this.loadBlocks();
-	});
 
-	constructor(protected blockService: BlockService, protected dropdownDataService: DropdownDataService) {}
+	projectNotifierSubscription: Subscription =
+		this.dropdownDataService.projectNotifier.subscribe((projectId) => {
+			this.selectedProjectId = projectId;
+			this.loadBlocks();
+		});
+
+	clearFilterNotifierSubscription: Subscription =
+		this.dropdownDataService.clearFilterNotifier
+			.subscribe(() => {
+				this.selectedProjectId = undefined;
+				this.selectedBlockId = undefined;
+				this.loadBlocks();
+			});
+
+	constructor(protected blockService: BlockService,
+	            protected dropdownDataService: DropdownDataService) {
+	}
 
 	ngOnInit(): void {
 		this.loadBlocks();
@@ -35,13 +47,14 @@ export class BlocksComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy(): void {
 		this.projectNotifierSubscription.unsubscribe();
+		this.clearFilterNotifierSubscription.unsubscribe();
 	}
 
 	private loadBlocks(): void {
 		const req = {
 			eagerload: false,
 			sort: ['number,asc'],
-			size: 70,
+			size: 70
 		};
 		if (this.selectedProjectId) {
 			Object.assign(req, { 'projectId.equals': this.selectedProjectId });

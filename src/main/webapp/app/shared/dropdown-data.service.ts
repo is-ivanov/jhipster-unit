@@ -9,6 +9,8 @@ export class DropdownDataService {
 	blockNotifier: EventEmitter<number> = new EventEmitter();
 	blocksNotifier: EventEmitter<IBlock[]> = new EventEmitter();
 	statusLineNotifier: EventEmitter<string> = new EventEmitter();
+	revisionNotifier: EventEmitter<string[]> = new EventEmitter();
+	clearFilterNotifier: EventEmitter<null> = new EventEmitter();
 
 	notifyProjectChange(projectId: number | undefined): void {
 		if (projectId) {
@@ -33,4 +35,16 @@ export class DropdownDataService {
 			this.statusLineNotifier.emit(statusLine);
 		}
 	}
+
+	notifyRevisionsChange(revision: string[] | undefined): void {
+		if (revision && revision.length > 0) {
+			this.revisionNotifier.emit(revision);
+		}
+	}
+
+	notifyClearFilter(): void {
+		this.clearFilterNotifier.emit();
+	}
+
+
 }

@@ -14,6 +14,8 @@ export type EntityArrayResponseType = HttpResponse<ILine[]>;
 export class LineService {
   protected resourceUrl = this.applicationConfigService.getEndpointFor('api/lines');
   protected revisionsUrl = this.applicationConfigService.getEndpointFor('api/lines/revisions');
+  protected revisionsProjectUrl = this.applicationConfigService.getEndpointFor('api/projects');
+  protected revisionsBlockUrl = this.applicationConfigService.getEndpointFor('api/blocks');
 
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
@@ -62,4 +64,13 @@ export class LineService {
 	getAllRevisions(): Observable<string[]> {
 		return this.http.get<string[]>(this.revisionsUrl);
 	}
+
+	getRevisionsByProject(projectId: number): Observable<string[]> {
+		return this.http.get<string[]>(`${this.revisionsProjectUrl}/${projectId}/revisions`);
+	}
+
+	getRevisionsByBlock(blockId: number): Observable<string[]> {
+		return this.http.get<string[]>(`${this.revisionsBlockUrl}/${blockId}/revisions`);
+	}
+
 }
