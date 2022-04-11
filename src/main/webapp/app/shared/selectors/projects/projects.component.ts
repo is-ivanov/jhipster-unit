@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IProject } from '../../../entities/project/project.model';
 import { ProjectService } from '../../../entities/project/service/project.service';
 import { map } from 'rxjs/operators';
@@ -12,20 +12,15 @@ import { DropdownDataService } from '../../dropdown-data.service';
 export class ProjectsComponent implements OnInit {
 	projects: IProject[] = [];
 	@Input() selectedProjectId?: number;
-	@Output() updateProjectInFilter = new EventEmitter<IProject>();
 
-	constructor(protected projectService: ProjectService,
-	            protected dropdownDataService: DropdownDataService) {}
+	constructor(protected projectService: ProjectService, protected dropdownDataService: DropdownDataService) {}
 
 	ngOnInit(): void {
 		this.loadProjects();
 	}
 
 	updateFilter(): void {
-		this.updateProjectInFilter.emit({
-			id: this.selectedProjectId,
-		});
-		this.dropdownDataService.notifyAboutChange(this.selectedProjectId);
+		this.dropdownDataService.notifyProjectChange(this.selectedProjectId);
 	}
 
 	trackProjectById(index: number, item: IProject): number {

@@ -6,8 +6,7 @@
 			<div class="row justify-content-between">
 				<div class="col-md-6">
 					<div class="col-md-7">
-						<jhi-projects (updateProjectInFilter)="onUpdateFilterProject($event)" [selectedProjectId]="filterProjectId">
-						</jhi-projects>
+						<jhi-projects [selectedProjectId]="filterProjectId"></jhi-projects>
 					</div>
 				</div>
 				<div class="col-md-6 my-2 my-md-0">
@@ -67,7 +66,7 @@
 				<th scope="col"></th>
 			</tr>
 
-			<tr>
+			<tr class="align-middle">
 				<td></td>
 				<td>
 					<input
@@ -78,50 +77,16 @@
 						placeholder="{{ 'unitApp.line.filter.tag.placeholder' | translate }}"
 						[(ngModel)]="filterTag"
 						(search)="loadPage(1)"
-						(change)="loadPage(1)"
 					/>
 				</td>
 				<td>
-					<!--					<input-->
-					<!--						type="search"-->
-					<!--						class="form-control"-->
-					<!--						name="revision"-->
-					<!--						id="field-revision"-->
-					<!--						placeholder="{{ 'unitApp.line.filter.revision.placeholder' | translate }}"-->
-					<!--						[(ngModel)]="filterRevision"-->
-					<!--						(change)="loadPage(1)"-->
-					<!--					/>-->
-<!--					<select-->
-<!--						class="form-select"-->
-<!--						multiple-->
-<!--						size="1"-->
-<!--						id="filter-revision"-->
-<!--						name="filter-revision"-->
-<!--						[(ngModel)]="filterRevision"-->
-<!--						(ngModelChange)="loadPage(1)"-->
-<!--					>-->
-<!--						<option [ngValue]="undefined" selected jhiTranslate="unitApp.line.filter.revision.placeholder">-->
-<!--							Select Revisions-->
-<!--						</option>-->
-<!--						<option *ngFor="let rev of revisions" [value]="rev">-->
-<!--							{{ rev }}-->
-<!--						</option>-->
-<!--					</select>-->
-					<jhi-revisions (updateRevisionsInFilter)="onUpdateFilterRevision($event)">
-					</jhi-revisions>
+					<jhi-revisions></jhi-revisions>
 				</td>
 				<td>
-					<jhi-statuses-lines
-						(updateStatusLineInFilter)="onUpdateFilterStatusLine($event)"
-						[selectedStatusLine]="filterStatusLine"
-					>
-					</jhi-statuses-lines>
+					<jhi-statuses-lines [selectedStatusLine]="filterStatusLine"></jhi-statuses-lines>
 				</td>
 				<td>
-					<jhi-blocks (updateBlockInFilter)="onUpdateFilterBlock($event)"
-											[selectedBlockId]="filterBlockId"
-					>
-					</jhi-blocks>
+					<jhi-blocks [selectedBlockId]="filterBlockId"></jhi-blocks>
 				</td>
 				<td>
 					<jhi-clear-filter (clearFilter)="clearFilter()"></jhi-clear-filter>
@@ -130,18 +95,22 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let line of lines; trackBy: trackId" data-cy="entityTable">
-				<td class="text-center">
+				<td class="text-center align-middle">
 					<a [routerLink]="['/line', line.id, 'view']">{{ line.id }}</a>
 				</td>
-				<td>{{ line.tag }}</td>
-				<td class="text-center">{{ line.revision }}</td>
-				<td jhiTranslate="{{ 'unitApp.StatusLine.' + line.status }}">{{ line.status }}</td>
-				<td class="text-center">
+				<td class="align-middle">{{ line.tag }}</td>
+				<td class="text-center align-middle">{{ line.revision }}</td>
+				<td class="align-middle" jhiTranslate="{{ 'unitApp.StatusLine.' + line.status }}">
+					{{ line.status }}
+				</td>
+				<td class="text-center align-middle">
 					<div *ngIf="line.block">
-						<a [routerLink]="['/block', line.block?.id, 'view']">{{ line.block?.number }}</a>
+						<a [routerLink]="['/block', line.block?.id, 'view']">
+							{{ line.block?.number }}
+						</a>
 					</div>
 				</td>
-				<td class="text-end">
+				<td class="text-end py-1 align-middle">
 					<div class="btn-group">
 						<button
 							type="submit"

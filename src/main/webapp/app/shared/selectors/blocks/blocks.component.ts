@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { IBlock } from '../../../entities/block/block.model';
 import { BlockService } from '../../../entities/block/service/block.service';
 import { map } from 'rxjs/operators';
@@ -13,25 +13,20 @@ import { DropdownDataService } from '../../dropdown-data.service';
 export class BlocksComponent implements OnInit, OnDestroy {
 	blocks?: IBlock[] = [];
 	@Input() selectedBlockId?: number;
-	@Output() updateBlockInFilter = new EventEmitter<IBlock>();
 	selectedProjectId?: number;
-	notifierSubscription: Subscription =
-		this.dropdownDataService.projectNotifier.subscribe(projectId => {
-			this.selectedProjectId = projectId;
-			this.loadBlocks();
-		});
+	projectNotifierSubscription: Subscription = this.dropdownDataService.projectNotifier.subscribe((projectId) => {
+		this.selectedProjectId = projectId;
+		this.loadBlocks();
+	});
 
-	constructor(protected blockService: BlockService,
-	            protected dropdownDataService: DropdownDataService) {}
+	constructor(protected blockService: BlockService, protected dropdownDataService: DropdownDataService) {}
 
 	ngOnInit(): void {
 		this.loadBlocks();
 	}
 
 	updateFilter(): void {
-		this.updateBlockInFilter.emit({
-			id: this.selectedBlockId,
-		});
+		this.dropdownDataService.notifyBlockChange(this.selectedBlockId);
 	}
 
 	trackBlockById(index: number, item: IBlock): number {
@@ -39,13 +34,14 @@ export class BlocksComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this.notifierSubscription.unsubscribe();
+		this.projectNotifierSubscription.unsubscribe();
 	}
 
 	private loadBlocks(): void {
 		const req = {
 			eagerload: false,
 			sort: ['number,asc'],
+			size: 70,
 		};
 		if (this.selectedProjectId) {
 			Object.assign(req, { 'projectId.equals': this.selectedProjectId });
@@ -54,6 +50,11 @@ export class BlocksComponent implements OnInit, OnDestroy {
 		this.blockService
 			.query(req)
 			.pipe(map((res: HttpResponse<IBlock[]>) => res.body ?? []))
-			.subscribe((loadedBlocks: IBlock[]) => (this.blocks = loadedBlocks));
+			.subscribe((loadedBlocks: IBlock[]) => {
+				this.blocks = loadedBlocks;
+				if (this.selectedProjectId) {
+					this.dropdownDataService.notifyProjectChangeBlocks(loadedBlocks);
+				}
+			});
 	}
 }

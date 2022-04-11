@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IBlock } from '../block.model';
@@ -11,10 +11,11 @@ import { BlockService } from '../service/block.service';
 import { BlockDeleteDialogComponent } from '../delete/block-delete-dialog.component';
 import { IProject } from '../../project/project.model';
 import { ProjectService } from '../../project/service/project.service';
+import { DropdownDataService } from '../../../shared/dropdown-data.service';
 
 @Component({
 	selector: 'jhi-block',
-	templateUrl: './block.component.html'
+	templateUrl: './block.component.html',
 })
 export class BlockComponent implements OnInit {
 	blocks?: IBlock[];
@@ -25,16 +26,24 @@ export class BlockComponent implements OnInit {
 	predicate!: string;
 	ascending!: boolean;
 	ngbPaginationPage = 1;
+
 	filterNumber?: number;
 	filterDescription?: string;
 	filterProjectId?: number;
 
-	constructor(protected blockService: BlockService,
-	            protected activatedRoute: ActivatedRoute,
-	            protected router: Router,
-	            protected modalService: NgbModal,
-	            protected projectService: ProjectService) {
-	}
+	projectNotifierSubscription: Subscription = this.dropdownDataService.projectNotifier.subscribe((projectId) => {
+		this.filterProjectId = projectId;
+		this.loadPage(1);
+	});
+
+	constructor(
+		protected blockService: BlockService,
+		protected activatedRoute: ActivatedRoute,
+		protected router: Router,
+		protected modalService: NgbModal,
+		protected projectService: ProjectService,
+		protected dropdownDataService: DropdownDataService
+	) {}
 
 	loadPage(page?: number, dontNavigate?: boolean): void {
 		this.isLoading = true;
@@ -63,7 +72,7 @@ export class BlockComponent implements OnInit {
 			error: () => {
 				this.isLoading = false;
 				this.onError();
-			}
+			},
 		});
 	}
 
@@ -80,7 +89,7 @@ export class BlockComponent implements OnInit {
 	delete(block: IBlock): void {
 		const modalRef = this.modalService.open(BlockDeleteDialogComponent, {
 			size: 'lg',
-			backdrop: 'static'
+			backdrop: 'static',
 		});
 		modalRef.componentInstance.block = block;
 		// unsubscribe not needed because closed completes on modal close
@@ -98,10 +107,10 @@ export class BlockComponent implements OnInit {
 		this.loadPage();
 	}
 
-	onUpdateFilterProject(project: IProject): void {
-		this.filterProjectId = project.id;
-		this.loadPage(1);
-	}
+	// onUpdateFilterProject(project: number): void {
+	// 	this.filterProjectId = project;
+	// 	this.loadPage(1);
+	// }
 
 	protected sort(): string[] {
 		const result = [this.predicate + ',' + (this.ascending ? ASC : DESC)];
@@ -131,7 +140,7 @@ export class BlockComponent implements OnInit {
 		this.page = page;
 		if (navigate) {
 			this.router.navigate(['/block'], {
-				queryParams: this.prepareQueryParam()
+				queryParams: this.prepareQueryParam(),
 			});
 		}
 		this.blocks = data ?? [];
