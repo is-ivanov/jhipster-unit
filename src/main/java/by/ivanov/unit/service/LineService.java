@@ -59,10 +59,25 @@ public interface LineService {
     void delete(Long id);
 
 	/**
-	 * Get revisions for all Lines
+	 * Get revisions for all Lines.
 	 *
-	 * @return the list of revisions
+	 * @return the list of revisions.
 	 */
 	List<String> findAllRevisions();
 
+	/**
+	 * Get revisions for all Lines from project with ID
+	 *
+	 * @param projectId the ID of project.
+	 * @return the list of revisions.
+	 */
+	List<String> findAllRevisionsWithProject(Long projectId);
+
+	/**
+	 * Get revisions for all Lines from block with ID
+	 *
+	 * @param blockId the ID of block.
+	 * @return the list of revisions.
+	 */
+	List<String> findAllRevisionsWithBlock(Long blockId);
 }

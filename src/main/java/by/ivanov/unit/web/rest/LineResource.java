@@ -30,7 +30,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * REST controller for managing {@link by.ivanov.unit.domain.Line}.
+ * REST controller for managing {@link by.ivanov.unit.domain.Line} and their revisions.
  */
 @RestController
 @RequestMapping("/api")
@@ -214,13 +214,35 @@ public class LineResource {
 	}
 
 	/**
-	 * {@code GET  /lines/revisions} : get all the lines.
+	 * {@code GET  /lines/revisions} : get all Revisions for the lines.
 	 *
-	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of lines in body.
+	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of revisions in body.
 	 */
 	@GetMapping("/lines/revisions")
-	public List<String> getRevisions() {
+	public List<String> getAllRevisions() {
 		log.debug("REST request to get revisions of all lines");
 		return lineService.findAllRevisions();
+	}
+
+	/**
+	 * {@code GET  /projects/:projectId/revisions} : get all Revisions for the project with "id".
+	 *
+	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of revisions in body.
+	 */
+	@GetMapping("/projects/{projectId}/revisions")
+	public List<String> getRevisionsByProject(@PathVariable Long projectId) {
+		log.debug("REST request to get revisions of lines from project ID: {}", projectId);
+		return lineService.findAllRevisionsWithProject(projectId);
+	}
+
+	/**
+	 * {@code GET  /blocks/:blockId/revisions} : get all Revisions for the block with "id".
+	 *
+	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of revisions in body.
+	 */
+	@GetMapping("/blocks/{blockId}/revisions")
+	public List<String> getRevisionsByBlock(@PathVariable Long blockId) {
+		log.debug("REST request to get revisions of lines from block ID: {}", blockId);
+		return lineService.findAllRevisionsWithBlock(blockId);
 	}
 }

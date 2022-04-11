@@ -86,4 +86,18 @@ public class LineServiceImpl implements LineService {
 		log.debug("Request to get revisions for all Lines");
 		return lineRepository.findAllRevisions();
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> findAllRevisionsWithProject(Long projectId) {
+		log.debug("Request to get revisions for Lines from project with ID: {}", projectId);
+		return lineRepository.findAllRevisionsWithProject(projectId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> findAllRevisionsWithBlock(Long blockId) {
+		log.debug("Request to get revisions for Lines from block with ID: {}", blockId);
+		return lineRepository.findAllRevisionsWithBlock(blockId);
+	}
 }
