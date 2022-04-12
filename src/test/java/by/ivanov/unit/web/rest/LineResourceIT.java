@@ -1,22 +1,13 @@
 package by.ivanov.unit.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import by.ivanov.unit.IntegrationTest;
 import by.ivanov.unit.domain.Block;
 import by.ivanov.unit.domain.Line;
 import by.ivanov.unit.domain.enumeration.StatusLine;
 import by.ivanov.unit.repository.LineRepository;
-import by.ivanov.unit.service.criteria.LineCriteria;
+import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.dto.LineDTO;
 import by.ivanov.unit.service.mapper.LineMapper;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +16,16 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link LineResource} REST controller.
@@ -112,7 +113,8 @@ class LineResourceIT {
 
     @Test
     @Transactional
-    void createLine() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void createLine() throws Exception {
         int databaseSizeBeforeCreate = lineRepository.findAll().size();
         // Create the Line
         LineDTO lineDTO = lineMapper.toDto(line);
@@ -131,7 +133,8 @@ class LineResourceIT {
 
     @Test
     @Transactional
-    void createLineWithExistingId() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void createLineWithExistingId() throws Exception {
         // Create the Line with an existing ID
         line.setId(1L);
         LineDTO lineDTO = lineMapper.toDto(line);
@@ -537,7 +540,8 @@ class LineResourceIT {
 
     @Test
     @Transactional
-    void putNewLine() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void putNewLine() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);
 
@@ -569,7 +573,8 @@ class LineResourceIT {
 
     @Test
     @Transactional
-    void putNonExistingLine() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void putNonExistingLine() throws Exception {
         int databaseSizeBeforeUpdate = lineRepository.findAll().size();
         line.setId(count.incrementAndGet());
 
@@ -592,7 +597,8 @@ class LineResourceIT {
 
     @Test
     @Transactional
-    void putWithIdMismatchLine() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void putWithIdMismatchLine() throws Exception {
         int databaseSizeBeforeUpdate = lineRepository.findAll().size();
         line.setId(count.incrementAndGet());
 
@@ -634,7 +640,8 @@ class LineResourceIT {
 
     @Test
     @Transactional
-    void partialUpdateLineWithPatch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void partialUpdateLineWithPatch() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);
 
@@ -665,7 +672,8 @@ class LineResourceIT {
 
     @Test
     @Transactional
-    void fullUpdateLineWithPatch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void fullUpdateLineWithPatch() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);
 
@@ -696,7 +704,8 @@ class LineResourceIT {
 
     @Test
     @Transactional
-    void patchNonExistingLine() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void patchNonExistingLine() throws Exception {
         int databaseSizeBeforeUpdate = lineRepository.findAll().size();
         line.setId(count.incrementAndGet());
 
@@ -719,7 +728,8 @@ class LineResourceIT {
 
     @Test
     @Transactional
-    void patchWithIdMismatchLine() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void patchWithIdMismatchLine() throws Exception {
         int databaseSizeBeforeUpdate = lineRepository.findAll().size();
         line.setId(count.incrementAndGet());
 
@@ -761,7 +771,8 @@ class LineResourceIT {
 
     @Test
     @Transactional
-    void deleteLine() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void deleteLine() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);
 
