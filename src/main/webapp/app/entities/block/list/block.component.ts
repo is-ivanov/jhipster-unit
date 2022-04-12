@@ -138,7 +138,7 @@ export class BlockComponent implements OnInit {
 		this.ngbPaginationPage = this.page ?? 1;
 	}
 
-	protected prepareQueryParam(): any {
+	protected prepareQueryParam(): {} {
 		const param = {};
 		Object.assign(param, { page: this.page });
 		Object.assign(param, { size: this.itemsPerPage });

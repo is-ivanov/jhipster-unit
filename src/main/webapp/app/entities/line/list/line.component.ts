@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -10,9 +10,10 @@ import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants
 import { LineService } from '../service/line.service';
 import { LineDeleteDialogComponent } from '../delete/line-delete-dialog.component';
 import { ProjectService } from '../../project/service/project.service';
-import { IBlock } from '../../block/block.model';
+import { Block, IBlock } from '../../block/block.model';
 import { DropdownDataService } from '../../../shared/dropdown-data.service';
 import { StatusLine } from '../../enumerations/status-line.model';
+import { DataUtils } from '../../../core/util/data-util.service';
 
 @Component({
 	selector: 'jhi-line',
@@ -37,6 +38,10 @@ export class LineComponent implements OnInit, OnDestroy {
 	filterStatusLine?: string;
 	filterBlockId?: number;
 	filterBlocks?: IBlock[];
+
+	projectIdNotifierSubscription: Subscription = this.dropdownDataService.projectNotifier.subscribe(
+		(projectId) => (this.filterProjectId = projectId)
+	);
 
 	projectNotifierSubscription: Subscription = this.dropdownDataService.blocksNotifier.subscribe((blocks) => {
 		this.filterBlockId = undefined;
@@ -66,7 +71,8 @@ export class LineComponent implements OnInit, OnDestroy {
 		protected router: Router,
 		protected modalService: NgbModal,
 		protected projectService: ProjectService,
-		protected dropdownDataService: DropdownDataService
+		protected dropdownDataService: DropdownDataService,
+		protected dataUtils: DataUtils
 	) {}
 
 	ngOnInit(): void {
@@ -135,7 +141,6 @@ export class LineComponent implements OnInit, OnDestroy {
 		this.filterRevision = undefined;
 		this.filterStatusLine = undefined;
 		this.filterBlocks = undefined;
-		// TODO fill dropdowns for block and revisions and
 		this.dropdownDataService.notifyClearFilter();
 		this.loadPage(1);
 	}
@@ -145,6 +150,7 @@ export class LineComponent implements OnInit, OnDestroy {
 		this.blockNotifierSubscription.unsubscribe();
 		this.statusLineNotifierSubscription.unsubscribe();
 		this.revisionsNotifierSubscription.unsubscribe();
+		this.projectIdNotifierSubscription.unsubscribe();
 	}
 
 	protected sort(): string[] {
@@ -162,6 +168,9 @@ export class LineComponent implements OnInit, OnDestroy {
 			const sort = (params.get(SORT) ?? data['defaultSort']).split(',');
 			const predicate = sort[0];
 			const ascending = sort[1] === ASC;
+
+			this.getFilterParamsFromRoute(params);
+
 			if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
 				this.predicate = predicate;
 				this.ascending = ascending;
@@ -186,7 +195,7 @@ export class LineComponent implements OnInit, OnDestroy {
 		this.ngbPaginationPage = this.page ?? 1;
 	}
 
-	protected prepareQueryParam(): any {
+	protected prepareQueryParam(): {} {
 		const param = {};
 		Object.assign(param, { page: this.page });
 		Object.assign(param, { size: this.itemsPerPage });
@@ -220,6 +229,30 @@ export class LineComponent implements OnInit, OnDestroy {
 
 		if (this.filterBlockId) {
 			Object.assign(param, { 'blockId.equals': this.filterBlockId });
+		}
+
+		if (this.filterProjectId) {
+			Object.assign(param, { 'projectId.equals': this.filterProjectId });
+		}
+	}
+
+	private getFilterParamsFromRoute(params: ParamMap): void {
+		const projectId = params.get('projectId.equals');
+		this.filterProjectId = projectId !== null ? +projectId : undefined;
+
+		this.filterTag = params.get('tag.contains') ?? undefined;
+		this.filterRevision = params.getAll('revision.in');
+
+		const blockId = params.get('blockId.equals');
+		this.filterBlockId = blockId !== null ? +blockId : undefined;
+
+		const blocksString = params.get('blockId.in');
+		let blocks: string[] = [];
+		if (blocksString !== null) {
+			blocks = blocksString.split(',');
+		}
+		if (blocks.length > 0) {
+			this.filterBlocks = blocks.map((id) => new Block(+id));
 		}
 	}
 }
