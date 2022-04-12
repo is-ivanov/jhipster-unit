@@ -82,34 +82,7 @@ export class LineComponent implements OnInit, OnDestroy {
 		Object.assign(req, { size: this.itemsPerPage });
 		Object.assign(req, { sort: this.sort() });
 
-		if (this.filterBlocks && this.filterBlocks.length > 0) {
-			const filterBlockIds: (number | undefined)[] = this.filterBlocks.map((block) => block.id);
-			Object.assign(req, { 'blockId.in': filterBlockIds });
-		}
-
-		if (this.filterTag) {
-			Object.assign(req, { 'tag.contains': this.filterTag });
-		}
-
-		if (this.filterRevision && this.filterRevision.length > 0) {
-			Object.assign(req, { 'revision.in': this.filterRevision });
-		}
-
-		if (this.filterStatusLine && this.showAnnul) {
-			Object.assign(req, { 'status.in': [this.filterStatusLine, StatusLine.DELETED] });
-		} else if (this.filterStatusLine) {
-			Object.assign(req, { 'status.equals': this.filterStatusLine });
-		} else if (!this.showAnnul) {
-			Object.assign(req, { 'status.notEquals': StatusLine.DELETED });
-		}
-
-		if (this.filterBlockId) {
-			Object.assign(req, { 'blockId.equals': this.filterBlockId });
-		}
-
-		// if (!this.showAnnul) {
-		//
-		// }
+		this.addFiltersParam(req);
 
 		this.lineService.query(req).subscribe({
 			next: (res: HttpResponse<ILine[]>) => {
@@ -202,11 +175,7 @@ export class LineComponent implements OnInit, OnDestroy {
 		this.page = page;
 		if (navigate) {
 			this.router.navigate(['/line'], {
-				queryParams: {
-					page: this.page,
-					size: this.itemsPerPage,
-					sort: this.predicate + ',' + (this.ascending ? ASC : DESC),
-				},
+				queryParams: this.prepareQueryParam(),
 			});
 		}
 		this.lines = data ?? [];
@@ -215,5 +184,41 @@ export class LineComponent implements OnInit, OnDestroy {
 
 	protected onError(): void {
 		this.ngbPaginationPage = this.page ?? 1;
+	}
+
+	protected prepareQueryParam(): any {
+		const param = {};
+		Object.assign(param, { page: this.page });
+		Object.assign(param, { size: this.itemsPerPage });
+		Object.assign(param, { sort: this.predicate + ',' + (this.ascending ? ASC : DESC) });
+		this.addFiltersParam(param);
+		return param;
+	}
+
+	private addFiltersParam(param: {}): void {
+		if (this.filterBlocks && this.filterBlocks.length > 0) {
+			const filterBlockIds: (number | undefined)[] = this.filterBlocks.map((block) => block.id);
+			Object.assign(param, { 'blockId.in': filterBlockIds });
+		}
+
+		if (this.filterTag) {
+			Object.assign(param, { 'tag.contains': this.filterTag });
+		}
+
+		if (this.filterRevision && this.filterRevision.length > 0) {
+			Object.assign(param, { 'revision.in': this.filterRevision });
+		}
+
+		if (this.filterStatusLine && this.showAnnul) {
+			Object.assign(param, { 'status.in': [this.filterStatusLine, StatusLine.DELETED] });
+		} else if (this.filterStatusLine) {
+			Object.assign(param, { 'status.equals': this.filterStatusLine });
+		} else if (!this.showAnnul) {
+			Object.assign(param, { 'status.notEquals': StatusLine.DELETED });
+		}
+
+		if (this.filterBlockId) {
+			Object.assign(param, { 'blockId.equals': this.filterBlockId });
+		}
 	}
 }

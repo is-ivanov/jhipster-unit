@@ -53,15 +53,7 @@ export class BlockComponent implements OnInit {
 		Object.assign(req, { size: this.itemsPerPage });
 		Object.assign(req, { sort: this.sort() });
 
-		if (this.filterNumber) {
-			Object.assign(req, { 'number.equals': this.filterNumber });
-		}
-		if (this.filterDescription) {
-			Object.assign(req, { 'description.contains': this.filterDescription });
-		}
-		if (this.filterProjectId) {
-			Object.assign(req, { 'projectId.equals': this.filterProjectId });
-		}
+		this.addFiltersParam(req);
 
 		this.blockService.query(req).subscribe({
 			next: (res: HttpResponse<IBlock[]>) => {
@@ -77,8 +69,6 @@ export class BlockComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.handleNavigation();
-		// this.loadRelationshipsOptions();
-		// this.projectService.loadProjectsIntoArray();
 	}
 
 	trackId(index: number, item: IBlock): number {
@@ -150,6 +140,11 @@ export class BlockComponent implements OnInit {
 		Object.assign(param, { page: this.page });
 		Object.assign(param, { size: this.itemsPerPage });
 		Object.assign(param, { sort: this.predicate + ',' + (this.ascending ? ASC : DESC) });
+		this.addFiltersParam(param);
+		return param;
+	}
+
+	private addFiltersParam(param: {}): void {
 		if (this.filterNumber) {
 			Object.assign(param, { 'number.equals': this.filterNumber });
 		}
@@ -159,6 +154,5 @@ export class BlockComponent implements OnInit {
 		if (this.filterProjectId) {
 			Object.assign(param, { 'projectId.equals': this.filterProjectId });
 		}
-		return param;
 	}
 }

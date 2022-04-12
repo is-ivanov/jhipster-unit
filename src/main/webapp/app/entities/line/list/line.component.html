@@ -168,18 +168,16 @@
 							<span class="d-none d-lg-inline" jhiTranslate="entity.action.annul">Delete</span>
 						</button>
 
-						<div *jhiHasAnyAuthority="'ROLE_ADMIN'">
-							<button
-								*ngIf="showAnnul"
-								(click)="delete(line)"
-								type="submit"
-								class="btn btn-danger btn-sm"
-								data-cy="entityDeleteButton"
-							>
-								<fa-icon icon="times"></fa-icon>
-								<span class="d-none d-lg-inline" jhiTranslate="entity.action.delete">Delete</span>
-							</button>
-						</div>
+						<button
+							*jhiHasAnyAuthority="'ROLE_ADMIN'"
+							(click)="delete(line)"
+							type="submit"
+							class="btn btn-danger btn-sm"
+							data-cy="entityDeleteButton"
+						>
+							<fa-icon icon="times"></fa-icon>
+							<span class="d-none d-lg-inline" jhiTranslate="entity.action.delete">Delete</span>
+						</button>
 					</div>
 				</td>
 			</tr>
