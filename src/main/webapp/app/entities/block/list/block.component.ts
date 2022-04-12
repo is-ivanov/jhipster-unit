@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -111,6 +111,9 @@ export class BlockComponent implements OnInit {
 			const sort = (params.get(SORT) ?? data['defaultSort']).split(',');
 			const predicate = sort[0];
 			const ascending = sort[1] === ASC;
+
+			this.getFilterParamsFromRoute(params);
+
 			if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
 				this.predicate = predicate;
 				this.ascending = ascending;
@@ -154,5 +157,14 @@ export class BlockComponent implements OnInit {
 		if (this.filterProjectId) {
 			Object.assign(param, { 'projectId.equals': this.filterProjectId });
 		}
+	}
+
+	private getFilterParamsFromRoute(params: ParamMap): void {
+		const number = params.get('number.equals');
+		this.filterNumber = number !== null ? +number : undefined;
+		this.filterDescription = params.get('description.contains') ?? undefined;
+
+		const projectId = params.get('projectId.equals');
+		this.filterProjectId = projectId !== null ? +projectId : undefined;
 	}
 }

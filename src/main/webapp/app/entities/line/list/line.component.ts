@@ -198,7 +198,8 @@ export class LineComponent implements OnInit, OnDestroy {
 	private addFiltersParam(param: {}): void {
 		if (this.filterBlocks && this.filterBlocks.length > 0) {
 			const filterBlockIds: (number | undefined)[] = this.filterBlocks.map((block) => block.id);
-			Object.assign(param, { 'blockId.in': filterBlockIds });
+			const filterBlocks: string = filterBlockIds.join(',');
+			Object.assign(param, { 'blockId.in': filterBlocks });
 		}
 
 		if (this.filterTag) {

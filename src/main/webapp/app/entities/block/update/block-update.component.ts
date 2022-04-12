@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { IBlock, Block } from '../block.model';
+import { Block, IBlock } from '../block.model';
 import { BlockService } from '../service/block.service';
 import { IProject } from 'app/entities/project/project.model';
 import { ProjectService } from 'app/entities/project/service/project.service';
@@ -94,7 +94,10 @@ export class BlockUpdateComponent implements OnInit {
 
 	protected loadRelationshipsOptions(): void {
 		this.projectService
-			.query({ sort: ['name,asc'] })
+			.query({
+				eagerload: false,
+				sort: ['name,asc'],
+			})
 			.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
 			.pipe(
 				map((projects: IProject[]) =>
