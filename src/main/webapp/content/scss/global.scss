@@ -214,3 +214,13 @@ ng-multiselect-dropdown .dropdown-list {
 h5 {
 	font-size: medium !important;
 }
+
+tr.annul {
+	color: red !important;
+	font-style: italic;
+	font-weight: bold;
+}
+
+.table-striped > tbody > tr.annul:nth-of-type(odd) > * {
+	color: red !important;
+}

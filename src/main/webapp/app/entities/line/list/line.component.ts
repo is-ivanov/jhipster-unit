@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
@@ -12,10 +12,11 @@ import { LineDeleteDialogComponent } from '../delete/line-delete-dialog.componen
 import { ProjectService } from '../../project/service/project.service';
 import { IBlock } from '../../block/block.model';
 import { DropdownDataService } from '../../../shared/dropdown-data.service';
+import { StatusLine } from '../../enumerations/status-line.model';
 
 @Component({
 	selector: 'jhi-line',
-	templateUrl: './line.component.html'
+	templateUrl: './line.component.html',
 })
 export class LineComponent implements OnInit, OnDestroy {
 	lines?: ILine[];
@@ -26,6 +27,9 @@ export class LineComponent implements OnInit, OnDestroy {
 	predicate!: string;
 	ascending!: boolean;
 	ngbPaginationPage = 1;
+	@Input() status = StatusLine.NEW;
+	lineStatus = StatusLine;
+	showAnnul = false;
 
 	filterProjectId?: number;
 	filterTag?: string;
@@ -34,31 +38,27 @@ export class LineComponent implements OnInit, OnDestroy {
 	filterBlockId?: number;
 	filterBlocks?: IBlock[];
 
-	projectNotifierSubscription: Subscription =
-		this.dropdownDataService.blocksNotifier.subscribe((blocks) => {
-			this.filterBlockId = undefined;
-			this.filterBlocks = blocks;
-			this.loadPage(1);
-		});
+	projectNotifierSubscription: Subscription = this.dropdownDataService.blocksNotifier.subscribe((blocks) => {
+		this.filterBlockId = undefined;
+		this.filterBlocks = blocks;
+		this.loadPage(1);
+	});
 
-	blockNotifierSubscription: Subscription =
-		this.dropdownDataService.blockNotifier.subscribe((blockId) => {
-			this.filterBlocks = undefined;
-			this.filterBlockId = blockId;
-			this.loadPage(1);
-		});
+	blockNotifierSubscription: Subscription = this.dropdownDataService.blockNotifier.subscribe((blockId) => {
+		this.filterBlocks = undefined;
+		this.filterBlockId = blockId;
+		this.loadPage(1);
+	});
 
-	statusLineNotifierSubscription: Subscription =
-		this.dropdownDataService.statusLineNotifier.subscribe((status) => {
-			this.filterStatusLine = status;
-			this.loadPage(1);
-		});
+	statusLineNotifierSubscription: Subscription = this.dropdownDataService.statusLineNotifier.subscribe((status) => {
+		this.filterStatusLine = status;
+		this.loadPage(1);
+	});
 
-	revisionsNotifierSubscription: Subscription =
-		this.dropdownDataService.revisionNotifier.subscribe((revisions) => {
-			this.filterRevision = revisions;
-			this.loadPage(1);
-		});
+	revisionsNotifierSubscription: Subscription = this.dropdownDataService.revisionNotifier.subscribe((revisions) => {
+		this.filterRevision = revisions;
+		this.loadPage(1);
+	});
 
 	constructor(
 		protected lineService: LineService,
@@ -67,8 +67,7 @@ export class LineComponent implements OnInit, OnDestroy {
 		protected modalService: NgbModal,
 		protected projectService: ProjectService,
 		protected dropdownDataService: DropdownDataService
-	) {
-	}
+	) {}
 
 	ngOnInit(): void {
 		this.handleNavigation();
@@ -78,7 +77,7 @@ export class LineComponent implements OnInit, OnDestroy {
 		this.isLoading = true;
 		const pageToLoad: number = page ?? this.page ?? 1;
 
-		const req = {};
+		const req: { [index: string]: any } = {};
 		Object.assign(req, { page: pageToLoad - 1 });
 		Object.assign(req, { size: this.itemsPerPage });
 		Object.assign(req, { sort: this.sort() });
@@ -91,16 +90,26 @@ export class LineComponent implements OnInit, OnDestroy {
 		if (this.filterTag) {
 			Object.assign(req, { 'tag.contains': this.filterTag });
 		}
+
 		if (this.filterRevision && this.filterRevision.length > 0) {
 			Object.assign(req, { 'revision.in': this.filterRevision });
 		}
 
-		if (this.filterStatusLine) {
+		if (this.filterStatusLine && this.showAnnul) {
+			Object.assign(req, { 'status.in': [this.filterStatusLine, StatusLine.DELETED] });
+		} else if (this.filterStatusLine) {
 			Object.assign(req, { 'status.equals': this.filterStatusLine });
+		} else if (!this.showAnnul) {
+			Object.assign(req, { 'status.notEquals': StatusLine.DELETED });
 		}
+
 		if (this.filterBlockId) {
 			Object.assign(req, { 'blockId.equals': this.filterBlockId });
 		}
+
+		// if (!this.showAnnul) {
+		//
+		// }
 
 		this.lineService.query(req).subscribe({
 			next: (res: HttpResponse<ILine[]>) => {
@@ -110,7 +119,7 @@ export class LineComponent implements OnInit, OnDestroy {
 			error: () => {
 				this.isLoading = false;
 				this.onError();
-			}
+			},
 		});
 	}
 
@@ -121,7 +130,7 @@ export class LineComponent implements OnInit, OnDestroy {
 	delete(line: ILine): void {
 		const modalRef = this.modalService.open(LineDeleteDialogComponent, {
 			size: 'lg',
-			backdrop: 'static'
+			backdrop: 'static',
 		});
 		modalRef.componentInstance.line = line;
 		// unsubscribe not needed because closed completes on modal close
@@ -130,6 +139,20 @@ export class LineComponent implements OnInit, OnDestroy {
 				this.loadPage();
 			}
 		});
+	}
+
+	annul(line: ILine): void {
+		// const modalRef = this.modalService.open(LineDeleteDialogComponent, {
+		// 	size: 'lg',
+		// 	backdrop: 'static'
+		// });
+		// modalRef.componentInstance.line = line;
+		// // unsubscribe not needed because closed completes on modal close
+		// modalRef.closed.subscribe((reason) => {
+		// 	if (reason === 'deleted') {
+		// 		this.loadPage();
+		// 	}
+		// });
 	}
 
 	clearFilter(): void {
@@ -182,8 +205,8 @@ export class LineComponent implements OnInit, OnDestroy {
 				queryParams: {
 					page: this.page,
 					size: this.itemsPerPage,
-					sort: this.predicate + ',' + (this.ascending ? ASC : DESC)
-				}
+					sort: this.predicate + ',' + (this.ascending ? ASC : DESC),
+				},
 			});
 		}
 		this.lines = data ?? [];

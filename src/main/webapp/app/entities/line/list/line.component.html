@@ -89,12 +89,36 @@
 					<jhi-blocks [selectedBlockId]="filterBlockId"></jhi-blocks>
 				</td>
 				<td>
-					<jhi-clear-filter (clearFilter)="clearFilter()"></jhi-clear-filter>
+					<div class="row">
+						<div class="col">
+							<jhi-clear-filter (clearFilter)="clearFilter()"></jhi-clear-filter>
+						</div>
+						<div class="col form-check form-switch d-flex align-items-center">
+							<input
+								class="form-check-input mb-1"
+								type="checkbox"
+								id="showAnnulLines"
+								[(ngModel)]="showAnnul"
+								(ngModelChange)="loadPage()"
+							/>
+							<label
+								class="form-check-label ms-1 d-none d-lg-inline"
+								for="showAnnulLines"
+								jhiTranslate="unitApp.line.home.showAnnul"
+							>
+								Show annul lines
+							</label>
+						</div>
+					</div>
 				</td>
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let line of lines; trackBy: trackId" data-cy="entityTable">
+			<tr
+				*ngFor="let line of lines; trackBy: trackId"
+				[class.annul]="line.status === lineStatus.DELETED"
+				data-cy="entityTable"
+			>
 				<td class="text-center align-middle">
 					<a [routerLink]="['/line', line.id, 'view']">{{ line.id }}</a>
 				</td>
@@ -119,7 +143,7 @@
 							data-cy="entityDetailsButton"
 						>
 							<fa-icon icon="eye"></fa-icon>
-							<span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+							<span class="d-none d-lg-inline" jhiTranslate="entity.action.view">View</span>
 						</button>
 
 						<button
@@ -129,24 +153,33 @@
 							data-cy="entityEditButton"
 						>
 							<fa-icon icon="pencil-alt"></fa-icon>
-							<span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+							<span class="d-none d-lg-inline" jhiTranslate="entity.action.edit">Edit</span>
 						</button>
 
 						<!--					TODO create method to annul line-->
 						<button
+							*jhiHasAnyAuthority="'ROLE_ADMIN'"
 							type="submit"
-							(click)="delete(line)"
+							(click)="annul(line)"
 							class="btn btn-outline-danger btn-sm"
 							data-cy="entityDeleteButton"
 						>
 							<fa-icon icon="trash-alt"></fa-icon>
-							<span class="d-none d-md-inline" jhiTranslate="entity.action.annul">Delete</span>
+							<span class="d-none d-lg-inline" jhiTranslate="entity.action.annul">Delete</span>
 						</button>
 
-						<button type="submit" (click)="delete(line)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-							<fa-icon icon="times"></fa-icon>
-							<span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-						</button>
+						<div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+							<button
+								*ngIf="showAnnul"
+								(click)="delete(line)"
+								type="submit"
+								class="btn btn-danger btn-sm"
+								data-cy="entityDeleteButton"
+							>
+								<fa-icon icon="times"></fa-icon>
+								<span class="d-none d-lg-inline" jhiTranslate="entity.action.delete">Delete</span>
+							</button>
+						</div>
 					</div>
 				</td>
 			</tr>
