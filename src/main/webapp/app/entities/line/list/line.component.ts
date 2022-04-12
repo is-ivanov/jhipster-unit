@@ -14,6 +14,7 @@ import { Block, IBlock } from '../../block/block.model';
 import { DropdownDataService } from '../../../shared/dropdown-data.service';
 import { StatusLine } from '../../enumerations/status-line.model';
 import { DataUtils } from '../../../core/util/data-util.service';
+import { LineAnnulDialogComponent } from '../annul/line-annul-dialog.component';
 
 @Component({
 	selector: 'jhi-line',
@@ -121,17 +122,17 @@ export class LineComponent implements OnInit, OnDestroy {
 	}
 
 	annul(line: ILine): void {
-		// const modalRef = this.modalService.open(LineDeleteDialogComponent, {
-		// 	size: 'lg',
-		// 	backdrop: 'static'
-		// });
-		// modalRef.componentInstance.line = line;
-		// // unsubscribe not needed because closed completes on modal close
-		// modalRef.closed.subscribe((reason) => {
-		// 	if (reason === 'deleted') {
-		// 		this.loadPage();
-		// 	}
-		// });
+		const modalRef = this.modalService.open(LineAnnulDialogComponent, {
+			size: 'lg',
+			backdrop: 'static'
+		});
+		modalRef.componentInstance.line = line;
+		// unsubscribe not needed because closed completes on modal close
+		modalRef.closed.subscribe((reason) => {
+			if (reason === 'annulled') {
+				this.loadPage();
+			}
+		});
 	}
 
 	clearFilter(): void {

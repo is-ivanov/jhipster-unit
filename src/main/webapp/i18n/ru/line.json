@@ -15,6 +15,9 @@
 			"delete": {
 				"question": "Вы уверены что хотите <strong>ПОЛНОСТЬЮ</strong> удалить линию <strong>{{ tag }}</strong> блока <strong>{{ block }}</strong> с ID {{ id }}?"
 			},
+			"annul": {
+				"question": "Вы уверены что хотите аннулировать линию <strong>{{ tag }}</strong> блока <strong>{{ block }}</strong> с ID {{ id }}?"
+			},
 			"detail": {
 				"title": "Линия"
 			},
