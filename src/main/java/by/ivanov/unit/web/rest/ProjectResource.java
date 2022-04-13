@@ -157,12 +157,7 @@ public class ProjectResource {
 		@RequestParam(required = false, defaultValue = "true") boolean eagerload
 	) {
 		log.debug("REST request to get a page of Projects");
-		Page<ProjectDTO> page;
-				if (eagerload) {
-					page = projectService.findAllWithEagerRelationships(pageable);
-				} else {
-					page = projectService.findAll(pageable);
-				}
+		Page<ProjectDTO> page = projectService.findAll(pageable);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
 			ServletUriComponentsBuilder.fromCurrentRequest(), page);
 		return ResponseEntity.ok().headers(headers).body(page.getContent());

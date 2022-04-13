@@ -67,13 +67,14 @@ public class ProjectServiceImpl implements ProjectService {
 	@Transactional(readOnly = true)
 	public Page<ProjectDTO> findAll(Pageable pageable) {
 		log.debug("Request to get all Projects");
-		return projectRepository.findAll(pageable).map(projectMapper::toDto);
+		return projectRepository.findAll(pageable).map(projectMapper::toDtoWithGenContractorName);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Page<ProjectDTO> findAllWithEagerRelationships(Pageable pageable) {
-		return projectRepository.findAllWithEagerRelationships(pageable).map(projectMapper::toDto);
+		return projectRepository.findAllWithEagerRelationships(pageable)
+			.map(projectMapper::toDtoWithGenContractorName);
 	}
 
 	@Override
