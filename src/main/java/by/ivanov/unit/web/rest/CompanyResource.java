@@ -95,7 +95,7 @@ public class CompanyResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        CompanyDTO result = companyService.save(companyDTO);
+        CompanyDTO result = companyService.update(companyDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, companyDTO.getId().toString()))

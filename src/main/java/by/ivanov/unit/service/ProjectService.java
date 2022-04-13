@@ -18,6 +18,14 @@ public interface ProjectService {
     ProjectDTO save(ProjectDTO projectDTO);
 
     /**
+     * Updates a project.
+     *
+     * @param projectDTO the entity to update.
+     * @return the persisted entity.
+     */
+    ProjectDTO update(ProjectDTO projectDTO);
+
+    /**
      * Partially updates a project.
      *
      * @param projectDTO the entity to update partially.

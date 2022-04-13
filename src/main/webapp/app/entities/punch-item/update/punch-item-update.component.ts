@@ -94,27 +94,27 @@ export class PunchItemUpdateComponent implements OnInit {
     }
   }
 
-  trackTypePunchById(index: number, item: ITypePunch): number {
+  trackTypePunchById(_index: number, item: ITypePunch): number {
     return item.id!;
   }
 
-  trackLineById(index: number, item: ILine): number {
+  trackLineById(_index: number, item: ILine): number {
     return item.id!;
   }
 
-  trackPunchListById(index: number, item: IPunchList): number {
+  trackPunchListById(_index: number, item: IPunchList): number {
     return item.id!;
   }
 
-  trackPriorityPunchById(index: number, item: IPriorityPunch): number {
+  trackPriorityPunchById(_index: number, item: IPriorityPunch): number {
     return item.id!;
   }
 
-  trackCompanyById(index: number, item: ICompany): number {
+  trackCompanyById(_index: number, item: ICompany): number {
     return item.id!;
   }
 
-  trackUserById(index: number, item: IUser): number {
+  trackUserById(_index: number, item: IUser): number {
     return item.id!;
   }
 

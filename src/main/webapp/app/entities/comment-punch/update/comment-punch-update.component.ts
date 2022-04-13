@@ -54,7 +54,7 @@ export class CommentPunchUpdateComponent implements OnInit {
     }
   }
 
-  trackPunchItemById(index: number, item: IPunchItem): number {
+  trackPunchItemById(_index: number, item: IPunchItem): number {
     return item.id!;
   }
 

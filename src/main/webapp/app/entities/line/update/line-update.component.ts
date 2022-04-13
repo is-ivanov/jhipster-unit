@@ -58,7 +58,7 @@ export class LineUpdateComponent implements OnInit {
     }
   }
 
-  trackBlockById(index: number, item: IBlock): number {
+  trackBlockById(_index: number, item: IBlock): number {
     return item.id!;
   }
 

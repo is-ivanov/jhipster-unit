@@ -40,6 +40,14 @@ public class PunchItemServiceImpl implements PunchItemService {
     }
 
     @Override
+    public PunchItemDTO update(PunchItemDTO punchItemDTO) {
+        log.debug("Request to save PunchItem : {}", punchItemDTO);
+        PunchItem punchItem = punchItemMapper.toEntity(punchItemDTO);
+        punchItem = punchItemRepository.save(punchItem);
+        return punchItemMapper.toDto(punchItem);
+    }
+
+    @Override
     public Optional<PunchItemDTO> partialUpdate(PunchItemDTO punchItemDTO) {
         log.debug("Request to partially update PunchItem : {}", punchItemDTO);
 

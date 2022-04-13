@@ -18,6 +18,14 @@ public interface CompanyService {
     CompanyDTO save(CompanyDTO companyDTO);
 
     /**
+     * Updates a company.
+     *
+     * @param companyDTO the entity to update.
+     * @return the persisted entity.
+     */
+    CompanyDTO update(CompanyDTO companyDTO);
+
+    /**
      * Partially updates a company.
      *
      * @param companyDTO the entity to update partially.

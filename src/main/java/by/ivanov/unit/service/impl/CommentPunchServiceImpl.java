@@ -40,6 +40,14 @@ public class CommentPunchServiceImpl implements CommentPunchService {
     }
 
     @Override
+    public CommentPunchDTO update(CommentPunchDTO commentPunchDTO) {
+        log.debug("Request to save CommentPunch : {}", commentPunchDTO);
+        CommentPunch commentPunch = commentPunchMapper.toEntity(commentPunchDTO);
+        commentPunch = commentPunchRepository.save(commentPunch);
+        return commentPunchMapper.toDto(commentPunch);
+    }
+
+    @Override
     public Optional<CommentPunchDTO> partialUpdate(CommentPunchDTO commentPunchDTO) {
         log.debug("Request to partially update CommentPunch : {}", commentPunchDTO);
 

@@ -56,7 +56,7 @@ export class PunchListUpdateComponent implements OnInit {
     }
   }
 
-  trackProjectById(index: number, item: IProject): number {
+  trackProjectById(_index: number, item: IProject): number {
     return item.id!;
   }
 

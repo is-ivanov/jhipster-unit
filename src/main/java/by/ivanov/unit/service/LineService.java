@@ -18,6 +18,14 @@ public interface LineService {
     LineDTO save(LineDTO lineDTO);
 
     /**
+     * Updates a line.
+     *
+     * @param lineDTO the entity to update.
+     * @return the persisted entity.
+     */
+    LineDTO update(LineDTO lineDTO);
+
+    /**
      * Partially updates a line.
      *
      * @param lineDTO the entity to update partially.

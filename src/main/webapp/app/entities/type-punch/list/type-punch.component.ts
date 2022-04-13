@@ -34,7 +34,7 @@ export class TypePunchComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: ITypePunch): number {
+  trackId(_index: number, item: ITypePunch): number {
     return item.id!;
   }
 

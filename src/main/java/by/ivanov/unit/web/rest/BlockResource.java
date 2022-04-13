@@ -99,7 +99,7 @@ public class BlockResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        BlockDTO result = blockService.save(blockDTO);
+        BlockDTO result = blockService.update(blockDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, blockDTO.getId().toString()))

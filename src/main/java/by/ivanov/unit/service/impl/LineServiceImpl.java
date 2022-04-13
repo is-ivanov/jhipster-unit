@@ -40,6 +40,14 @@ public class LineServiceImpl implements LineService {
     }
 
     @Override
+    public LineDTO update(LineDTO lineDTO) {
+        log.debug("Request to save Line : {}", lineDTO);
+        Line line = lineMapper.toEntity(lineDTO);
+        line = lineRepository.save(line);
+        return lineMapper.toDto(line);
+    }
+
+    @Override
     public Optional<LineDTO> partialUpdate(LineDTO lineDTO) {
         log.debug("Request to partially update Line : {}", lineDTO);
 

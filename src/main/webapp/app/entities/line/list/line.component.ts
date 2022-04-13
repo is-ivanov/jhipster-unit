@@ -57,7 +57,7 @@ export class LineComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: ILine): number {
+  trackId(_index: number, item: ILine): number {
     return item.id!;
   }
 

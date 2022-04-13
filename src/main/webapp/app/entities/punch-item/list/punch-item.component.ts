@@ -57,7 +57,7 @@ export class PunchItemComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: IPunchItem): number {
+  trackId(_index: number, item: IPunchItem): number {
     return item.id!;
   }
 

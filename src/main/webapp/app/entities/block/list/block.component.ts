@@ -57,7 +57,7 @@ export class BlockComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: IBlock): number {
+  trackId(_index: number, item: IBlock): number {
     return item.id!;
   }
 

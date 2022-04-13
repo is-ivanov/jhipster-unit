@@ -40,6 +40,14 @@ public class PunchListServiceImpl implements PunchListService {
     }
 
     @Override
+    public PunchListDTO update(PunchListDTO punchListDTO) {
+        log.debug("Request to save PunchList : {}", punchListDTO);
+        PunchList punchList = punchListMapper.toEntity(punchListDTO);
+        punchList = punchListRepository.save(punchList);
+        return punchListMapper.toDto(punchList);
+    }
+
+    @Override
     public Optional<PunchListDTO> partialUpdate(PunchListDTO punchListDTO) {
         log.debug("Request to partially update PunchList : {}", punchListDTO);
 

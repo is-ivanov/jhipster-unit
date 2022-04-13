@@ -2,6 +2,7 @@ package by.ivanov.unit.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -10,17 +11,24 @@ import by.ivanov.unit.domain.Block;
 import by.ivanov.unit.domain.Line;
 import by.ivanov.unit.domain.enumeration.StatusLine;
 import by.ivanov.unit.repository.LineRepository;
+import by.ivanov.unit.service.LineService;
 import by.ivanov.unit.service.criteria.LineCriteria;
 import by.ivanov.unit.service.dto.LineDTO;
 import by.ivanov.unit.service.mapper.LineMapper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -30,6 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link LineResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class LineResourceIT {
@@ -52,8 +61,14 @@ class LineResourceIT {
     @Autowired
     private LineRepository lineRepository;
 
+    @Mock
+    private LineRepository lineRepositoryMock;
+
     @Autowired
     private LineMapper lineMapper;
+
+    @Mock
+    private LineService lineServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -217,6 +232,24 @@ class LineResourceIT {
             .andExpect(jsonPath("$.[*].tag").value(hasItem(DEFAULT_TAG)))
             .andExpect(jsonPath("$.[*].revision").value(hasItem(DEFAULT_REVISION)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllLinesWithEagerRelationshipsIsEnabled() throws Exception {
+        when(lineServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restLineMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(lineServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllLinesWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(lineServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restLineMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(lineServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test

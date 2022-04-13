@@ -57,7 +57,7 @@ export class ProjectComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: IProject): number {
+  trackId(_index: number, item: IProject): number {
     return item.id!;
   }
 

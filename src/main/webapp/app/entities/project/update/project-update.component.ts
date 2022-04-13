@@ -56,7 +56,7 @@ export class ProjectUpdateComponent implements OnInit {
     }
   }
 
-  trackCompanyById(index: number, item: ICompany): number {
+  trackCompanyById(_index: number, item: ICompany): number {
     return item.id!;
   }
 

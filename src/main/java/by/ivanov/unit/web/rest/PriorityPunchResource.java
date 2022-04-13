@@ -90,7 +90,7 @@ public class PriorityPunchResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        PriorityPunchDTO result = priorityPunchService.save(priorityPunchDTO);
+        PriorityPunchDTO result = priorityPunchService.update(priorityPunchDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, priorityPunchDTO.getId().toString()))
