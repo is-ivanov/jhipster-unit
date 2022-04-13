@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -16,7 +16,7 @@ import { DropdownDataService } from '../../../shared/dropdown-data.service';
 	selector: 'jhi-line-update',
 	templateUrl: './line-update.component.html',
 })
-export class LineUpdateComponent implements OnInit {
+export class LineUpdateComponent implements OnInit, OnDestroy {
 	isSaving = false;
 	statusLineValues = Object.keys(StatusLine);
 
@@ -68,6 +68,10 @@ export class LineUpdateComponent implements OnInit {
 
 	trackBlockById(index: number, item: IBlock): number {
 		return item.id!;
+	}
+
+	ngOnDestroy(): void {
+		this.projectNotifierSubscription.unsubscribe();
 	}
 
 	protected subscribeToSaveResponse(result: Observable<HttpResponse<ILine>>): void {

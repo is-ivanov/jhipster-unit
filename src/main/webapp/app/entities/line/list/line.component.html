@@ -147,6 +147,7 @@
 						</button>
 
 						<button
+							*jhiHasAnyAuthority="'ROLE_ADMIN'"
 							type="submit"
 							[routerLink]="['/line', line.id, 'edit']"
 							class="btn btn-warning btn-sm"

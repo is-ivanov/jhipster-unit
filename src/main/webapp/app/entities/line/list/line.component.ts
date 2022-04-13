@@ -13,7 +13,6 @@ import { ProjectService } from '../../project/service/project.service';
 import { Block, IBlock } from '../../block/block.model';
 import { DropdownDataService } from '../../../shared/dropdown-data.service';
 import { StatusLine } from '../../enumerations/status-line.model';
-import { DataUtils } from '../../../core/util/data-util.service';
 import { LineAnnulDialogComponent } from '../annul/line-annul-dialog.component';
 
 @Component({
@@ -72,8 +71,7 @@ export class LineComponent implements OnInit, OnDestroy {
 		protected router: Router,
 		protected modalService: NgbModal,
 		protected projectService: ProjectService,
-		protected dropdownDataService: DropdownDataService,
-		protected dataUtils: DataUtils
+		protected dropdownDataService: DropdownDataService
 	) {}
 
 	ngOnInit(): void {
@@ -124,7 +122,7 @@ export class LineComponent implements OnInit, OnDestroy {
 	annul(line: ILine): void {
 		const modalRef = this.modalService.open(LineAnnulDialogComponent, {
 			size: 'lg',
-			backdrop: 'static'
+			backdrop: 'static',
 		});
 		modalRef.componentInstance.line = line;
 		// unsubscribe not needed because closed completes on modal close
