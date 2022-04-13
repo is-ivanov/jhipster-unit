@@ -1,35 +1,42 @@
 package by.ivanov.unit.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import by.ivanov.unit.IntegrationTest;
 import by.ivanov.unit.domain.AppUser;
 import by.ivanov.unit.domain.Company;
 import by.ivanov.unit.domain.User;
 import by.ivanov.unit.repository.AppUserRepository;
+import by.ivanov.unit.service.criteria.AppUserCriteria;
 import by.ivanov.unit.service.dto.AppUserDTO;
 import by.ivanov.unit.service.mapper.AppUserMapper;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 /**
  * Integration tests for the {@link AppUserResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class AppUserResourceIT {
@@ -43,11 +50,17 @@ class AppUserResourceIT {
 	@Autowired
 	private AppUserRepository appUserRepository;
 
-	@Autowired
-	private AppUserMapper appUserMapper;
+    @Mock
+    private AppUserRepository appUserRepositoryMock;
 
-	@Autowired
-	private EntityManager em;
+    @Autowired
+    private AppUserMapper appUserMapper;
+
+    @Mock
+    private AppUserService appUserServiceMock;
+
+    @Autowired
+    private EntityManager em;
 
 	@Autowired
 	private MockMvc restAppUserMockMvc;
@@ -80,31 +93,27 @@ class AppUserResourceIT {
 		return appUser;
 	}
 
-	/**
-	 * Create an updated entity for this test.
-	 * <p>
-	 * This is a static method, as tests for other entities might also need it,
-	 * if they test an entity which requires the current entity.
-	 */
-	public static AppUser createUpdatedEntity(EntityManager em) {
-		AppUser appUser = new AppUser();
-		// Add required entity
-		User user = UserResourceIT.createEntity(em);
-		em.persist(user);
-		em.flush();
-		appUser.setUser(user);
-		// Add required entity
-		Company company;
-		if (TestUtil.findAll(em, Company.class).isEmpty()) {
-			company = CompanyResourceIT.createUpdatedEntity(em);
-			em.persist(company);
-			em.flush();
-		} else {
-			company = TestUtil.findAll(em, Company.class).get(0);
-		}
-		appUser.setCompany(company);
-		return appUser;
-	}
+    /**
+     * Create an updated entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static AppUser createUpdatedEntity(EntityManager em) {
+        AppUser appUser = new AppUser();
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        appUser.setUser(user);
+        // Add required entity
+        Company company;
+        company = CompanyResourceIT.createUpdatedEntity(em);
+        em.persist(company);
+        em.flush();
+        appUser.setCompany(company);
+        return appUser;
+    }
 
 	@BeforeEach
 	public void initTest() {
@@ -205,11 +214,29 @@ class AppUserResourceIT {
 			.andExpect(jsonPath("$.[*].id").value(hasItem(appUser.getId().intValue())));
 	}
 
-	@Test
-	@Transactional
-	void getAppUser() throws Exception {
-		// Initialize the database
-		appUserRepository.saveAndFlush(appUser);
+	@SuppressWarnings({ "unchecked" })
+	void getAllAppUsersWithEagerRelationshipsIsEnabled() throws Exception {
+		when(appUserServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+		restAppUserMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+		verify(appUserServiceMock, times(1)).findAllWithEagerRelationships(any());
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	void getAllAppUsersWithEagerRelationshipsIsNotEnabled() throws Exception {
+		when(appUserServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+		restAppUserMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+		verify(appUserServiceMock, times(1)).findAllWithEagerRelationships(any());
+	}
+
+    @Test
+    @Transactional
+    void getAppUser() throws Exception {
+        // Initialize the database
+        appUserRepository.saveAndFlush(appUser);
 
 		// Get the appUser
 		restAppUserMockMvc

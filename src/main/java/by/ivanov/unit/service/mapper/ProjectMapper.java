@@ -5,12 +5,13 @@ import by.ivanov.unit.domain.Project;
 import by.ivanov.unit.service.dto.CompanyDTO;
 import by.ivanov.unit.service.dto.ProjectDTO;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.mapstruct.*;
 
 /**
  * Mapper for the entity {@link Project} and its DTO {@link ProjectDTO}.
  */
-@Mapper(componentModel = "spring", uses = { CompanyMapper.class })
+@Mapper(componentModel = "spring")
 public interface ProjectMapper extends EntityMapper<ProjectDTO, Project> {
     @Mapping(target = "generalContractor", source = "generalContractor", qualifiedByName = "companyId")
     @Mapping(target = "subContractors", source = "subContractors", qualifiedByName = "companyIdSet")

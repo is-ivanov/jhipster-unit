@@ -55,9 +55,9 @@ export class BlockUpdateComponent implements OnInit {
 		}
 	}
 
-	trackProjectById(_index: number, item: IProject): number {
-		return item.id!;
-	}
+  trackProjectById(_index: number, item: IProject): number {
+    return item.id!;
+  }
 
 	protected subscribeToSaveResponse(result: Observable<HttpResponse<IBlock>>): void {
 		result.pipe(finalize(() => this.onSaveFinalize())).subscribe({

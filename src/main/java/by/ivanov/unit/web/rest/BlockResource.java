@@ -1,7 +1,6 @@
 package by.ivanov.unit.web.rest;
 
 import by.ivanov.unit.repository.BlockRepository;
-import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.BlockQueryService;
 import by.ivanov.unit.service.BlockService;
 import by.ivanov.unit.service.criteria.BlockCriteria;

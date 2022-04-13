@@ -1,13 +1,18 @@
 package by.ivanov.unit.web.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import by.ivanov.unit.IntegrationTest;
 import by.ivanov.unit.domain.Block;
 import by.ivanov.unit.domain.Project;
 import by.ivanov.unit.repository.BlockRepository;
-import by.ivanov.unit.service.BlockService;
-import by.ivanov.unit.security.AuthoritiesConstants;
+import by.ivanov.unit.service.criteria.BlockCriteria;
 import by.ivanov.unit.service.dto.BlockDTO;
 import by.ivanov.unit.service.mapper.BlockMapper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
