@@ -49,14 +49,6 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
     @Override
-    public ProjectDTO update(ProjectDTO projectDTO) {
-        log.debug("Request to save Project : {}", projectDTO);
-        Project project = projectMapper.toEntity(projectDTO);
-        project = projectRepository.save(project);
-        return projectMapper.toDto(project);
-    }
-
-    @Override
     public Optional<ProjectDTO> partialUpdate(ProjectDTO projectDTO) {
         log.debug("Request to partially update Project : {}", projectDTO);
 
@@ -75,20 +67,20 @@ public class ProjectServiceImpl implements ProjectService {
 	@Transactional(readOnly = true)
 	public Page<ProjectDTO> findAll(Pageable pageable) {
 		log.debug("Request to get all Projects");
-		return projectRepository.findAll(pageable).map(projectMapper::toDtoGenContractorName);
+		return projectRepository.findAll(pageable).map(projectMapper::toDto);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Page<ProjectDTO> findAllWithEagerRelationships(Pageable pageable) {
-		return projectRepository.findAllWithEagerRelationships(pageable).map(projectMapper::toDtoGenContractorName);
+		return projectRepository.findAllWithEagerRelationships(pageable).map(projectMapper::toDto);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Optional<ProjectDTO> findOne(Long id) {
 		log.debug("Request to get Project : {}", id);
-		return projectRepository.findOneWithEagerRelationships(id).map(projectMapper::toDtoGenContractorName);
+		return projectRepository.findOneWithEagerRelationships(id).map(projectMapper::toDto);
 	}
 
 	@Override
