@@ -47,7 +47,7 @@ Generic styles
 
 .jh-card {
 	padding: 1.5%;
-	margin-top: 20px;
+	//margin-top: 20px;
 	border: none;
 }
 
@@ -205,3 +205,22 @@ angular-cli removes postcss-rtl processed inline css, processed rules must be ad
 	}
 }
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+ng-multiselect-dropdown .dropdown-list {
+	width: 150px !important;
+	font-size: small !important;
+}
+
+h5 {
+	font-size: medium !important;
+}
+
+tr.annul {
+	color: red !important;
+	font-style: italic;
+	font-weight: bold;
+}
+
+.table-striped > tbody > tr.annul:nth-of-type(odd) > * {
+	color: red !important;
+}

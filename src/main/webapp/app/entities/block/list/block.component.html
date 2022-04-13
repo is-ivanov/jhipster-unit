@@ -29,8 +29,7 @@
 		<span jhiTranslate="unitApp.block.home.notFound">No blocks found</span>
 	</div>
 
-	<!--	<div class="table-responsive" id="entities" *ngIf="blocks && blocks.length > 0">-->
-	<table class="table table-striped" aria-describedby="page-heading">
+	<table class="table table-striped table-hover" aria-describedby="page-heading">
 		<thead>
 			<tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
 				<th scope="col" jhiSortBy="id" class="text-center">
@@ -59,7 +58,7 @@
 						type="number"
 						class="form-control"
 						name="number"
-						id="field_number"
+						id="field-number"
 						placeholder="{{ 'unitApp.block.filter.number.placeholder' | translate }}"
 						[(ngModel)]="filterNumber"
 						(change)="loadPage(1)"
@@ -70,31 +69,17 @@
 						type="search"
 						class="form-control"
 						name="description"
-						id="field_description"
+						id="field-description"
 						placeholder="{{ 'unitApp.block.filter.description.placeholder' | translate }}"
 						[(ngModel)]="filterDescription"
 						(change)="loadPage(1)"
 					/>
 				</td>
 				<td>
-					<select
-						class="form-select"
-						id="field_project"
-						name="project"
-						[(ngModel)]="filterProjectId"
-						(ngModelChange)="loadPage(1)"
-					>
-						<option value=""></option>
-						<option [value]="project.id" *ngFor="let project of projectsSharedCollection; trackBy: trackProjectById">
-							{{ project.name }}
-						</option>
-					</select>
+					<jhi-projects [selectedProjectId]="filterProjectId"> </jhi-projects>
 				</td>
 				<td>
-					<button class="btn btn-secondary" id="clear-filter" (click)="clearFilter()">
-						<fa-icon icon="filter-circle-xmark"></fa-icon>
-						<span jhiTranslate="unitApp.block.home.clearFilters"> Clear filters </span>
-					</button>
+					<jhi-clear-filter (clearFilter)="clearFilter()"></jhi-clear-filter>
 				</td>
 			</tr>
 		</thead>
@@ -148,9 +133,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<!--	</div>-->
 
-	<!--	<div *ngIf="(filterNumber || filterDescription || filterProjectId) || (blocks && blocks.length > 0)">-->
 	<div *ngIf="blocks && blocks.length > 0">
 		<div class="d-flex justify-content-center">
 			<jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>

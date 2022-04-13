@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router';
-import { combineLatest } from 'rxjs';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { combineLatest, Subscription } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IBlock } from '../block.model';
@@ -9,9 +9,8 @@ import { IBlock } from '../block.model';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/config/pagination.constants';
 import { BlockService } from '../service/block.service';
 import { BlockDeleteDialogComponent } from '../delete/block-delete-dialog.component';
-import { IProject } from '../../project/project.model';
 import { ProjectService } from '../../project/service/project.service';
-import { map } from 'rxjs/operators';
+import { DropdownDataService } from '../../../shared/dropdown-data.service';
 
 @Component({
 	selector: 'jhi-block',
@@ -26,17 +25,23 @@ export class BlockComponent implements OnInit {
 	predicate!: string;
 	ascending!: boolean;
 	ngbPaginationPage = 1;
-	projectsSharedCollection: IProject[] = [];
+
 	filterNumber?: number;
 	filterDescription?: string;
-	filterProjectId?: IProject;
+	filterProjectId?: number;
+
+	projectNotifierSubscription: Subscription = this.dropdownDataService.projectNotifier.subscribe((projectId) => {
+		this.filterProjectId = projectId;
+		this.loadPage(1);
+	});
 
 	constructor(
 		protected blockService: BlockService,
 		protected activatedRoute: ActivatedRoute,
 		protected router: Router,
 		protected modalService: NgbModal,
-		protected projectService: ProjectService
+		protected projectService: ProjectService,
+		protected dropdownDataService: DropdownDataService
 	) {}
 
 	loadPage(page?: number, dontNavigate?: boolean): void {
@@ -48,15 +53,7 @@ export class BlockComponent implements OnInit {
 		Object.assign(req, { size: this.itemsPerPage });
 		Object.assign(req, { sort: this.sort() });
 
-		if (this.filterNumber) {
-			Object.assign(req, { 'number.equals': this.filterNumber });
-		}
-		if (this.filterDescription) {
-			Object.assign(req, { 'description.contains': this.filterDescription });
-		}
-		if (this.filterProjectId) {
-			Object.assign(req, { 'projectId.equals': this.filterProjectId });
-		}
+		this.addFiltersParam(req);
 
 		this.blockService.query(req).subscribe({
 			next: (res: HttpResponse<IBlock[]>) => {
@@ -72,14 +69,9 @@ export class BlockComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.handleNavigation();
-		this.loadRelationshipsOptions();
 	}
 
 	trackId(index: number, item: IBlock): number {
-		return item.id!;
-	}
-
-	trackProjectById(index: number, item: IProject): number {
 		return item.id!;
 	}
 
@@ -119,22 +111,15 @@ export class BlockComponent implements OnInit {
 			const sort = (params.get(SORT) ?? data['defaultSort']).split(',');
 			const predicate = sort[0];
 			const ascending = sort[1] === ASC;
+
+			this.getFilterParamsFromRoute(params);
+
 			if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
 				this.predicate = predicate;
 				this.ascending = ascending;
 				this.loadPage(pageNumber, true);
 			}
 		});
-	}
-
-	protected loadRelationshipsOptions(): void {
-		this.projectService
-			.query({
-				eagerload: false,
-				sort: ['name,asc'],
-			})
-			.pipe(map((res: HttpResponse<IProject[]>) => res.body ?? []))
-			.subscribe((projects: IProject[]) => (this.projectsSharedCollection = projects));
 	}
 
 	protected onSuccess(data: IBlock[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
@@ -153,11 +138,16 @@ export class BlockComponent implements OnInit {
 		this.ngbPaginationPage = this.page ?? 1;
 	}
 
-	protected prepareQueryParam(): any {
+	protected prepareQueryParam(): {} {
 		const param = {};
 		Object.assign(param, { page: this.page });
 		Object.assign(param, { size: this.itemsPerPage });
 		Object.assign(param, { sort: this.predicate + ',' + (this.ascending ? ASC : DESC) });
+		this.addFiltersParam(param);
+		return param;
+	}
+
+	private addFiltersParam(param: {}): void {
 		if (this.filterNumber) {
 			Object.assign(param, { 'number.equals': this.filterNumber });
 		}
@@ -167,6 +157,14 @@ export class BlockComponent implements OnInit {
 		if (this.filterProjectId) {
 			Object.assign(param, { 'projectId.equals': this.filterProjectId });
 		}
-		return param;
+	}
+
+	private getFilterParamsFromRoute(params: ParamMap): void {
+		const number = params.get('number.equals');
+		this.filterNumber = number !== null ? +number : undefined;
+		this.filterDescription = params.get('description.contains') ?? undefined;
+
+		const projectId = params.get('projectId.equals');
+		this.filterProjectId = projectId !== null ? +projectId : undefined;
 	}
 }

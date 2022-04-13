@@ -1,27 +1,37 @@
 {
-  "unitApp": {
-    "line": {
-      "home": {
-        "title": "Линии",
-        "refreshListLabel": "Обновить список",
-        "createLabel": "Создать линию",
-        "createOrEditLabel": "Создать или отредактировать линию",
-        "notFound": "Линий не найдено"
-      },
-      "created": "Новая линия создана с идентификатором {{ param }}",
-      "updated": "Линия обновлена с идентификатором {{ param }}",
-      "deleted": "Линия удалена с идентификатором {{ param }}",
-      "delete": {
-        "question": "Вы уверены что хотите удалить линию {{ id }}?"
-      },
-      "detail": {
-        "title": "Линия"
-      },
-      "id": "ID",
-      "tag": "Номер",
-      "revision": "Изм.",
-      "status": "Статус",
-      "block": "Блок"
-    }
-  }
+	"unitApp": {
+		"line": {
+			"home": {
+				"title": "Линии",
+				"refreshListLabel": "Обновить список",
+				"createLabel": "Создать линию",
+				"createOrEditLabel": "Создать или отредактировать линию",
+				"notFound": "Линий не найдено",
+				"showAnnul": "Аннулированные"
+			},
+			"created": "Новая линия создана с идентификатором {{ param }}",
+			"updated": "Линия обновлена с идентификатором {{ param }}",
+			"deleted": "Линия удалена с идентификатором {{ param }}",
+			"delete": {
+				"question": "Вы уверены что хотите <strong>ПОЛНОСТЬЮ</strong> удалить линию <strong>{{ tag }}</strong> блока <strong>{{ block }}</strong> с ID {{ id }}?"
+			},
+			"annul": {
+				"question": "Вы уверены что хотите аннулировать линию <strong>{{ tag }}</strong> блока <strong>{{ block }}</strong> с ID {{ id }}?"
+			},
+			"detail": {
+				"title": "Линия"
+			},
+			"id": "ID",
+			"tag": "Наименование",
+			"revision": "Изм.",
+			"status": "Статус",
+			"block": "Блок",
+			"filter": {
+				"tag.placeholder": "Фильтр по номеру",
+				"revision.placeholder": "Фильтр по изм.",
+				"status-line.selector": "Выберите статус",
+				"block.placeholder": "Фильтр по номеру блока"
+			}
+		}
+	}
 }

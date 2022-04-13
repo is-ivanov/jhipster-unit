@@ -81,7 +81,7 @@
 
 				<div class="row mb-3">
 					<label class="form-label" jhiTranslate="unitApp.block.project" for="field_project">Project</label>
-					<select class="form-control" id="field_project" data-cy="project" name="project" formControlName="project">
+					<select class="form-select" id="field_project" data-cy="project" name="project" formControlName="project">
 						<option *ngIf="!editForm.get('project')!.value" [ngValue]="null" selected></option>
 						<option
 							[ngValue]="

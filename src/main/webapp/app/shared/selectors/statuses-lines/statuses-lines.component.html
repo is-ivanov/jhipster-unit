@@ -1,0 +1,12 @@
+<select
+	class="form-select"
+	id="filter-status-line"
+	name="filter-status-line"
+	[(ngModel)]="selectedStatusLine"
+	(ngModelChange)="updateFilter()"
+>
+	<option [ngValue]="undefined" selected jhiTranslate="unitApp.line.filter.status-line.selector">Select Status</option>
+	<option *ngFor="let status of statuses" [value]="status">
+		{{ "unitApp.StatusLine." + status | translate }}
+	</option>
+</select>

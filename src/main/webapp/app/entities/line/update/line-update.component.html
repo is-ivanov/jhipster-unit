@@ -1,107 +1,160 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
-    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-      <h2 id="jhi-line-heading" data-cy="LineCreateUpdateHeading" jhiTranslate="unitApp.line.home.createOrEditLabel">
-        Create or edit a Line
-      </h2>
+	<div class="col-8">
+		<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+			<h2 id="jhi-line-heading" data-cy="LineCreateUpdateHeading" jhiTranslate="unitApp.line.home.createOrEditLabel">
+				Create or edit a Line
+			</h2>
 
-      <div>
-        <jhi-alert-error></jhi-alert-error>
+			<div>
+				<jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
-          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
-          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
-        </div>
+				<div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+					<label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+					<input
+						type="number"
+						class="form-control"
+						name="id"
+						id="field_id"
+						data-cy="id"
+						formControlName="id"
+						[readonly]="true"
+					/>
+				</div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="unitApp.line.tag" for="field_tag">Tag</label>
-          <input type="text" class="form-control" name="tag" id="field_tag" data-cy="tag" formControlName="tag" />
-          <div *ngIf="editForm.get('tag')!.invalid && (editForm.get('tag')!.dirty || editForm.get('tag')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('tag')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('tag')?.errors?.maxlength"
-              jhiTranslate="entity.validation.maxlength"
-              [translateValues]="{ max: 50 }"
-            >
-              This field cannot be longer than 50 characters.
-            </small>
-          </div>
-        </div>
+				<div class="row mb-3">
+					<label class="form-label" jhiTranslate="unitApp.line.tag" for="field_tag">Tag</label>
+					<input type="text" class="form-control" name="tag" id="field_tag" data-cy="tag" formControlName="tag" />
+					<div *ngIf="editForm.get('tag')!.invalid && (editForm.get('tag')!.dirty || editForm.get('tag')!.touched)">
+						<small
+							class="form-text text-danger"
+							*ngIf="editForm.get('tag')?.errors?.required"
+							jhiTranslate="entity.validation.required"
+						>
+							This field is required.
+						</small>
+						<small
+							class="form-text text-danger"
+							*ngIf="editForm.get('tag')?.errors?.maxlength"
+							jhiTranslate="entity.validation.maxlength"
+							[translateValues]="{ max: 50 }"
+						>
+							This field cannot be longer than 50 characters.
+						</small>
+					</div>
+				</div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="unitApp.line.revision" for="field_revision">Revision</label>
-          <input type="text" class="form-control" name="revision" id="field_revision" data-cy="revision" formControlName="revision" />
-          <div *ngIf="editForm.get('revision')!.invalid && (editForm.get('revision')!.dirty || editForm.get('revision')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('revision')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('revision')?.errors?.maxlength"
-              jhiTranslate="entity.validation.maxlength"
-              [translateValues]="{ max: 20 }"
-            >
-              This field cannot be longer than 20 characters.
-            </small>
-          </div>
-        </div>
+				<div class="row mb-3">
+					<label class="form-label" jhiTranslate="unitApp.line.revision" for="field_revision">Revision</label>
+					<input
+						type="text"
+						class="form-control"
+						name="revision"
+						id="field_revision"
+						data-cy="revision"
+						formControlName="revision"
+					/>
+					<div
+						*ngIf="
+							editForm.get('revision')!.invalid &&
+							(editForm.get('revision')!.dirty || editForm.get('revision')!.touched)
+						"
+					>
+						<small
+							class="form-text text-danger"
+							*ngIf="editForm.get('revision')?.errors?.required"
+							jhiTranslate="entity.validation.required"
+						>
+							This field is required.
+						</small>
+						<small
+							class="form-text text-danger"
+							*ngIf="editForm.get('revision')?.errors?.maxlength"
+							jhiTranslate="entity.validation.maxlength"
+							[translateValues]="{ max: 20 }"
+						>
+							This field cannot be longer than 20 characters.
+						</small>
+					</div>
+				</div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="unitApp.line.status" for="field_status">Status</label>
-          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
-            <option [ngValue]="null">{{ 'unitApp.StatusLine.null' | translate }}</option>
-            <option *ngFor="let statusLine of statusLineValues" [value]="statusLine">
-              {{ 'unitApp.StatusLine.' + statusLine | translate }}
-            </option>
-          </select>
-          <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('status')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
-            </small>
-          </div>
-        </div>
+				<div class="row mb-3">
+					<label class="form-label" jhiTranslate="unitApp.line.status" for="field_status">Status</label>
+					<select class="form-select" name="status" formControlName="status" id="field_status" data-cy="status">
+						<option [ngValue]="null">{{ "unitApp.StatusLine.null" | translate }}</option>
+						<option *ngFor="let statusLine of statusLineValues" [value]="statusLine">
+							{{ "unitApp.StatusLine." + statusLine | translate }}
+						</option>
+					</select>
+					<div
+						*ngIf="
+							editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)
+						"
+					>
+						<small
+							class="form-text text-danger"
+							*ngIf="editForm.get('status')?.errors?.required"
+							jhiTranslate="entity.validation.required"
+						>
+							This field is required.
+						</small>
+					</div>
+				</div>
 
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="unitApp.line.block" for="field_block">Block</label>
-          <select class="form-control" id="field_block" data-cy="block" name="block" formControlName="block">
-            <option *ngIf="!editForm.get('block')!.value" [ngValue]="null" selected></option>
-            <option
-              [ngValue]="blockOption.id === editForm.get('block')!.value?.id ? editForm.get('block')!.value : blockOption"
-              *ngFor="let blockOption of blocksSharedCollection; trackBy: trackBlockById"
-            >
-              {{ blockOption.number }}
-            </option>
-          </select>
-        </div>
-        <div *ngIf="editForm.get(['block'])!.invalid && (editForm.get(['block'])!.dirty || editForm.get(['block'])!.touched)">
-          <small class="form-text text-danger" *ngIf="editForm.get(['block'])?.errors?.required" jhiTranslate="entity.validation.required">
-            This field is required.
-          </small>
-        </div>
-      </div>
+				<div class="row mb-3">
+					<label class="form-label" jhiTranslate="unitApp.project.detail.title">Project</label>
+					<jhi-projects class="px-0" [selectedProjectId]="selectedProjectId"></jhi-projects>
+				</div>
 
-      <div>
-        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
-          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-        </button>
+				<div class="row mb-3">
+					<label class="form-label" jhiTranslate="unitApp.line.block" for="field_block">Block</label>
+					<select class="form-select" id="field_block" data-cy="block" name="block" formControlName="block">
+						<option *ngIf="!editForm.get('block')!.value" [ngValue]="null" selected></option>
+						<option
+							[ngValue]="
+								blockOption.id === editForm.get('block')!.value?.id ? editForm.get('block')!.value : blockOption
+							"
+							*ngFor="let blockOption of blocksSharedCollection; trackBy: trackBlockById"
+						>
+							{{ blockOption.number + " - " + blockOption.project?.name }}
+						</option>
+					</select>
+					<div
+						*ngIf="
+							editForm.get(['block'])!.invalid && (editForm.get(['block'])!.dirty || editForm.get(['block'])!.touched)
+						"
+					>
+						<small
+							class="form-text text-danger"
+							*ngIf="editForm.get(['block'])?.errors?.required"
+							jhiTranslate="entity.validation.required"
+						>
+							This field is required.
+						</small>
+					</div>
+				</div>
+			</div>
 
-        <button
-          type="submit"
-          id="save-entity"
-          data-cy="entityCreateSaveButton"
-          [disabled]="editForm.invalid || isSaving"
-          class="btn btn-primary"
-        >
-          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-        </button>
-      </div>
-    </form>
-  </div>
+			<div>
+				<button
+					type="button"
+					id="cancel-save"
+					data-cy="entityCreateCancelButton"
+					class="btn btn-secondary"
+					(click)="previousState()"
+				>
+					<fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+				</button>
+
+				<button
+					type="submit"
+					id="save-entity"
+					data-cy="entityCreateSaveButton"
+					[disabled]="editForm.invalid || isSaving"
+					class="btn btn-primary"
+				>
+					<fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+				</button>
+			</div>
+		</form>
+	</div>
 </div>

@@ -1,46 +1,51 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
-    <div *ngIf="line">
-      <h2 data-cy="lineDetailsHeading"><span jhiTranslate="unitApp.line.detail.title">Line</span></h2>
+	<div class="col-8">
+		<div *ngIf="line">
+			<h2 data-cy="lineDetailsHeading"><span jhiTranslate="unitApp.line.detail.title">Line</span></h2>
 
-      <hr />
+			<hr />
 
-      <jhi-alert-error></jhi-alert-error>
+			<jhi-alert-error></jhi-alert-error>
 
-      <jhi-alert></jhi-alert>
+			<jhi-alert></jhi-alert>
 
-      <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="global.field.id">ID</span></dt>
-        <dd>
-          <span>{{ line.id }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.line.tag">Tag</span></dt>
-        <dd>
-          <span>{{ line.tag }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.line.revision">Revision</span></dt>
-        <dd>
-          <span>{{ line.revision }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.line.status">Status</span></dt>
-        <dd>
-          <span jhiTranslate="{{ 'unitApp.StatusLine.' + line.status }}">{{ line.status }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.line.block">Block</span></dt>
-        <dd>
-          <div *ngIf="line.block">
-            <a [routerLink]="['/block', line.block?.id, 'view']">{{ line.block?.number }}</a>
-          </div>
-        </dd>
-      </dl>
+			<dl class="row-md jh-entity-details">
+				<dt><span jhiTranslate="global.field.id">ID</span></dt>
+				<dd>
+					<span>{{ line.id }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.line.tag">Tag</span></dt>
+				<dd>
+					<span>{{ line.tag }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.line.revision">Revision</span></dt>
+				<dd>
+					<span>{{ line.revision }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.line.status">Status</span></dt>
+				<dd>
+					<span jhiTranslate="{{ 'unitApp.StatusLine.' + line.status }}">{{ line.status }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.line.block">Block</span></dt>
+				<dd>
+					<div *ngIf="line.block">
+						<a [routerLink]="['/block', line.block?.id, 'view']">{{ line.block?.number }}</a>
+					</div>
+				</dd>
+			</dl>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
-      </button>
+			<button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+				<fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+			</button>
 
-      <button type="button" [routerLink]="['/line', line.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
-      </button>
-    </div>
-  </div>
+			<button
+				*jhiHasAnyAuthority="'ROLE_ADMIN'"
+				type="button"
+				[routerLink]="['/line', line.id, 'edit']"
+				class="btn btn-primary"
+			>
+				<fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+			</button>
+		</div>
+	</div>
 </div>

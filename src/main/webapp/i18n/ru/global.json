@@ -57,7 +57,10 @@
 			"firstName.label": "Имя",
 			"firstName.placeholder": "Ваше имя",
 			"lastName.label": "Фамилия",
-			"lastName.placeholder": "Ваша фамилия"
+			"lastName.placeholder": "Ваша фамилия",
+			"buttons": {
+				"clearFilters": "Сбросить фильтры"
+			}
 		},
 		"messages": {
 			"info": {
@@ -112,7 +115,8 @@
 			"edit": "Изменить",
 			"open": "Открыть",
 			"save": "Сохранить",
-			"view": "Просмотр"
+			"view": "Просмотр",
+			"annul": "Аннулировать"
 		},
 		"detail": {
 			"field": "Поле",
@@ -120,6 +124,9 @@
 		},
 		"delete": {
 			"title": "Подтвердите операцию удаления"
+		},
+		"annul": {
+			"title": "Подтвердите операцию аннулирования"
 		},
 		"validation": {
 			"required": "Это поле обязательно к заполнению.",

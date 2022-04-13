@@ -1,0 +1,8 @@
+<ng-multiselect-dropdown
+	[settings]="dropdownSettings"
+	[data]="revisions"
+	[placeholder]="'Изм.'"
+	[(ngModel)]="selectedRevisions"
+	(onDropDownClose)="updateFilter()"
+>
+</ng-multiselect-dropdown>

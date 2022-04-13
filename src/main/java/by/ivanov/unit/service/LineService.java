@@ -1,9 +1,11 @@
 package by.ivanov.unit.service;
 
 import by.ivanov.unit.service.dto.LineDTO;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Service Interface for managing {@link by.ivanov.unit.domain.Line}.
@@ -55,4 +57,27 @@ public interface LineService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+	/**
+	 * Get revisions for all Lines.
+	 *
+	 * @return the list of revisions.
+	 */
+	List<String> findAllRevisions();
+
+	/**
+	 * Get revisions for all Lines from project with ID
+	 *
+	 * @param projectId the ID of project.
+	 * @return the list of revisions.
+	 */
+	List<String> findAllRevisionsWithProject(Long projectId);
+
+	/**
+	 * Get revisions for all Lines from block with ID
+	 *
+	 * @param blockId the ID of block.
+	 * @return the list of revisions.
+	 */
+	List<String> findAllRevisionsWithBlock(Long blockId);
 }
