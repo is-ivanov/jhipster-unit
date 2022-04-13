@@ -106,14 +106,14 @@ public class BlockResource {
 			throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
 		}
 
-		BlockDTO result = blockService.save(blockDTO);
-		return ResponseEntity
-			.ok()
-			.headers(
+        BlockDTO result = blockService.update(blockDTO);
+        return ResponseEntity
+            .ok()
+            .headers(
 				HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, blockDTO.getId().toString())
 			)
-			.body(result);
-	}
+            .body(result);
+    }
 
 	/**
 	 * {@code PATCH  /blocks/:id} : Partial updates given fields of an existing block, field will ignore if it is null

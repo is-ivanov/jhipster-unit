@@ -66,9 +66,9 @@ export class LineUpdateComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	trackBlockById(index: number, item: IBlock): number {
-		return item.id!;
-	}
+  trackBlockById(_index: number, item: IBlock): number {
+    return item.id!;
+  }
 
 	ngOnDestroy(): void {
 		this.projectNotifierSubscription.unsubscribe();

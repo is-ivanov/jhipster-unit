@@ -18,6 +18,14 @@ public interface PunchItemService {
     PunchItemDTO save(PunchItemDTO punchItemDTO);
 
     /**
+     * Updates a punchItem.
+     *
+     * @param punchItemDTO the entity to update.
+     * @return the persisted entity.
+     */
+    PunchItemDTO update(PunchItemDTO punchItemDTO);
+
+    /**
      * Partially updates a punchItem.
      *
      * @param punchItemDTO the entity to update partially.

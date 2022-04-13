@@ -41,6 +41,14 @@ public class TypePunchServiceImpl implements TypePunchService {
     }
 
     @Override
+    public TypePunchDTO update(TypePunchDTO typePunchDTO) {
+        log.debug("Request to save TypePunch : {}", typePunchDTO);
+        TypePunch typePunch = typePunchMapper.toEntity(typePunchDTO);
+        typePunch = typePunchRepository.save(typePunch);
+        return typePunchMapper.toDto(typePunch);
+    }
+
+    @Override
     public Optional<TypePunchDTO> partialUpdate(TypePunchDTO typePunchDTO) {
         log.debug("Request to partially update TypePunch : {}", typePunchDTO);
 

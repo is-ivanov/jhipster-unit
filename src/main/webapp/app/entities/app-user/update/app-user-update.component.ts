@@ -58,11 +58,11 @@ export class AppUserUpdateComponent implements OnInit {
     }
   }
 
-  trackUserById(index: number, item: IUser): number {
+  trackUserById(_index: number, item: IUser): number {
     return item.id!;
   }
 
-  trackCompanyById(index: number, item: ICompany): number {
+  trackCompanyById(_index: number, item: ICompany): number {
     return item.id!;
   }
 

@@ -46,6 +46,16 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
+    public AppUserDTO update(AppUserDTO appUserDTO) {
+        log.debug("Request to save AppUser : {}", appUserDTO);
+        AppUser appUser = appUserMapper.toEntity(appUserDTO);
+        Long userId = appUserDTO.getUser().getId();
+        userRepository.findById(userId).ifPresent(appUser::user);
+        appUser = appUserRepository.save(appUser);
+        return appUserMapper.toDto(appUser);
+    }
+
+    @Override
     public Optional<AppUserDTO> partialUpdate(AppUserDTO appUserDTO) {
         log.debug("Request to partially update AppUser : {}", appUserDTO);
 

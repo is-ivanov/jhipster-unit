@@ -40,6 +40,14 @@ public class BlockServiceImpl implements BlockService {
     }
 
     @Override
+    public BlockDTO update(BlockDTO blockDTO) {
+        log.debug("Request to save Block : {}", blockDTO);
+        Block block = blockMapper.toEntity(blockDTO);
+        block = blockRepository.save(block);
+        return blockMapper.toDto(block);
+    }
+
+    @Override
     public Optional<BlockDTO> partialUpdate(BlockDTO blockDTO) {
         log.debug("Request to partially update Block : {}", blockDTO);
 

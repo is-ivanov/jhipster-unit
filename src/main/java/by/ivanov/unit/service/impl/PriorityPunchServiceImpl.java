@@ -41,6 +41,14 @@ public class PriorityPunchServiceImpl implements PriorityPunchService {
     }
 
     @Override
+    public PriorityPunchDTO update(PriorityPunchDTO priorityPunchDTO) {
+        log.debug("Request to save PriorityPunch : {}", priorityPunchDTO);
+        PriorityPunch priorityPunch = priorityPunchMapper.toEntity(priorityPunchDTO);
+        priorityPunch = priorityPunchRepository.save(priorityPunch);
+        return priorityPunchMapper.toDto(priorityPunch);
+    }
+
+    @Override
     public Optional<PriorityPunchDTO> partialUpdate(PriorityPunchDTO priorityPunchDTO) {
         log.debug("Request to partially update PriorityPunch : {}", priorityPunchDTO);
 

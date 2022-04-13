@@ -100,14 +100,12 @@ public class ProjectResource {
 			throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
 		}
 
-		ProjectDTO result = projectService.save(projectDTO);
-		return ResponseEntity
-			.ok()
-			.headers(
-				HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectDTO.getId().toString())
-			)
-			.body(result);
-	}
+        ProjectDTO result = projectService.update(projectDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, projectDTO.getId().toString()))
+            .body(result);
+    }
 
 	/**
 	 * {@code PATCH  /projects/:id} : Partial updates given fields of an existing project, field will ignore if it is null

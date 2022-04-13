@@ -57,7 +57,7 @@ export class CompanyComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: ICompany): number {
+  trackId(_index: number, item: ICompany): number {
     return item.id!;
   }
 

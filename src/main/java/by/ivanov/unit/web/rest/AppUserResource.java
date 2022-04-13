@@ -102,7 +102,7 @@ public class AppUserResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        AppUserDTO result = appUserService.save(appUserDTO);
+        AppUserDTO result = appUserService.update(appUserDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, appUserDTO.getId().toString()))

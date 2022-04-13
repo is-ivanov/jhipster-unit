@@ -99,14 +99,12 @@ public class CompanyResource {
 			throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
 		}
 
-		CompanyDTO result = companyService.save(companyDTO);
-		return ResponseEntity
-			.ok()
-			.headers(
-				HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, companyDTO.getId().toString())
-			)
-			.body(result);
-	}
+        CompanyDTO result = companyService.update(companyDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, companyDTO.getId().toString()))
+            .body(result);
+    }
 
 	/**
 	 * {@code PATCH  /companies/:id} : Partial updates given fields of an existing company, field will ignore if it is null

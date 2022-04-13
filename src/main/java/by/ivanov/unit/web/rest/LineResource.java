@@ -106,12 +106,12 @@ public class LineResource {
 			throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
 		}
 
-		LineDTO result = lineService.save(lineDTO);
-		return ResponseEntity
-			.ok()
-			.headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, lineDTO.getId().toString()))
-			.body(result);
-	}
+        LineDTO result = lineService.update(lineDTO);
+        return ResponseEntity
+            .ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, lineDTO.getId().toString()))
+            .body(result);
+    }
 
 	/**
 	 * {@code PATCH  /lines/:id} : Partial updates given fields of an existing line, field will ignore if it is null

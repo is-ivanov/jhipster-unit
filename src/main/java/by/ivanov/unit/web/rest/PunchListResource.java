@@ -103,7 +103,7 @@ public class PunchListResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        PunchListDTO result = punchListService.save(punchListDTO);
+        PunchListDTO result = punchListService.update(punchListDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, punchListDTO.getId().toString()))

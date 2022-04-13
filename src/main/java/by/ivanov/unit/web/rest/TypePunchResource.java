@@ -89,7 +89,7 @@ public class TypePunchResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        TypePunchDTO result = typePunchService.save(typePunchDTO);
+        TypePunchDTO result = typePunchService.update(typePunchDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, typePunchDTO.getId().toString()))

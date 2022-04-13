@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import { Block, IBlock } from '../block.model';
+import { IBlock, Block } from '../block.model';
 import { BlockService } from '../service/block.service';
 import { IProject } from 'app/entities/project/project.model';
 import { ProjectService } from 'app/entities/project/service/project.service';
@@ -55,7 +55,7 @@ export class BlockUpdateComponent implements OnInit {
 		}
 	}
 
-	trackProjectById(index: number, item: IProject): number {
+	trackProjectById(_index: number, item: IProject): number {
 		return item.id!;
 	}
 

@@ -57,7 +57,7 @@ export class AppUserComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: IAppUser): number {
+  trackId(_index: number, item: IAppUser): number {
     return item.id!;
   }
 

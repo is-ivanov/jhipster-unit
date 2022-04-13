@@ -104,7 +104,7 @@ public class CommentPunchResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        CommentPunchDTO result = commentPunchService.save(commentPunchDTO);
+        CommentPunchDTO result = commentPunchService.update(commentPunchDTO);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, commentPunchDTO.getId().toString()))

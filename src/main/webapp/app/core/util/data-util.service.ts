@@ -99,19 +99,19 @@ export class DataUtils {
 		});
 	}
 
-	/**
-	 * Method to convert the file to base64
-	 */
-	private toBase64(file: File, callback: (base64Data: string) => void): void {
-		const fileReader: FileReader = new FileReader();
-		fileReader.onload = (e: ProgressEvent<FileReader>) => {
-			if (typeof e.target?.result === 'string') {
-				const base64Data: string = e.target.result.substr(e.target.result.indexOf('base64,') + 'base64,'.length);
-				callback(base64Data);
-			}
-		};
-		fileReader.readAsDataURL(file);
-	}
+  /**
+   * Method to convert the file to base64
+   */
+  private toBase64(file: File, callback: (base64Data: string) => void): void {
+    const fileReader: FileReader = new FileReader();
+    fileReader.onload = (e: ProgressEvent<FileReader>) => {
+      if (typeof e.target?.result === 'string') {
+        const base64Data: string = e.target.result.substring(e.target.result.indexOf('base64,') + 'base64,'.length);
+        callback(base64Data);
+      }
+    };
+    fileReader.readAsDataURL(file);
+  }
 
 	private endsWith(suffix: string, str: string): boolean {
 		return str.includes(suffix, str.length - suffix.length);

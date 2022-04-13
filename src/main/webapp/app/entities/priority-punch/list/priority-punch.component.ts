@@ -34,7 +34,7 @@ export class PriorityPunchComponent implements OnInit {
     this.loadAll();
   }
 
-  trackId(index: number, item: IPriorityPunch): number {
+  trackId(_index: number, item: IPriorityPunch): number {
     return item.id!;
   }
 

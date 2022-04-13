@@ -101,9 +101,9 @@ export class LineComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	trackId(index: number, item: ILine): number {
-		return item.id!;
-	}
+  trackId(_index: number, item: ILine): number {
+    return item.id!;
+  }
 
 	delete(line: ILine): void {
 		const modalRef = this.modalService.open(LineDeleteDialogComponent, {

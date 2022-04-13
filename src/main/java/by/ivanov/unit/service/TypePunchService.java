@@ -17,6 +17,14 @@ public interface TypePunchService {
     TypePunchDTO save(TypePunchDTO typePunchDTO);
 
     /**
+     * Updates a typePunch.
+     *
+     * @param typePunchDTO the entity to update.
+     * @return the persisted entity.
+     */
+    TypePunchDTO update(TypePunchDTO typePunchDTO);
+
+    /**
      * Partially updates a typePunch.
      *
      * @param typePunchDTO the entity to update partially.

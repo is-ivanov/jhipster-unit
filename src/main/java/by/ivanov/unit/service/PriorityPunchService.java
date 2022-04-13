@@ -17,6 +17,14 @@ public interface PriorityPunchService {
     PriorityPunchDTO save(PriorityPunchDTO priorityPunchDTO);
 
     /**
+     * Updates a priorityPunch.
+     *
+     * @param priorityPunchDTO the entity to update.
+     * @return the persisted entity.
+     */
+    PriorityPunchDTO update(PriorityPunchDTO priorityPunchDTO);
+
+    /**
      * Partially updates a priorityPunch.
      *
      * @param priorityPunchDTO the entity to update partially.

@@ -1,32 +1,31 @@
 package by.ivanov.unit.service.mapper;
 
+import by.ivanov.unit.domain.Company;
 import by.ivanov.unit.domain.Project;
+import by.ivanov.unit.service.dto.CompanyDTO;
 import by.ivanov.unit.service.dto.ProjectDTO;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import java.util.Set;
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity {@link Project} and its DTO {@link ProjectDTO}.
  */
 @Mapper(componentModel = "spring", uses = { CompanyMapper.class })
 public interface ProjectMapper extends EntityMapper<ProjectDTO, Project> {
-	@Named("generalContractorId")
-	@Mapping(target = "generalContractor", source = "generalContractor", qualifiedByName = "id")
-	@Mapping(target = "subContractors", source = "subContractors", qualifiedByName = "idSet")
-	ProjectDTO toDto(Project s);
+    @Mapping(target = "generalContractor", source = "generalContractor", qualifiedByName = "companyId")
+    @Mapping(target = "subContractors", source = "subContractors", qualifiedByName = "companyIdSet")
+    ProjectDTO toDto(Project s);
 
-	@Mapping(target = "removeSubContractors", ignore = true)
-	Project toEntity(ProjectDTO projectDTO);
+    @Mapping(target = "removeSubContractors", ignore = true)
+    Project toEntity(ProjectDTO projectDTO);
 
-	@Named("name")
-	@BeanMapping(ignoreByDefault = true)
-	@Mapping(target = "id", source = "id")
-	@Mapping(target = "name", source = "name")
-	ProjectDTO toDtoName(Project project);
+    @Named("companyId")
+    @BeanMapping(ignoreByDefault = true)
+    @Mapping(target = "id", source = "id")
+    CompanyDTO toDtoCompanyId(Company company);
 
-	@Mapping(target = "generalContractor", source = "generalContractor", qualifiedByName = "shortName")
-	@Mapping(target = "subContractors", source = "subContractors", qualifiedByName = "idSet")
-	ProjectDTO toDtoGenContractorName(Project project);
+    @Named("companyIdSet")
+    default Set<CompanyDTO> toDtoCompanyIdSet(Set<Company> company) {
+        return company.stream().map(this::toDtoCompanyId).collect(Collectors.toSet());
+    }
 }

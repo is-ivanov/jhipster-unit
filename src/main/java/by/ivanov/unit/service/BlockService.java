@@ -18,6 +18,14 @@ public interface BlockService {
     BlockDTO save(BlockDTO blockDTO);
 
     /**
+     * Updates a block.
+     *
+     * @param blockDTO the entity to update.
+     * @return the persisted entity.
+     */
+    BlockDTO update(BlockDTO blockDTO);
+
+    /**
      * Partially updates a block.
      *
      * @param blockDTO the entity to update partially.

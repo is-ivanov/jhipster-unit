@@ -18,6 +18,14 @@ public interface AppUserService {
     AppUserDTO save(AppUserDTO appUserDTO);
 
     /**
+     * Updates a appUser.
+     *
+     * @param appUserDTO the entity to update.
+     * @return the persisted entity.
+     */
+    AppUserDTO update(AppUserDTO appUserDTO);
+
+    /**
      * Partially updates a appUser.
      *
      * @param appUserDTO the entity to update partially.

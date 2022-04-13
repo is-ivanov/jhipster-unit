@@ -16,6 +16,7 @@
 spring:
   application:
     name: unit
+
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
@@ -58,7 +59,6 @@ spring:
     host: localhost
   main:
     allow-bean-definition-overriding: true
-    allow-circular-references: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -74,7 +74,7 @@ spring:
     scheduling:
       thread-name-prefix: unit-scheduling-
       pool:
-        size: 1
+        size: 20
   thymeleaf:
     mode: HTML
 
@@ -87,7 +87,6 @@ server:
 #
 # Full reference is available at: https://www.jhipster.tech/common-application-properties/
 # ===================================================================
-
 jhipster:
   clientApp:
     name: 'unitApp'

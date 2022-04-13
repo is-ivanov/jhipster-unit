@@ -41,8 +41,16 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	@Override
-	public Optional<ProjectDTO> partialUpdate(ProjectDTO projectDTO) {
-		log.debug("Request to partially update Project : {}", projectDTO);
+	public ProjectDTO update(ProjectDTO projectDTO) {
+		log.debug("Request to save Project : {}", projectDTO);
+		Project project = projectMapper.toEntity(projectDTO);
+		project = projectRepository.save(project);
+		return projectMapper.toDto(project);
+	}
+
+    @Override
+    public Optional<ProjectDTO> partialUpdate(ProjectDTO projectDTO) {
+        log.debug("Request to partially update Project : {}", projectDTO);
 
 		return projectRepository
 			.findById(projectDTO.getId())

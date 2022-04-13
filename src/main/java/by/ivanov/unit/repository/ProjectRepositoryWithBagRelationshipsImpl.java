@@ -1,11 +1,12 @@
 package by.ivanov.unit.repository;
 
 import by.ivanov.unit.domain.Project;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.hibernate.annotations.QueryHints;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
@@ -14,7 +15,7 @@ import org.springframework.data.domain.PageImpl;
  */
 public class ProjectRepositoryWithBagRelationshipsImpl implements ProjectRepositoryWithBagRelationships {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Override
@@ -29,7 +30,7 @@ public class ProjectRepositoryWithBagRelationshipsImpl implements ProjectReposit
 
     @Override
     public List<Project> fetchBagRelationships(List<Project> projects) {
-        return Optional.of(projects).map(this::fetchSubContractors).get();
+        return Optional.of(projects).map(this::fetchSubContractors).orElse(Collections.emptyList());
     }
 
     Project fetchSubContractors(Project result) {

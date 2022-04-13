@@ -56,9 +56,9 @@ export class ProjectUpdateComponent implements OnInit {
 		}
 	}
 
-	trackCompanyById(index: number, item: ICompany): number {
-		return item.id!;
-	}
+  trackCompanyById(_index: number, item: ICompany): number {
+    return item.id!;
+  }
 
 	getSelectedCompany(option: ICompany, selectedVals?: ICompany[]): ICompany {
 		if (selectedVals) {

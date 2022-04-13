@@ -18,6 +18,14 @@ public interface CommentPunchService {
     CommentPunchDTO save(CommentPunchDTO commentPunchDTO);
 
     /**
+     * Updates a commentPunch.
+     *
+     * @param commentPunchDTO the entity to update.
+     * @return the persisted entity.
+     */
+    CommentPunchDTO update(CommentPunchDTO commentPunchDTO);
+
+    /**
      * Partially updates a commentPunch.
      *
      * @param commentPunchDTO the entity to update partially.

@@ -18,6 +18,14 @@ public interface PunchListService {
     PunchListDTO save(PunchListDTO punchListDTO);
 
     /**
+     * Updates a punchList.
+     *
+     * @param punchListDTO the entity to update.
+     * @return the persisted entity.
+     */
+    PunchListDTO update(PunchListDTO punchListDTO);
+
+    /**
      * Partially updates a punchList.
      *
      * @param punchListDTO the entity to update partially.

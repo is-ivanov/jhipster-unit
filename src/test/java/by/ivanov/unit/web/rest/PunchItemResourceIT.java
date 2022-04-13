@@ -2,6 +2,7 @@ package by.ivanov.unit.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -16,19 +17,26 @@ import by.ivanov.unit.domain.TypePunch;
 import by.ivanov.unit.domain.User;
 import by.ivanov.unit.domain.enumeration.StatusPunch;
 import by.ivanov.unit.repository.PunchItemRepository;
+import by.ivanov.unit.service.PunchItemService;
 import by.ivanov.unit.service.criteria.PunchItemCriteria;
 import by.ivanov.unit.service.dto.PunchItemDTO;
 import by.ivanov.unit.service.mapper.PunchItemMapper;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link PunchItemResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class PunchItemResourceIT {
@@ -70,8 +79,14 @@ class PunchItemResourceIT {
     @Autowired
     private PunchItemRepository punchItemRepository;
 
+    @Mock
+    private PunchItemRepository punchItemRepositoryMock;
+
     @Autowired
     private PunchItemMapper punchItemMapper;
+
+    @Mock
+    private PunchItemService punchItemServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -303,6 +318,24 @@ class PunchItemResourceIT {
             .andExpect(jsonPath("$.[*].revisionDrawing").value(hasItem(DEFAULT_REVISION_DRAWING)))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].closedDate").value(hasItem(DEFAULT_CLOSED_DATE.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllPunchItemsWithEagerRelationshipsIsEnabled() throws Exception {
+        when(punchItemServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restPunchItemMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(punchItemServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllPunchItemsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(punchItemServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restPunchItemMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(punchItemServiceMock, times(1)).findAllWithEagerRelationships(any());
     }
 
     @Test

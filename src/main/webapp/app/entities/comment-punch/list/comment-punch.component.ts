@@ -57,7 +57,7 @@ export class CommentPunchComponent implements OnInit {
     this.handleNavigation();
   }
 
-  trackId(index: number, item: ICommentPunch): number {
+  trackId(_index: number, item: ICommentPunch): number {
     return item.id!;
   }
 

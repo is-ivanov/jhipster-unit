@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ import { DropdownDataService } from '../../../shared/dropdown-data.service';
 	selector: 'jhi-block',
 	templateUrl: './block.component.html',
 })
-export class BlockComponent implements OnInit {
+export class BlockComponent implements OnInit, OnDestroy {
 	blocks?: IBlock[];
 	isLoading = false;
 	totalItems = 0;
@@ -71,9 +71,9 @@ export class BlockComponent implements OnInit {
 		this.handleNavigation();
 	}
 
-	trackId(index: number, item: IBlock): number {
-		return item.id!;
-	}
+  trackId(_index: number, item: IBlock): number {
+    return item.id!;
+  }
 
 	delete(block: IBlock): void {
 		const modalRef = this.modalService.open(BlockDeleteDialogComponent, {
@@ -94,6 +94,10 @@ export class BlockComponent implements OnInit {
 		this.filterDescription = undefined;
 		this.filterProjectId = undefined;
 		this.loadPage();
+	}
+
+	ngOnDestroy(): void {
+		this.projectNotifierSubscription.unsubscribe();
 	}
 
 	protected sort(): string[] {
