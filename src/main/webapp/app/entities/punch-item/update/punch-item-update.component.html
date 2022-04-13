@@ -1,0 +1,238 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-punch-item-heading" data-cy="PunchItemCreateUpdateHeading" jhiTranslate="unitApp.punchItem.home.createOrEditLabel">
+        Create or edit a Punch Item
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.number" for="field_number">Number</label>
+          <input type="number" class="form-control" name="number" id="field_number" data-cy="number" formControlName="number" />
+          <div *ngIf="editForm.get('number')!.invalid && (editForm.get('number')!.dirty || editForm.get('number')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('number')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('number')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.location" for="field_location">Location</label>
+          <input type="text" class="form-control" name="location" id="field_location" data-cy="location" formControlName="location" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('description')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.revisionDrawing" for="field_revisionDrawing">Revision Drawing</label>
+          <input
+            type="text"
+            class="form-control"
+            name="revisionDrawing"
+            id="field_revisionDrawing"
+            data-cy="revisionDrawing"
+            formControlName="revisionDrawing"
+          />
+          <div
+            *ngIf="
+              editForm.get('revisionDrawing')!.invalid &&
+              (editForm.get('revisionDrawing')!.dirty || editForm.get('revisionDrawing')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('revisionDrawing')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 20 }"
+            >
+              This field cannot be longer than 20 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.status" for="field_status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null">{{ 'unitApp.StatusPunch.null' | translate }}</option>
+            <option *ngFor="let statusPunch of statusPunchValues" [value]="statusPunch">
+              {{ 'unitApp.StatusPunch.' + statusPunch | translate }}
+            </option>
+          </select>
+          <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('status')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.closedDate" for="field_closedDate">Closed Date</label>
+          <div class="d-flex">
+            <input
+              id="field_closedDate"
+              data-cy="closedDate"
+              type="datetime-local"
+              class="form-control"
+              name="closedDate"
+              formControlName="closedDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.type" for="field_type">Type</label>
+          <select class="form-control" id="field_type" data-cy="type" name="type" formControlName="type">
+            <option *ngIf="!editForm.get('type')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="typePunchOption.id === editForm.get('type')!.value?.id ? editForm.get('type')!.value : typePunchOption"
+              *ngFor="let typePunchOption of typePunchesSharedCollection; trackBy: trackTypePunchById"
+            >
+              {{ typePunchOption.name }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['type'])!.invalid && (editForm.get(['type'])!.dirty || editForm.get(['type'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['type'])?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.line" for="field_line">Line</label>
+          <select class="form-control" id="field_line" data-cy="line" name="line" formControlName="line">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="lineOption.id === editForm.get('line')!.value?.id ? editForm.get('line')!.value : lineOption"
+              *ngFor="let lineOption of linesSharedCollection; trackBy: trackLineById"
+            >
+              {{ lineOption.tag }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.punchList" for="field_punchList">Punch List</label>
+          <select class="form-control" id="field_punchList" data-cy="punchList" name="punchList" formControlName="punchList">
+            <option *ngIf="!editForm.get('punchList')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="punchListOption.id === editForm.get('punchList')!.value?.id ? editForm.get('punchList')!.value : punchListOption"
+              *ngFor="let punchListOption of punchListsSharedCollection; trackBy: trackPunchListById"
+            >
+              {{ punchListOption.number }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['punchList'])!.invalid && (editForm.get(['punchList'])!.dirty || editForm.get(['punchList'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['punchList'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.priority" for="field_priority">Priority</label>
+          <select class="form-control" id="field_priority" data-cy="priority" name="priority" formControlName="priority">
+            <option *ngIf="!editForm.get('priority')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="
+                priorityPunchOption.id === editForm.get('priority')!.value?.id ? editForm.get('priority')!.value : priorityPunchOption
+              "
+              *ngFor="let priorityPunchOption of priorityPunchesSharedCollection; trackBy: trackPriorityPunchById"
+            >
+              {{ priorityPunchOption.name }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['priority'])!.invalid && (editForm.get(['priority'])!.dirty || editForm.get(['priority'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['priority'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.executor" for="field_executor">Executor</label>
+          <select class="form-control" id="field_executor" data-cy="executor" name="executor" formControlName="executor">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="companyOption.id === editForm.get('executor')!.value?.id ? editForm.get('executor')!.value : companyOption"
+              *ngFor="let companyOption of companiesSharedCollection; trackBy: trackCompanyById"
+            >
+              {{ companyOption.shortName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="unitApp.punchItem.author" for="field_author">Author</label>
+          <select class="form-control" id="field_author" data-cy="author" name="author" formControlName="author">
+            <option *ngIf="!editForm.get('author')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="userOption.id === editForm.get('author')!.value?.id ? editForm.get('author')!.value : userOption"
+              *ngFor="let userOption of usersSharedCollection; trackBy: trackUserById"
+            >
+              {{ userOption.lastName }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['author'])!.invalid && (editForm.get(['author'])!.dirty || editForm.get(['author'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['author'])?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

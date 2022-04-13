@@ -1,0 +1,25 @@
+{
+  "unitApp": {
+    "typePunch": {
+      "home": {
+        "title": "Type Punches",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Type Punch",
+        "createOrEditLabel": "Создать или отредактировать Type Punch",
+        "notFound": "Type Punches не найдено"
+      },
+      "created": "Новый Type Punch создан с идентификатором {{ param }}",
+      "updated": "Type Punch обновлен с идентификатором {{ param }}",
+      "deleted": "Type Punch удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Type Punch {{ id }}?"
+      },
+      "detail": {
+        "title": "Type Punch"
+      },
+      "id": "ID",
+      "name": "Name",
+      "description": "Description"
+    }
+  }
+}

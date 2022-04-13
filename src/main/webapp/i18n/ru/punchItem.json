@@ -1,0 +1,36 @@
+{
+  "unitApp": {
+    "punchItem": {
+      "home": {
+        "title": "Punch Items",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Punch Item",
+        "createOrEditLabel": "Создать или отредактировать Punch Item",
+        "notFound": "Punch Items не найдено"
+      },
+      "created": "Новый Punch Item создан с идентификатором {{ param }}",
+      "updated": "Punch Item обновлен с идентификатором {{ param }}",
+      "deleted": "Punch Item удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Punch Item {{ id }}?"
+      },
+      "detail": {
+        "title": "Punch Item"
+      },
+      "id": "ID",
+      "number": "Number",
+      "location": "Location",
+      "description": "Description",
+      "revisionDrawing": "Revision Drawing",
+      "status": "Status",
+      "closedDate": "Closed Date",
+      "type": "Type",
+      "line": "Line",
+      "punchList": "Punch List",
+      "priority": "Priority",
+      "executor": "Executor",
+      "author": "Author",
+      "comments": "Comments"
+    }
+  }
+}

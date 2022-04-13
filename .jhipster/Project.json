@@ -1,0 +1,40 @@
+{
+  "applications": "*",
+  "changelogDate": "20220330081516",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "project",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "30"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Project",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "company",
+      "otherEntityRelationshipName": "project",
+      "relationshipName": "generalContractor",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "company",
+      "otherEntityRelationshipName": "projects",
+      "ownerSide": true,
+      "relationshipName": "subContractors",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

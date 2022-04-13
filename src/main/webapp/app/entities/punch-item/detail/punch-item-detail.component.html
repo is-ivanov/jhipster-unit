@@ -1,0 +1,86 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="punchItem">
+      <h2 data-cy="punchItemDetailsHeading"><span jhiTranslate="unitApp.punchItem.detail.title">Punch Item</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ punchItem.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.number">Number</span></dt>
+        <dd>
+          <span>{{ punchItem.number }}</span>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.location">Location</span></dt>
+        <dd>
+          <span>{{ punchItem.location }}</span>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.description">Description</span></dt>
+        <dd>
+          <span>{{ punchItem.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.revisionDrawing">Revision Drawing</span></dt>
+        <dd>
+          <span>{{ punchItem.revisionDrawing }}</span>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.status">Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'unitApp.StatusPunch.' + punchItem.status }}">{{ punchItem.status }}</span>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.closedDate">Closed Date</span></dt>
+        <dd>
+          <span>{{ punchItem.closedDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.type">Type</span></dt>
+        <dd>
+          <div *ngIf="punchItem.type">
+            <a [routerLink]="['/type-punch', punchItem.type?.id, 'view']">{{ punchItem.type?.name }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.line">Line</span></dt>
+        <dd>
+          <div *ngIf="punchItem.line">
+            <a [routerLink]="['/line', punchItem.line?.id, 'view']">{{ punchItem.line?.tag }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.punchList">Punch List</span></dt>
+        <dd>
+          <div *ngIf="punchItem.punchList">
+            <a [routerLink]="['/punch-list', punchItem.punchList?.id, 'view']">{{ punchItem.punchList?.number }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.priority">Priority</span></dt>
+        <dd>
+          <div *ngIf="punchItem.priority">
+            <a [routerLink]="['/priority-punch', punchItem.priority?.id, 'view']">{{ punchItem.priority?.name }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.executor">Executor</span></dt>
+        <dd>
+          <div *ngIf="punchItem.executor">
+            <a [routerLink]="['/company', punchItem.executor?.id, 'view']">{{ punchItem.executor?.shortName }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="unitApp.punchItem.author">Author</span></dt>
+        <dd>
+          <span>{{ punchItem.author?.lastName }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/punch-item', punchItem.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
