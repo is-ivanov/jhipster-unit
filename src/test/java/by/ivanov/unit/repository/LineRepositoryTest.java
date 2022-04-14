@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ class LineRepositoryTest extends BaseRepositoryIT {
 
 		@Test
 		@DisplayName("get all lines without blocks")
+		@Transactional
 		void getAllLinesWithoutBlocks() {
 			List<Line> allNonDeleted = repo.findAllNonDeleted();
 			assertThat(allNonDeleted).hasSize(77);
@@ -34,6 +36,7 @@ class LineRepositoryTest extends BaseRepositoryIT {
 	class FindAllRevisionsTest {
 		@Test
 		@DisplayName("get all revisions")
+		@Transactional
 		void getAllRevisions() {
 			List<String> allRevisions = repo.findAllRevisions();
 			assertThat(allRevisions).hasSize(19);
@@ -49,6 +52,7 @@ class LineRepositoryTest extends BaseRepositoryIT {
 	class FindAllRevisionsWithProjectTest {
 		@Test
 		@DisplayName("get all revisions with project_id = 9")
+		@Transactional
 		void getAllRevisionsWithProjectId9() {
 			List<String> revisions = repo.findAllRevisionsWithProject(9L);
 			assertThat(revisions).hasSize(7);
@@ -62,6 +66,7 @@ class LineRepositoryTest extends BaseRepositoryIT {
 	class FindAllRevisionsWithBlockTest {
 		@Test
 		@DisplayName("get all revisions with block_id = 15")
+		@Transactional
 		void getAllRevisionsWithBlockId15() {
 			List<String> revisions = repo.findAllRevisionsWithBlock(15L);
 			assertThat(revisions).hasSize(2);
