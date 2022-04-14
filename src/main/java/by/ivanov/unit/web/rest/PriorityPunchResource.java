@@ -1,23 +1,26 @@
 package by.ivanov.unit.web.rest;
 
 import by.ivanov.unit.repository.PriorityPunchRepository;
+import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.PriorityPunchService;
 import by.ivanov.unit.service.dto.PriorityPunchDTO;
 import by.ivanov.unit.web.rest.errors.BadRequestAlertException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.ResponseUtil;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link by.ivanov.unit.domain.PriorityPunch}.
@@ -50,7 +53,8 @@ public class PriorityPunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/priority-punches")
-    public ResponseEntity<PriorityPunchDTO> createPriorityPunch(@Valid @RequestBody PriorityPunchDTO priorityPunchDTO)
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	public ResponseEntity<PriorityPunchDTO> createPriorityPunch(@Valid @RequestBody PriorityPunchDTO priorityPunchDTO)
         throws URISyntaxException {
         log.debug("REST request to save PriorityPunch : {}", priorityPunchDTO);
         if (priorityPunchDTO.getId() != null) {
@@ -74,7 +78,8 @@ public class PriorityPunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/priority-punches/{id}")
-    public ResponseEntity<PriorityPunchDTO> updatePriorityPunch(
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	public ResponseEntity<PriorityPunchDTO> updatePriorityPunch(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody PriorityPunchDTO priorityPunchDTO
     ) throws URISyntaxException {
@@ -109,7 +114,8 @@ public class PriorityPunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/priority-punches/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<PriorityPunchDTO> partialUpdatePriorityPunch(
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	public ResponseEntity<PriorityPunchDTO> partialUpdatePriorityPunch(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody PriorityPunchDTO priorityPunchDTO
     ) throws URISyntaxException {
@@ -164,7 +170,8 @@ public class PriorityPunchResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/priority-punches/{id}")
-    public ResponseEntity<Void> deletePriorityPunch(@PathVariable Long id) {
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	public ResponseEntity<Void> deletePriorityPunch(@PathVariable Long id) {
         log.debug("REST request to delete PriorityPunch : {}", id);
         priorityPunchService.delete(id);
         return ResponseEntity

@@ -91,6 +91,7 @@ public class SecurityConfiguration {
 			.antMatchers(HttpMethod.GET, "/api/projects/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/blocks/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/lines/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/priority-punches/**").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
