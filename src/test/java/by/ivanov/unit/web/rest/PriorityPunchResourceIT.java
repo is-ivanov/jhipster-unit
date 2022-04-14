@@ -1,19 +1,11 @@
 package by.ivanov.unit.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import by.ivanov.unit.IntegrationTest;
 import by.ivanov.unit.domain.PriorityPunch;
 import by.ivanov.unit.repository.PriorityPunchRepository;
+import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.dto.PriorityPunchDTO;
 import by.ivanov.unit.service.mapper.PriorityPunchMapper;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +14,16 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link PriorityPunchResource} REST controller.
@@ -89,7 +91,8 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-    void createPriorityPunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void createPriorityPunch() throws Exception {
         int databaseSizeBeforeCreate = priorityPunchRepository.findAll().size();
         // Create the PriorityPunch
         PriorityPunchDTO priorityPunchDTO = priorityPunchMapper.toDto(priorityPunch);
@@ -110,7 +113,8 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-    void createPriorityPunchWithExistingId() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void createPriorityPunchWithExistingId() throws Exception {
         // Create the PriorityPunch with an existing ID
         priorityPunch.setId(1L);
         PriorityPunchDTO priorityPunchDTO = priorityPunchMapper.toDto(priorityPunch);
@@ -212,7 +216,8 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-    void putNewPriorityPunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void putNewPriorityPunch() throws Exception {
         // Initialize the database
         priorityPunchRepository.saveAndFlush(priorityPunch);
 
@@ -244,7 +249,8 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-    void putNonExistingPriorityPunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void putNonExistingPriorityPunch() throws Exception {
         int databaseSizeBeforeUpdate = priorityPunchRepository.findAll().size();
         priorityPunch.setId(count.incrementAndGet());
 
@@ -267,7 +273,8 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-    void putWithIdMismatchPriorityPunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void putWithIdMismatchPriorityPunch() throws Exception {
         int databaseSizeBeforeUpdate = priorityPunchRepository.findAll().size();
         priorityPunch.setId(count.incrementAndGet());
 
@@ -311,7 +318,8 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-    void partialUpdatePriorityPunchWithPatch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void partialUpdatePriorityPunchWithPatch() throws Exception {
         // Initialize the database
         priorityPunchRepository.saveAndFlush(priorityPunch);
 
@@ -342,7 +350,8 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-    void fullUpdatePriorityPunchWithPatch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void fullUpdatePriorityPunchWithPatch() throws Exception {
         // Initialize the database
         priorityPunchRepository.saveAndFlush(priorityPunch);
 
@@ -373,7 +382,8 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-    void patchNonExistingPriorityPunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void patchNonExistingPriorityPunch() throws Exception {
         int databaseSizeBeforeUpdate = priorityPunchRepository.findAll().size();
         priorityPunch.setId(count.incrementAndGet());
 
@@ -396,7 +406,8 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-    void patchWithIdMismatchPriorityPunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void patchWithIdMismatchPriorityPunch() throws Exception {
         int databaseSizeBeforeUpdate = priorityPunchRepository.findAll().size();
         priorityPunch.setId(count.incrementAndGet());
 
@@ -442,7 +453,8 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-    void deletePriorityPunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void deletePriorityPunch() throws Exception {
         // Initialize the database
         priorityPunchRepository.saveAndFlush(priorityPunch);
 

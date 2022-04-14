@@ -15,7 +15,9 @@
         "question": "Are you sure you want to delete Priority Punch {{ id }}?"
       },
       "detail": {
-        "title": "Priority Punch"
+        "title": "Priority Punch",
+				"priority.placeholder": "Number priority",
+				"name.placeholder": "Short name"
       },
       "id": "ID",
       "priority": "Priority",
