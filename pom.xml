@@ -1121,7 +1121,8 @@
                     <plugin>
                         <groupId>io.github.git-commit-id</groupId>
                         <artifactId>git-commit-id-maven-plugin</artifactId>
-                    </plugin>
+						<version>${git-commit-id-plugin.version}</version>
+					</plugin>
                 </plugins>
             </build>
             <properties>

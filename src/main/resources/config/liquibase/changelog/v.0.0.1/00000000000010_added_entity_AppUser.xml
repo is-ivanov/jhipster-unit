@@ -34,4 +34,15 @@
 		</loadData>
 	</changeSet>
 
+	<changeSet id="00000000000010-3-data" author="ivan" context="faker">
+		<loadData
+			file="config/liquibase/fake-data/app_user.csv"
+			separator=";"
+			tableName="app_user"
+			usePreparedStatements="true">
+			<column name="id" type="numeric"/>
+			<column name="company_id" type="numeric"/>
+		</loadData>
+	</changeSet>
+
 </databaseChangeLog>
