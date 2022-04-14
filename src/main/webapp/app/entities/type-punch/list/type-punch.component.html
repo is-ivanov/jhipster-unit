@@ -1,80 +1,86 @@
 <div>
-  <h2 id="page-heading" data-cy="TypePunchHeading">
-    <span jhiTranslate="unitApp.typePunch.home.title">Type Punches</span>
+	<h2 id="page-heading" data-cy="TypePunchHeading">
+		<span jhiTranslate="unitApp.typePunch.home.title">Type Punches</span>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span jhiTranslate="unitApp.typePunch.home.refreshListLabel">Refresh List</span>
-      </button>
+		<div class="d-flex justify-content-end">
+			<button class="btn btn-info me-2" (click)="loadAll()" [disabled]="isLoading">
+				<fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+				<span jhiTranslate="unitApp.typePunch.home.refreshListLabel">Refresh List</span>
+			</button>
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-type-punch"
-        [routerLink]="['/type-punch/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span jhiTranslate="unitApp.typePunch.home.createLabel"> Create a new Type Punch </span>
-      </button>
-    </div>
-  </h2>
+			<button
+				*jhiHasAnyAuthority="'ROLE_ADMIN'"
+				id="jh-create-entity"
+				data-cy="entityCreateButton"
+				class="btn btn-primary jh-create-entity create-type-punch"
+				[routerLink]="['/type-punch/new']"
+			>
+				<fa-icon icon="plus"></fa-icon>
+				<span jhiTranslate="unitApp.typePunch.home.createLabel"> Create a new Type Punch </span>
+			</button>
+		</div>
+	</h2>
 
-  <jhi-alert-error></jhi-alert-error>
+	<jhi-alert-error></jhi-alert-error>
 
-  <jhi-alert></jhi-alert>
+	<jhi-alert></jhi-alert>
 
-  <div class="alert alert-warning" id="no-result" *ngIf="typePunches?.length === 0">
-    <span jhiTranslate="unitApp.typePunch.home.notFound">No typePunches found</span>
-  </div>
+	<div class="alert alert-warning" id="no-result" *ngIf="typePunches?.length === 0">
+		<span jhiTranslate="unitApp.typePunch.home.notFound">No typePunches found</span>
+	</div>
 
-  <div class="table-responsive" id="entities" *ngIf="typePunches && typePunches.length > 0">
-    <table class="table table-striped" aria-describedby="page-heading">
-      <thead>
-        <tr>
-          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="unitApp.typePunch.name">Name</span></th>
-          <th scope="col"><span jhiTranslate="unitApp.typePunch.description">Description</span></th>
-          <th scope="col"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let typePunch of typePunches; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/type-punch', typePunch.id, 'view']">{{ typePunch.id }}</a>
-          </td>
-          <td>{{ typePunch.name }}</td>
-          <td>{{ typePunch.description }}</td>
-          <td class="text-end">
-            <div class="btn-group">
-              <button
-                type="submit"
-                [routerLink]="['/type-punch', typePunch.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-              </button>
+	<div class="table-responsive" id="entities" *ngIf="typePunches && typePunches.length > 0">
+		<table class="table table-striped" aria-describedby="page-heading">
+			<thead>
+			<tr>
+				<th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+				<th scope="col"><span jhiTranslate="unitApp.typePunch.name">Name</span></th>
+				<th scope="col"><span jhiTranslate="unitApp.typePunch.description">Description</span></th>
+				<th scope="col"></th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr *ngFor="let typePunch of typePunches; trackBy: trackId" data-cy="entityTable">
+				<td>
+					<a [routerLink]="['/type-punch', typePunch.id, 'view']">{{ typePunch.id }}</a>
+				</td>
+				<td>{{ typePunch.name }}</td>
+				<td>{{ typePunch.description }}</td>
+				<td class="text-end py-1">
+					<div class="btn-group">
+						<button
+							type="submit"
+							[routerLink]="['/type-punch', typePunch.id, 'view']"
+							class="btn btn-success btn-sm"
+							data-cy="entityDetailsButton"
+						>
+							<fa-icon icon="eye"></fa-icon>
+							<span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+						</button>
 
-              <button
-                type="submit"
-                [routerLink]="['/type-punch', typePunch.id, 'edit']"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
-                <fa-icon icon="pencil-alt"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-              </button>
+						<button
+							*jhiHasAnyAuthority="'ROLE_ADMIN'"
+							type="submit"
+							[routerLink]="['/type-punch', typePunch.id, 'edit']"
+							class="btn btn-warning btn-sm"
+							data-cy="entityEditButton"
+						>
+							<fa-icon icon="pencil-alt"></fa-icon>
+							<span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+						</button>
 
-              <button type="submit" (click)="delete(typePunch)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                <fa-icon icon="times"></fa-icon>
-                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+						<button
+							*jhiHasAnyAuthority="'ROLE_ADMIN'"
+							type="submit"
+							(click)="delete(typePunch)" class="btn btn-danger btn-sm"
+							data-cy="entityDeleteButton">
+							<fa-icon icon="times"></fa-icon>
+							<span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+						</button>
+					</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

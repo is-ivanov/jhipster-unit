@@ -54,18 +54,6 @@
 					</a>
 					<ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
 						<li>
-						<a
-								class="dropdown-item"
-								routerLink="type-punch"
-								routerLinkActive="active"
-								[routerLinkActiveOptions]="{ exact: true }"
-								(click)="collapseNavbar()"
-							>
-								<fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-								<span jhiTranslate="global.menu.entities.typePunch">Type Punch</span>
-							</a>
-						</li>
-						<li>
 							<a
 								class="dropdown-item"
 								routerLink="punch-list"
@@ -159,6 +147,18 @@
 							>
 								<fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
 								<span jhiTranslate="global.menu.entities.priorityPunch">Priority Punch</span>
+							</a>
+						</li>
+						<li>
+							<a
+								class="dropdown-item"
+								routerLink="type-punch"
+								routerLinkActive="active"
+								[routerLinkActiveOptions]="{ exact: true }"
+								(click)="collapseNavbar()"
+							>
+								<fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+								<span jhiTranslate="global.menu.entities.typePunch">Type Punch</span>
 							</a>
 						</li>
 						<li>

@@ -1,19 +1,11 @@
 package by.ivanov.unit.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import by.ivanov.unit.IntegrationTest;
 import by.ivanov.unit.domain.TypePunch;
 import by.ivanov.unit.repository.TypePunchRepository;
+import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.dto.TypePunchDTO;
 import by.ivanov.unit.service.mapper.TypePunchMapper;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +14,16 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link TypePunchResource} REST controller.
@@ -86,7 +88,8 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-    void createTypePunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void createTypePunch() throws Exception {
         int databaseSizeBeforeCreate = typePunchRepository.findAll().size();
         // Create the TypePunch
         TypePunchDTO typePunchDTO = typePunchMapper.toDto(typePunch);
@@ -104,7 +107,8 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-    void createTypePunchWithExistingId() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void createTypePunchWithExistingId() throws Exception {
         // Create the TypePunch with an existing ID
         typePunch.setId(1L);
         TypePunchDTO typePunchDTO = typePunchMapper.toDto(typePunch);
@@ -180,7 +184,8 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-    void putNewTypePunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void putNewTypePunch() throws Exception {
         // Initialize the database
         typePunchRepository.saveAndFlush(typePunch);
 
@@ -211,7 +216,8 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-    void putNonExistingTypePunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void putNonExistingTypePunch() throws Exception {
         int databaseSizeBeforeUpdate = typePunchRepository.findAll().size();
         typePunch.setId(count.incrementAndGet());
 
@@ -234,7 +240,8 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-    void putWithIdMismatchTypePunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void putWithIdMismatchTypePunch() throws Exception {
         int databaseSizeBeforeUpdate = typePunchRepository.findAll().size();
         typePunch.setId(count.incrementAndGet());
 
@@ -276,7 +283,8 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-    void partialUpdateTypePunchWithPatch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void partialUpdateTypePunchWithPatch() throws Exception {
         // Initialize the database
         typePunchRepository.saveAndFlush(typePunch);
 
@@ -306,7 +314,8 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-    void fullUpdateTypePunchWithPatch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void fullUpdateTypePunchWithPatch() throws Exception {
         // Initialize the database
         typePunchRepository.saveAndFlush(typePunch);
 
@@ -336,7 +345,8 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-    void patchNonExistingTypePunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void patchNonExistingTypePunch() throws Exception {
         int databaseSizeBeforeUpdate = typePunchRepository.findAll().size();
         typePunch.setId(count.incrementAndGet());
 
@@ -359,7 +369,8 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-    void patchWithIdMismatchTypePunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void patchWithIdMismatchTypePunch() throws Exception {
         int databaseSizeBeforeUpdate = typePunchRepository.findAll().size();
         typePunch.setId(count.incrementAndGet());
 
@@ -403,7 +414,8 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-    void deleteTypePunch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	void deleteTypePunch() throws Exception {
         // Initialize the database
         typePunchRepository.saveAndFlush(typePunch);
 

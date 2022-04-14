@@ -55,7 +55,7 @@
 					<span jhiTranslate="unitApp.line.revision">Revision</span>
 					<fa-icon icon="sort"></fa-icon>
 				</th>
-				<th scope="col" jhiSortBy="status">
+				<th scope="col" jhiSortBy="status" class="text-center">
 					<span jhiTranslate="unitApp.line.status">Status</span>
 					<fa-icon icon="sort"></fa-icon>
 				</th>
@@ -124,8 +124,12 @@
 				</td>
 				<td class="align-middle">{{ line.tag }}</td>
 				<td class="text-center align-middle">{{ line.revision }}</td>
-				<td class="align-middle" jhiTranslate="{{ 'unitApp.StatusLine.' + line.status }}">
-					{{ line.status }}
+				<td class="align-middle text-center" >
+						<span class="badge bg-info"
+						      jhiTranslate="{{ 'unitApp.StatusLine.' + line.status }}"
+						>
+							{{ line.status }}
+						</span>
 				</td>
 				<td class="text-center align-middle">
 					<div *ngIf="line.block">
