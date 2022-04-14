@@ -93,6 +93,7 @@ public class SecurityConfiguration {
 			.antMatchers(HttpMethod.GET, "/api/lines/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/priority-punches/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/type-punches/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/punch-lists/**").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()

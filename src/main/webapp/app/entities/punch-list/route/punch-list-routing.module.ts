@@ -6,6 +6,7 @@ import { PunchListComponent } from '../list/punch-list.component';
 import { PunchListDetailComponent } from '../detail/punch-list-detail.component';
 import { PunchListUpdateComponent } from '../update/punch-list-update.component';
 import { PunchListRoutingResolveService } from './punch-list-routing-resolve.service';
+import { Authority } from '../../../config/authority.constants';
 
 const punchListRoute: Routes = [
   {
@@ -14,7 +15,6 @@ const punchListRoute: Routes = [
     data: {
       defaultSort: 'id,asc',
     },
-    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
@@ -22,7 +22,6 @@ const punchListRoute: Routes = [
     resolve: {
       punchList: PunchListRoutingResolveService,
     },
-    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
@@ -30,6 +29,9 @@ const punchListRoute: Routes = [
     resolve: {
       punchList: PunchListRoutingResolveService,
     },
+	  data: {
+		  authorities: [Authority.ADMIN, Authority.CUSTOMER, Authority.COMMISSIONER],
+	  },
     canActivate: [UserRouteAccessService],
   },
   {

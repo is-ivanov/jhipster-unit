@@ -14,7 +14,6 @@ const lineRoute: Routes = [
 		data: {
 			defaultSort: 'id,asc',
 		},
-		// canActivate: [UserRouteAccessService],
 	},
 	{
 		path: ':id/view',
@@ -22,7 +21,6 @@ const lineRoute: Routes = [
 		resolve: {
 			line: LineRoutingResolveService,
 		},
-		// canActivate: [UserRouteAccessService],
 	},
 	{
 		path: 'new',
