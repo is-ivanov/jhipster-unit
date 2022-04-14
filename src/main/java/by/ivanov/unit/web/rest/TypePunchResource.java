@@ -1,23 +1,26 @@
 package by.ivanov.unit.web.rest;
 
 import by.ivanov.unit.repository.TypePunchRepository;
+import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.TypePunchService;
 import by.ivanov.unit.service.dto.TypePunchDTO;
 import by.ivanov.unit.web.rest.errors.BadRequestAlertException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.ResponseUtil;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link by.ivanov.unit.domain.TypePunch}.
@@ -50,7 +53,8 @@ public class TypePunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/type-punches")
-    public ResponseEntity<TypePunchDTO> createTypePunch(@Valid @RequestBody TypePunchDTO typePunchDTO) throws URISyntaxException {
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	public ResponseEntity<TypePunchDTO> createTypePunch(@Valid @RequestBody TypePunchDTO typePunchDTO) throws URISyntaxException {
         log.debug("REST request to save TypePunch : {}", typePunchDTO);
         if (typePunchDTO.getId() != null) {
             throw new BadRequestAlertException("A new typePunch cannot already have an ID", ENTITY_NAME, "idexists");
@@ -73,7 +77,8 @@ public class TypePunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/type-punches/{id}")
-    public ResponseEntity<TypePunchDTO> updateTypePunch(
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	public ResponseEntity<TypePunchDTO> updateTypePunch(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody TypePunchDTO typePunchDTO
     ) throws URISyntaxException {
@@ -108,7 +113,8 @@ public class TypePunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/type-punches/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<TypePunchDTO> partialUpdateTypePunch(
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	public ResponseEntity<TypePunchDTO> partialUpdateTypePunch(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody TypePunchDTO typePunchDTO
     ) throws URISyntaxException {
@@ -163,7 +169,8 @@ public class TypePunchResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/type-punches/{id}")
-    public ResponseEntity<Void> deleteTypePunch(@PathVariable Long id) {
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	public ResponseEntity<Void> deleteTypePunch(@PathVariable Long id) {
         log.debug("REST request to delete TypePunch : {}", id);
         typePunchService.delete(id);
         return ResponseEntity
