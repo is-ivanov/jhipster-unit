@@ -8,39 +8,44 @@ import { TypePunchUpdateComponent } from '../update/type-punch-update.component'
 import { TypePunchRoutingResolveService } from './type-punch-routing-resolve.service';
 
 const typePunchRoute: Routes = [
-  {
-    path: '',
-    component: TypePunchComponent,
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/view',
-    component: TypePunchDetailComponent,
-    resolve: {
-      typePunch: TypePunchRoutingResolveService,
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'new',
-    component: TypePunchUpdateComponent,
-    resolve: {
-      typePunch: TypePunchRoutingResolveService,
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: TypePunchUpdateComponent,
-    resolve: {
-      typePunch: TypePunchRoutingResolveService,
-    },
-    canActivate: [UserRouteAccessService],
-  },
+	{
+		path: '',
+		component: TypePunchComponent
+	},
+	{
+		path: ':id/view',
+		component: TypePunchDetailComponent,
+		resolve: {
+			typePunch: TypePunchRoutingResolveService
+		}
+	},
+	{
+		path: 'new',
+		component: TypePunchUpdateComponent,
+		resolve: {
+			typePunch: TypePunchRoutingResolveService
+		},
+		data: {
+			authorities: ['ROLE_ADMIN']
+		},
+		canActivate: [UserRouteAccessService]
+	},
+	{
+		path: ':id/edit',
+		component: TypePunchUpdateComponent,
+		resolve: {
+			typePunch: TypePunchRoutingResolveService
+		},
+		data: {
+			authorities: ['ROLE_ADMIN']
+		},
+		canActivate: [UserRouteAccessService]
+	}
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(typePunchRoute)],
-  exports: [RouterModule],
+	imports: [RouterModule.forChild(typePunchRoute)],
+	exports: [RouterModule]
 })
-export class TypePunchRoutingModule {}
+export class TypePunchRoutingModule {
+}

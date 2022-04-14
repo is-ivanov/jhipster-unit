@@ -11,7 +11,6 @@ const priorityPunchRoute: Routes = [
 	{
 		path: '',
 		component: PriorityPunchComponent
-		// canActivate: [UserRouteAccessService],
 	},
 	{
 		path: ':id/view',
@@ -19,7 +18,6 @@ const priorityPunchRoute: Routes = [
 		resolve: {
 			priorityPunch: PriorityPunchRoutingResolveService
 		}
-		// canActivate: [UserRouteAccessService],
 	},
 	{
 		path: 'new',
