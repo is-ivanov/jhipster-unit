@@ -22,3 +22,4 @@ spring:
     database-platform: tech.jhipster.domain.util.FixedPostgreSQL10Dialect
   liquibase:
     contexts: faker, test
+    change-log: classpath:/config/liquibase/master.xml
