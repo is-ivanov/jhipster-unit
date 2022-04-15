@@ -4,6 +4,7 @@
     <option name="SOFT_MARGINS" value="100,120" />
     <HTMLCodeStyleSettings>
       <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
+      <option name="HTML_DO_NOT_INDENT_CHILDREN_OF" value="html,body,thead,tfoot" />
       <option name="HTML_ENFORCE_QUOTES" value="true" />
     </HTMLCodeStyleSettings>
     <JSCodeStyleSettings version="0">
