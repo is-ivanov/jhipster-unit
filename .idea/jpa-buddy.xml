@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JpaBuddyIdeaProjectConfig">
+    <option name="liquibaseDirectory" value="config/liquibase/changelog/v.0.0.3" />
     <option name="defaultUnitInitialized" value="true" />
+    <option name="sourceModelValue" value="Default" />
+    <option name="targetDbValue" value="14ec15c7-c319-491b-a7f2-2ca8f89a1d76" />
+    <option name="liquibaseAuthor" value="ivan" />
   </component>
 </project>

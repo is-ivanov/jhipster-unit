@@ -26,6 +26,7 @@ public class PunchList implements Serializable {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
+	public static final String COLUMN_AUTHOR_NAME = "author_id";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "punch_list_sequence")
@@ -51,8 +52,12 @@ public class PunchList implements Serializable {
 	@JsonIgnoreProperties(value = {"generalContractor", "subContractors"}, allowSetters = true)
 	private Project project;
 
-	// jhipster-needle-entity-add-field - JHipster will add fields here
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = COLUMN_AUTHOR_NAME, nullable = false)
+	private AppUser author;
 
+// jhipster-needle-entity-add-field - JHipster will add fields here
 	public Long getId() {
 		return this.id;
 	}
@@ -115,6 +120,19 @@ public class PunchList implements Serializable {
 
 	public PunchList project(Project project) {
 		this.setProject(project);
+		return this;
+	}
+
+	public AppUser getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(AppUser author) {
+		this.author = author;
+	}
+
+	public PunchList author(AppUser author) {
+		this.author = author;
 		return this;
 	}
 
