@@ -1,13 +1,10 @@
 package by.ivanov.unit.service;
 
-import by.ivanov.unit.domain.*; // for static metamodels
-import by.ivanov.unit.domain.PunchList;
+import by.ivanov.unit.domain.*;
 import by.ivanov.unit.repository.PunchListRepository;
 import by.ivanov.unit.service.criteria.PunchListCriteria;
 import by.ivanov.unit.service.dto.PunchListDTO;
 import by.ivanov.unit.service.mapper.PunchListMapper;
-import java.util.List;
-import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -16,6 +13,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
+
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for {@link PunchList} entities in the database.
@@ -105,6 +105,21 @@ public class PunchListQueryService extends QueryService<PunchList> {
                         buildSpecification(criteria.getProjectId(), root -> root.join(PunchList_.project, JoinType.LEFT).get(Project_.id))
                     );
             }
+			if (criteria.getAuthorLastName() != null) {
+				specification =
+					specification.and(buildSpecification(criteria.getAuthorLastName(),
+							root -> root.join(PunchList_.author, JoinType.LEFT)
+										.join(AppUser_.user, JoinType.INNER)
+										.get(User_.lastName)));
+			}
+			if (criteria.getCompanyShortName() != null) {
+				specification =
+					specification.and(buildSpecification(criteria.getCompanyShortName(),
+						root -> root.join(PunchList_.author, JoinType.LEFT)
+									.join(AppUser_.company, JoinType.LEFT)
+									.get(Company_.shortName)
+						));
+			}
         }
         return specification;
     }

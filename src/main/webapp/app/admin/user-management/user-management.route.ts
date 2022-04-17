@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Resolve, Routes } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
-import { User, IUser } from './user-management.model';
+import { IUserAccount, User } from './user-management.model';
 import { UserManagementService } from './service/user-management.service';
 import { UserManagementComponent } from './list/user-management.component';
 import { UserManagementDetailComponent } from './detail/user-management-detail.component';
 import { UserManagementUpdateComponent } from './update/user-management-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class UserManagementResolve implements Resolve<IUser> {
+export class UserManagementResolve implements Resolve<IUserAccount> {
   constructor(private service: UserManagementService) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IUser> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IUserAccount> {
     const id = route.params['login'];
     if (id) {
       return this.service.find(id);

@@ -1,8 +1,9 @@
 package by.ivanov.unit.service.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link by.ivanov.unit.domain.PunchList} entity.
@@ -19,7 +20,11 @@ public class PunchListDTO implements Serializable {
 
     private String description;
 
+	@NotNull
     private ProjectDTO project;
+
+	@NotNull
+	private AppUserDTO author;
 
     public Long getId() {
         return id;
@@ -61,7 +66,15 @@ public class PunchListDTO implements Serializable {
         this.project = project;
     }
 
-    @Override
+	public AppUserDTO getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(AppUserDTO author) {
+		this.author = author;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

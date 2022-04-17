@@ -6,13 +6,6 @@ import by.ivanov.unit.service.PunchListService;
 import by.ivanov.unit.service.criteria.PunchListCriteria;
 import by.ivanov.unit.service.dto.PunchListDTO;
 import by.ivanov.unit.web.rest.errors.BadRequestAlertException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,6 +18,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link by.ivanov.unit.domain.PunchList}.
@@ -46,11 +47,9 @@ public class PunchListResource {
 
     private final PunchListQueryService punchListQueryService;
 
-    public PunchListResource(
-        PunchListService punchListService,
-        PunchListRepository punchListRepository,
-        PunchListQueryService punchListQueryService
-    ) {
+    public PunchListResource(PunchListService punchListService,
+							 PunchListRepository punchListRepository,
+							 PunchListQueryService punchListQueryService) {
         this.punchListService = punchListService;
         this.punchListRepository = punchListRepository;
         this.punchListQueryService = punchListQueryService;

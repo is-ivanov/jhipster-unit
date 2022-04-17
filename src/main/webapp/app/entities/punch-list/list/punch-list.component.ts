@@ -29,6 +29,8 @@ export class PunchListComponent implements OnInit, OnDestroy {
 	filterName?: string;
 	filterDescription?: string;
 	filterProjectId?: number;
+	filterAuthor?: string; // TODO select
+	filterCompany?: string; // TODO select
 
 	projectNotifierSubscription: Subscription = this.dropdownDataService.projectNotifier.subscribe((projectId) => {
 		this.filterProjectId = projectId;
@@ -94,6 +96,8 @@ export class PunchListComponent implements OnInit, OnDestroy {
 		this.filterName = undefined;
 		this.filterDescription = undefined;
 		this.filterProjectId = undefined;
+		this.filterAuthor = undefined;
+		this.filterCompany = undefined;
 		this.loadPage();
 	}
 
@@ -132,7 +136,7 @@ export class PunchListComponent implements OnInit, OnDestroy {
 		this.page = page;
 		if (navigate) {
 			this.router.navigate(['/punch-list'], {
-				queryParams: this.prepareQueryParam(),
+				queryParams: this.prepareQueryParam()
 			});
 		}
 		this.punchLists = data ?? [];
@@ -165,6 +169,12 @@ export class PunchListComponent implements OnInit, OnDestroy {
 		if (this.filterProjectId) {
 			Object.assign(param, { 'projectId.equals': this.filterProjectId });
 		}
+		if (this.filterAuthor) {
+			Object.assign(param, { 'authorLastName.contains': this.filterAuthor });
+		}
+		if (this.filterCompany) {
+			Object.assign(param, { 'companyShortName.contains': this.filterCompany });
+		}
 	}
 
 	private getFilterParamsFromRoute(params: ParamMap): void {
@@ -176,5 +186,8 @@ export class PunchListComponent implements OnInit, OnDestroy {
 
 		const projectId = params.get('projectId.equals');
 		this.filterProjectId = projectId !== null ? +projectId : undefined;
+
+		this.filterAuthor = params.get('authorLastName.contains') ?? undefined;
+		this.filterCompany = params.get('companyShortName.contains') ?? undefined;
 	}
 }

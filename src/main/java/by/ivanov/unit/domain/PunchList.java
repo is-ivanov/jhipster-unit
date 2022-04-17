@@ -23,10 +23,10 @@ public class PunchList implements Serializable {
 	public static final String COLUMN_NAME_NAME = "name";
 	public static final String COLUMN_DESCRIPTION_NAME = "description";
 	public static final String COLUMN_PROJECT_NAME = "project_id";
+	public static final String COLUMN_AUTHOR_NAME = "author_id";
 
 	@Serial
 	private static final long serialVersionUID = 1L;
-	public static final String COLUMN_AUTHOR_NAME = "author_id";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "punch_list_sequence")

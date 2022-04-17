@@ -24,10 +24,14 @@
       "name": "Название",
       "description": "Описание",
       "project": "Проект",
+			"author": "Автор",
+			"company": "Организ.",
 			"filter": {
 				"number.placeholder": "Фильтр по номеру",
 				"name.placeholder": "Фильтр по названию",
-				"description.placeholder": "Фильтр по описанию"
+				"description.placeholder": "Фильтр по описанию",
+				"author.placeholder": "Фильтр по автору",
+				"company.placeholder": "Фильтр по орг."
 			}
     }
   }

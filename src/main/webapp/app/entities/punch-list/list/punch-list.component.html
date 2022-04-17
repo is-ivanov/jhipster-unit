@@ -47,11 +47,19 @@
 				<span jhiTranslate="unitApp.punchList.description">Description</span>
 				<fa-icon icon="sort"></fa-icon>
 			</th>
-			<th scope="col" jhiSortBy="project.name">
+			<th scope="col" jhiSortBy="project.name" class="col-1">
 				<span jhiTranslate="unitApp.punchList.project">Project</span>
 				<fa-icon icon="sort"></fa-icon>
 			</th>
-			<th scope="col"></th>
+			<th scope="col" jhiSortBy="author.lastName">
+				<span jhiTranslate="unitApp.punchList.author">Author</span>
+				<fa-icon icon="sort"></fa-icon>
+			</th>
+			<th scope="col" jhiSortBy="author.company.shortName" class="col-1">
+				<span jhiTranslate="unitApp.punchList.company">Company</span>
+				<fa-icon icon="sort"></fa-icon>
+			</th>
+			<th scope="col" class="col-3"></th>
 		</tr>
 
 		<tr>
@@ -90,7 +98,31 @@
 				/>
 			</td>
 			<td>
-				<jhi-projects [selectedProjectId]="filterProjectId"> </jhi-projects>
+				<jhi-projects [selectedProjectId]="filterProjectId"></jhi-projects>
+			</td>
+			<td>
+<!--				 TODO correct filter-->
+				<input
+					type="search"
+					class="form-control"
+					name="description"
+					id="field-author"
+					placeholder="{{ 'unitApp.punchList.filter.author.placeholder' | translate }}"
+					[(ngModel)]="filterAuthor"
+					(search)="loadPage(1)"
+				/>
+			</td>
+			<td>
+				<!--				 TODO correct filter-->
+				<input
+					type="search"
+					class="form-control"
+					name="description"
+					id="field-company"
+					placeholder="{{ 'unitApp.punchList.filter.company.placeholder' | translate }}"
+					[(ngModel)]="filterCompany"
+					(search)="loadPage(1)"
+				/>
 			</td>
 			<td>
 				<jhi-clear-filter (clearFilter)="clearFilter()"></jhi-clear-filter>
@@ -110,6 +142,8 @@
 						<a [routerLink]="['/project', punchList.project?.id, 'view']">{{ punchList.project?.name }}</a>
 					</div>
 				</td>
+				<td class="align-middle">{{ punchList.author?.user | fullName }}</td>
+				<td class="align-middle">{{ punchList.author?.company?.shortName }}</td>
 				<td class="text-end py-1 align-middle">
 					<div class="btn-group">
 						<button

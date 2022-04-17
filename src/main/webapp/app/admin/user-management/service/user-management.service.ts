@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { Pagination } from 'app/core/request/request.model';
-import { IUser } from '../user-management.model';
+import { IUserAccount } from '../user-management.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserManagementService {
@@ -13,21 +13,21 @@ export class UserManagementService {
 
   constructor(private http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
-  create(user: IUser): Observable<IUser> {
-    return this.http.post<IUser>(this.resourceUrl, user);
+  create(user: IUserAccount): Observable<IUserAccount> {
+    return this.http.post<IUserAccount>(this.resourceUrl, user);
   }
 
-  update(user: IUser): Observable<IUser> {
-    return this.http.put<IUser>(this.resourceUrl, user);
+  update(user: IUserAccount): Observable<IUserAccount> {
+    return this.http.put<IUserAccount>(this.resourceUrl, user);
   }
 
-  find(login: string): Observable<IUser> {
-    return this.http.get<IUser>(`${this.resourceUrl}/${login}`);
+  find(login: string): Observable<IUserAccount> {
+    return this.http.get<IUserAccount>(`${this.resourceUrl}/${login}`);
   }
 
-  query(req?: Pagination): Observable<HttpResponse<IUser[]>> {
+  query(req?: Pagination): Observable<HttpResponse<IUserAccount[]>> {
     const options = createRequestOption(req);
-    return this.http.get<IUser[]>(this.resourceUrl, { params: options, observe: 'response' });
+    return this.http.get<IUserAccount[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
   delete(login: string): Observable<{}> {
