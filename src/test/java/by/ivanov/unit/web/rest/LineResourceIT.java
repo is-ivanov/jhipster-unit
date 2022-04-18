@@ -128,7 +128,7 @@ class LineResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void createLine() throws Exception {
         int databaseSizeBeforeCreate = lineRepository.findAll().size();
         // Create the Line
@@ -148,7 +148,7 @@ class LineResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void createLineWithExistingId() throws Exception {
         // Create the Line with an existing ID
         line.setId(1L);
@@ -573,7 +573,7 @@ class LineResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putNewLine() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);
@@ -606,7 +606,7 @@ class LineResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putNonExistingLine() throws Exception {
         int databaseSizeBeforeUpdate = lineRepository.findAll().size();
         line.setId(count.incrementAndGet());
@@ -630,7 +630,7 @@ class LineResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putWithIdMismatchLine() throws Exception {
         int databaseSizeBeforeUpdate = lineRepository.findAll().size();
         line.setId(count.incrementAndGet());
@@ -673,7 +673,7 @@ class LineResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void partialUpdateLineWithPatch() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);
@@ -705,7 +705,7 @@ class LineResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void fullUpdateLineWithPatch() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);
@@ -737,7 +737,7 @@ class LineResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void patchNonExistingLine() throws Exception {
         int databaseSizeBeforeUpdate = lineRepository.findAll().size();
         line.setId(count.incrementAndGet());
@@ -761,7 +761,7 @@ class LineResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void patchWithIdMismatchLine() throws Exception {
         int databaseSizeBeforeUpdate = lineRepository.findAll().size();
         line.setId(count.incrementAndGet());
@@ -804,7 +804,7 @@ class LineResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void deleteLine() throws Exception {
         // Initialize the database
         lineRepository.saveAndFlush(line);

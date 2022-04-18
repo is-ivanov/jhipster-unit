@@ -1,11 +1,13 @@
 package by.ivanov.unit.config;
 
-import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.security.jwt.JWTConfigurer;
 import by.ivanov.unit.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.access.vote.RoleHierarchyVoter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +21,8 @@ import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWrite
 import org.springframework.web.filter.CorsFilter;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 import tech.jhipster.config.JHipsterProperties;
+
+import static by.ivanov.unit.security.AuthoritiesConstants.*;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -99,13 +103,13 @@ public class SecurityConfiguration {
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
-            .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/api/admin/**").hasAuthority(ROLE_ADMIN)
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/health/**").permitAll()
             .antMatchers("/management/info").permitAll()
             .antMatchers("/management/prometheus").permitAll()
-            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/management/**").hasAuthority(ROLE_ADMIN)
         .and()
             .httpBasic()
         .and()
@@ -113,6 +117,22 @@ public class SecurityConfiguration {
         return http.build();
         // @formatter:on
     }
+
+	@Bean
+	public AccessDecisionVoter<?> hierarchyVoter() {
+		RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
+		String include = " > ";
+		hierarchy.setHierarchy(ROLE_ADMIN + include + GENERAL_CONTRACTOR + Constants.LF +
+			GENERAL_CONTRACTOR + include + CONTRACTOR + Constants.LF +
+			CONTRACTOR + include + ROLE_USER + Constants.LF +
+			ROLE_ADMIN + include + ROLE_CUSTOMER + Constants.LF +
+			ROLE_CUSTOMER + include + ROLE_USER + Constants.LF +
+			ROLE_ADMIN + include + ROLE_COMMISSIONER + Constants.LF +
+			ROLE_COMMISSIONER + include + ROLE_USER + Constants.LF +
+			ROLE_USER + include + ANONYMOUS
+		);
+		return new RoleHierarchyVoter(hierarchy);
+	}
 
 	private JWTConfigurer securityConfigurerAdapter() {
 		return new JWTConfigurer(tokenProvider);

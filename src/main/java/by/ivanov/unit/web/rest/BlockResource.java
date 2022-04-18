@@ -64,7 +64,7 @@ public class BlockResource {
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
 	@PostMapping("/blocks")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<BlockDTO> createBlock(@Valid @RequestBody BlockDTO blockDTO) throws URISyntaxException {
 		log.debug("REST request to save Block : {}", blockDTO);
 		if (blockDTO.getId() != null) {
@@ -89,7 +89,7 @@ public class BlockResource {
 	 * or with status {@code 500 (Internal Server Error)} if the blockDTO couldn't be updated.
 	 */
 	@PutMapping("/blocks/{id}")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<BlockDTO> updateBlock(
 		@PathVariable(value = "id", required = false) final Long id,
 		@Valid @RequestBody BlockDTO blockDTO
@@ -126,7 +126,7 @@ public class BlockResource {
 	 * or with status {@code 500 (Internal Server Error)} if the blockDTO couldn't be updated.
 	 */
 	@PatchMapping(value = "/blocks/{id}", consumes = { "application/json", "application/merge-patch+json" })
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<BlockDTO> partialUpdateBlock(
 		@PathVariable(value = "id", required = false) final Long id,
 		@NotNull @RequestBody BlockDTO blockDTO
@@ -204,7 +204,7 @@ public class BlockResource {
 	 * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
 	 */
 	@DeleteMapping("/blocks/{id}")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<Void> deleteBlock(@PathVariable Long id) {
 		log.debug("REST request to delete Block : {}", id);
 		blockService.delete(id);

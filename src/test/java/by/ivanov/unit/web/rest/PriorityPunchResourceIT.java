@@ -91,7 +91,7 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void createPriorityPunch() throws Exception {
         int databaseSizeBeforeCreate = priorityPunchRepository.findAll().size();
         // Create the PriorityPunch
@@ -113,7 +113,7 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void createPriorityPunchWithExistingId() throws Exception {
         // Create the PriorityPunch with an existing ID
         priorityPunch.setId(1L);
@@ -216,7 +216,7 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putNewPriorityPunch() throws Exception {
         // Initialize the database
         priorityPunchRepository.saveAndFlush(priorityPunch);
@@ -249,7 +249,7 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putNonExistingPriorityPunch() throws Exception {
         int databaseSizeBeforeUpdate = priorityPunchRepository.findAll().size();
         priorityPunch.setId(count.incrementAndGet());
@@ -273,7 +273,7 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putWithIdMismatchPriorityPunch() throws Exception {
         int databaseSizeBeforeUpdate = priorityPunchRepository.findAll().size();
         priorityPunch.setId(count.incrementAndGet());
@@ -318,7 +318,7 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void partialUpdatePriorityPunchWithPatch() throws Exception {
         // Initialize the database
         priorityPunchRepository.saveAndFlush(priorityPunch);
@@ -350,7 +350,7 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void fullUpdatePriorityPunchWithPatch() throws Exception {
         // Initialize the database
         priorityPunchRepository.saveAndFlush(priorityPunch);
@@ -382,7 +382,7 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void patchNonExistingPriorityPunch() throws Exception {
         int databaseSizeBeforeUpdate = priorityPunchRepository.findAll().size();
         priorityPunch.setId(count.incrementAndGet());
@@ -406,7 +406,7 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void patchWithIdMismatchPriorityPunch() throws Exception {
         int databaseSizeBeforeUpdate = priorityPunchRepository.findAll().size();
         priorityPunch.setId(count.incrementAndGet());
@@ -453,7 +453,7 @@ class PriorityPunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void deletePriorityPunch() throws Exception {
         // Initialize the database
         priorityPunchRepository.saveAndFlush(priorityPunch);

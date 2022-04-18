@@ -1,13 +1,10 @@
 package by.ivanov.unit.security.jwt;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import by.ivanov.unit.management.SecurityMetersService;
 import by.ivanov.unit.security.AuthoritiesConstants;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
-import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -19,6 +16,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.util.ReflectionTestUtils;
 import tech.jhipster.config.JHipsterProperties;
+
+import java.util.Collections;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class JWTFilterTest {
 
@@ -47,7 +48,7 @@ class JWTFilterTest {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
             "test-user",
             "test-password",
-            Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
+            Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.ROLE_USER))
         );
         String jwt = tokenProvider.createToken(authentication, false);
         MockHttpServletRequest request = new MockHttpServletRequest();
@@ -102,7 +103,7 @@ class JWTFilterTest {
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
             "test-user",
             "test-password",
-            Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.USER))
+            Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.ROLE_USER))
         );
         String jwt = tokenProvider.createToken(authentication, false);
         MockHttpServletRequest request = new MockHttpServletRequest();

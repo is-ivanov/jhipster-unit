@@ -53,7 +53,7 @@ public class TypePunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/type-punches")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<TypePunchDTO> createTypePunch(@Valid @RequestBody TypePunchDTO typePunchDTO) throws URISyntaxException {
         log.debug("REST request to save TypePunch : {}", typePunchDTO);
         if (typePunchDTO.getId() != null) {
@@ -77,7 +77,7 @@ public class TypePunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/type-punches/{id}")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<TypePunchDTO> updateTypePunch(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody TypePunchDTO typePunchDTO
@@ -113,7 +113,7 @@ public class TypePunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/type-punches/{id}", consumes = { "application/json", "application/merge-patch+json" })
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<TypePunchDTO> partialUpdateTypePunch(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody TypePunchDTO typePunchDTO
@@ -169,7 +169,7 @@ public class TypePunchResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/type-punches/{id}")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<Void> deleteTypePunch(@PathVariable Long id) {
         log.debug("REST request to delete TypePunch : {}", id);
         typePunchService.delete(id);

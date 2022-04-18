@@ -53,7 +53,7 @@ public class PriorityPunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/priority-punches")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<PriorityPunchDTO> createPriorityPunch(@Valid @RequestBody PriorityPunchDTO priorityPunchDTO)
         throws URISyntaxException {
         log.debug("REST request to save PriorityPunch : {}", priorityPunchDTO);
@@ -78,7 +78,7 @@ public class PriorityPunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/priority-punches/{id}")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<PriorityPunchDTO> updatePriorityPunch(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody PriorityPunchDTO priorityPunchDTO
@@ -114,7 +114,7 @@ public class PriorityPunchResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/priority-punches/{id}", consumes = { "application/json", "application/merge-patch+json" })
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<PriorityPunchDTO> partialUpdatePriorityPunch(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody PriorityPunchDTO priorityPunchDTO
@@ -170,7 +170,7 @@ public class PriorityPunchResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/priority-punches/{id}")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<Void> deletePriorityPunch(@PathVariable Long id) {
         log.debug("REST request to delete PriorityPunch : {}", id);
         priorityPunchService.delete(id);

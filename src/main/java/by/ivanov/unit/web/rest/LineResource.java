@@ -63,7 +63,7 @@ public class LineResource {
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
 	@PostMapping("/lines")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<LineDTO> createLine(@Valid @RequestBody LineDTO lineDTO) throws URISyntaxException {
 		log.debug("REST request to create Line : {}", lineDTO);
 		if (lineDTO.getId() != null) {
@@ -89,7 +89,7 @@ public class LineResource {
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
 	@PutMapping("/lines/{id}")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<LineDTO> updateLine(
 		@PathVariable(value = "id", required = false) final Long id,
 		@Valid @RequestBody LineDTO lineDTO
@@ -125,7 +125,7 @@ public class LineResource {
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
 	@PatchMapping(value = "/lines/{id}", consumes = { "application/json", "application/merge-patch+json" })
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<LineDTO> partialUpdateLine(
 		@PathVariable(value = "id", required = false) final Long id,
 		@NotNull @RequestBody LineDTO lineDTO
@@ -204,7 +204,7 @@ public class LineResource {
 	 * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
 	 */
 	@DeleteMapping("/lines/{id}")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<Void> deleteLine(@PathVariable Long id) {
 		log.debug("REST request to delete Line : {}", id);
 		lineService.delete(id);

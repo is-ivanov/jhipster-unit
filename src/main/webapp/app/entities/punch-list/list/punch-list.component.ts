@@ -29,8 +29,8 @@ export class PunchListComponent implements OnInit, OnDestroy {
 	filterName?: string;
 	filterDescription?: string;
 	filterProjectId?: number;
-	filterAuthor?: string; // TODO select
-	filterCompany?: string; // TODO select
+	filterAuthor?: string;
+	filterCompany?: string;
 
 	projectNotifierSubscription: Subscription = this.dropdownDataService.projectNotifier.subscribe((projectId) => {
 		this.filterProjectId = projectId;

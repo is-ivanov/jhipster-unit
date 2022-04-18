@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -26,6 +27,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import static by.ivanov.unit.security.AuthoritiesConstants.*;
 
 /**
  * REST controller for managing {@link by.ivanov.unit.domain.PunchList}.
@@ -63,7 +66,9 @@ public class PunchListResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/punch-lists")
-    public ResponseEntity<PunchListDTO> createPunchList(@Valid @RequestBody PunchListDTO punchListDTO) throws URISyntaxException {
+	@PreAuthorize("hasAnyRole('" + COMMISSIONER + "', '" + CUSTOMER + "')")
+    public ResponseEntity<PunchListDTO> createPunchList(@Valid @RequestBody PunchListDTO punchListDTO)
+		throws URISyntaxException {
         log.debug("REST request to save PunchList : {}", punchListDTO);
         if (punchListDTO.getId() != null) {
             throw new BadRequestAlertException("A new punchList cannot already have an ID", ENTITY_NAME, "idexists");
@@ -86,6 +91,7 @@ public class PunchListResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/punch-lists/{id}")
+	@PreAuthorize("hasRole('" + ADMIN + "')")
     public ResponseEntity<PunchListDTO> updatePunchList(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody PunchListDTO punchListDTO

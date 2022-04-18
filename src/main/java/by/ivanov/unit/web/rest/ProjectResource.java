@@ -56,7 +56,7 @@ public class ProjectResource {
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
 	@PostMapping("/projects")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<ProjectDTO> createProject(@Valid @RequestBody ProjectDTO projectDTO)
 		throws URISyntaxException {
 		log.debug("REST request to save Project : {}", projectDTO);
@@ -83,7 +83,7 @@ public class ProjectResource {
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
 	@PutMapping("/projects/{id}")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<ProjectDTO> updateProject(
 		@PathVariable(value = "id", required = false) final Long id,
 		@Valid @RequestBody ProjectDTO projectDTO
@@ -119,7 +119,7 @@ public class ProjectResource {
 	 * @throws URISyntaxException if the Location URI syntax is incorrect.
 	 */
 	@PatchMapping(value = "/projects/{id}", consumes = { "application/json", "application/merge-patch+json" })
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<ProjectDTO> partialUpdateProject(
 		@PathVariable(value = "id", required = false) final Long id,
 		@NotNull @RequestBody ProjectDTO projectDTO
@@ -183,7 +183,7 @@ public class ProjectResource {
 	 * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
 	 */
 	@DeleteMapping("/projects/{id}")
-	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ADMIN + "\")")
+	@PreAuthorize("hasRole(\"" + AuthoritiesConstants.ROLE_ADMIN + "\")")
 	public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
 		log.debug("REST request to delete Project : {}", id);
 		projectService.delete(id);

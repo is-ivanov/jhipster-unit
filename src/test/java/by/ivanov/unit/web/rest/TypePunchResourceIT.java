@@ -88,7 +88,7 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void createTypePunch() throws Exception {
         int databaseSizeBeforeCreate = typePunchRepository.findAll().size();
         // Create the TypePunch
@@ -107,7 +107,7 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void createTypePunchWithExistingId() throws Exception {
         // Create the TypePunch with an existing ID
         typePunch.setId(1L);
@@ -184,7 +184,7 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putNewTypePunch() throws Exception {
         // Initialize the database
         typePunchRepository.saveAndFlush(typePunch);
@@ -216,7 +216,7 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putNonExistingTypePunch() throws Exception {
         int databaseSizeBeforeUpdate = typePunchRepository.findAll().size();
         typePunch.setId(count.incrementAndGet());
@@ -240,7 +240,7 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putWithIdMismatchTypePunch() throws Exception {
         int databaseSizeBeforeUpdate = typePunchRepository.findAll().size();
         typePunch.setId(count.incrementAndGet());
@@ -283,7 +283,7 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void partialUpdateTypePunchWithPatch() throws Exception {
         // Initialize the database
         typePunchRepository.saveAndFlush(typePunch);
@@ -314,7 +314,7 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void fullUpdateTypePunchWithPatch() throws Exception {
         // Initialize the database
         typePunchRepository.saveAndFlush(typePunch);
@@ -345,7 +345,7 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void patchNonExistingTypePunch() throws Exception {
         int databaseSizeBeforeUpdate = typePunchRepository.findAll().size();
         typePunch.setId(count.incrementAndGet());
@@ -369,7 +369,7 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void patchWithIdMismatchTypePunch() throws Exception {
         int databaseSizeBeforeUpdate = typePunchRepository.findAll().size();
         typePunch.setId(count.incrementAndGet());
@@ -414,7 +414,7 @@ class TypePunchResourceIT {
 
     @Test
     @Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void deleteTypePunch() throws Exception {
         // Initialize the database
         typePunchRepository.saveAndFlush(typePunch);
