@@ -67,7 +67,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Transactional(readOnly = true)
 	public Page<ProjectDTO> findAll(Pageable pageable) {
 		log.debug("Request to get all Projects");
-		return projectRepository.findAll(pageable).map(projectMapper::toDtoWithGenContractorName);
+		return projectRepository.findAll(pageable).map(projectMapper::toDto);
 	}
 
 	@Override

@@ -3,16 +3,18 @@ package by.ivanov.unit.service.impl;
 import by.ivanov.unit.domain.AppUser;
 import by.ivanov.unit.repository.AppUserRepository;
 import by.ivanov.unit.repository.UserRepository;
+import by.ivanov.unit.security.SecurityUtils;
 import by.ivanov.unit.service.AppUserService;
 import by.ivanov.unit.service.dto.AppUserDTO;
 import by.ivanov.unit.service.mapper.AppUserMapper;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link AppUser}.
@@ -93,4 +95,11 @@ public class AppUserServiceImpl implements AppUserService {
         log.debug("Request to delete AppUser : {}", id);
         appUserRepository.deleteById(id);
     }
+
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<AppUser> getCurrentUserWithCompanyAndAuthorities() {
+		return SecurityUtils.getCurrentUserLogin()
+			.flatMap(appUserRepository::findOneWithCompanyAndAuthoritiesByUserLogin);
+	}
 }

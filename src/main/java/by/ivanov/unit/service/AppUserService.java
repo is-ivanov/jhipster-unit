@@ -1,9 +1,12 @@
 package by.ivanov.unit.service;
 
+import by.ivanov.unit.domain.AppUser;
 import by.ivanov.unit.service.dto.AppUserDTO;
-import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Service Interface for managing {@link by.ivanov.unit.domain.AppUser}.
@@ -63,4 +66,12 @@ public interface AppUserService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+	/**
+	 * Get current appUser with his Company and all authorities.
+	 *
+	 * @return the entity
+	 */
+	@Transactional(readOnly = true)
+	Optional<AppUser> getCurrentUserWithCompanyAndAuthorities();
 }
