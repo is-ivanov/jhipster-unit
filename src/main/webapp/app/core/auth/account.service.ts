@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionStorageService } from 'ngx-webstorage';
-import { Observable, ReplaySubject, of } from 'rxjs';
-import { shareReplay, tap, catchError } from 'rxjs/operators';
+import { Observable, of, ReplaySubject } from 'rxjs';
+import { catchError, shareReplay, tap } from 'rxjs/operators';
 
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { ApplicationConfigService } from '../config/application-config.service';
@@ -75,6 +75,21 @@ export class AccountService {
   getAuthenticationState(): Observable<Account | null> {
     return this.authenticationState.asObservable();
   }
+
+	hasAnyAuthorityAndEqualCompany(authorities: string[] | string, companyId: number): boolean {
+		if (!this.userIdentity) {
+			return false;
+		}
+		const userAuthorities = this.userIdentity.authorities;
+		if (userAuthorities.includes('ROLE_ADMIN')) {
+			return true;
+		}
+		if (!Array.isArray(authorities)) {
+			authorities = [authorities];
+		}
+		return (userAuthorities.some((authority: string) => authorities.includes(authority)))
+			&& (this.userIdentity.companyId === companyId);
+	}
 
   private fetch(): Observable<Account> {
     return this.http.get<Account>(this.applicationConfigService.getEndpointFor('api/account'));

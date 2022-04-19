@@ -18,6 +18,9 @@ import { BlocksComponent } from './selectors/blocks/blocks.component';
 import { ClearFilterComponent } from './buttons/clear-filter/clear-filter.component';
 import { RevisionsComponent } from './selectors/revisions/revisions.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import {
+	HasAnyAuthorityAndEqualCompanyDirective
+} from './auth/has-any-authority-and-equal-company.directive';
 
 @NgModule({
 	imports: [SharedLibsModule, NgMultiSelectDropDownModule],
@@ -37,7 +40,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 		StatusesLinesComponent,
 		BlocksComponent,
 		ClearFilterComponent,
-		RevisionsComponent
+		RevisionsComponent,
+		HasAnyAuthorityAndEqualCompanyDirective
 	],
 	exports: [
 		SharedLibsModule,
@@ -56,7 +60,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 		StatusesLinesComponent,
 		BlocksComponent,
 		ClearFilterComponent,
-		RevisionsComponent
+		RevisionsComponent,
+		HasAnyAuthorityAndEqualCompanyDirective
 	]
 })
 export class SharedModule {
