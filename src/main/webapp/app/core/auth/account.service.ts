@@ -9,6 +9,7 @@ import { catchError, shareReplay, tap } from 'rxjs/operators';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 import { ApplicationConfigService } from '../config/application-config.service';
 import { Account } from 'app/core/auth/account.model';
+import { Authority } from '../../config/authority.constants';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
@@ -80,15 +81,21 @@ export class AccountService {
 		if (!this.userIdentity) {
 			return false;
 		}
-		const userAuthorities = this.userIdentity.authorities;
-		if (userAuthorities.includes('ROLE_ADMIN')) {
+		if (this.isAdmin()) {
 			return true;
 		}
 		if (!Array.isArray(authorities)) {
 			authorities = [authorities];
 		}
-		return (userAuthorities.some((authority: string) => authorities.includes(authority)))
+		return (this.userIdentity.authorities.some((authority: string) => authorities.includes(authority)))
 			&& (this.userIdentity.companyId === companyId);
+	}
+
+	isAdmin(): boolean{
+		if (!this.userIdentity) {
+			return false;
+		}
+		return this.userIdentity.authorities.includes(Authority.ADMIN);
 	}
 
   private fetch(): Observable<Account> {

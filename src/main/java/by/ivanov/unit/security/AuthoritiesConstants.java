@@ -19,9 +19,11 @@ public final class AuthoritiesConstants {
 	public static final String ROLE_COMMISSIONER = "ROLE_COMMISSIONER";
 	public static final String COMMISSIONER = "COMMISSIONER";
 
-	public static final String GENERAL_CONTRACTOR = "ROLE_GENERAL_CONTRACTOR";
+	public static final String ROLE_GENERAL_CONTRACTOR = "ROLE_GENERAL_CONTRACTOR";
+	public static final String GENERAL_CONTRACTOR = "GENERAL_CONTRACTOR";
 
-	public static final String CONTRACTOR = "ROLE_CONTRACTOR";
+	public static final String ROLE_CONTRACTOR = "ROLE_CONTRACTOR";
+	public static final String CONTRACTOR = "CONTRACTOR";
 
 	private AuthoritiesConstants() {}
 }

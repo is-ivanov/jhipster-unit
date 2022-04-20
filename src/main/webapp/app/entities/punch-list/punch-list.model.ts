@@ -8,8 +8,6 @@ export interface IPunchList {
 	description?: string | null;
 	project?: IProject;
 	author?: IAppUser;
-
-	getAuthorFullName(): string;
 }
 
 export class PunchList implements IPunchList {
@@ -21,11 +19,6 @@ export class PunchList implements IPunchList {
 		public project?: IProject,
 		public author?: IAppUser
 	) {
-	}
-
-	getAuthorFullName(): string {
-		const author = this.author?.user;
-		return `${author?.firstName?.charAt(0) ?? ''}.${author?.lastName ?? 'undefined'}`;
 	}
 }
 

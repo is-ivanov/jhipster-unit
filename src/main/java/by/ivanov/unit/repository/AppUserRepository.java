@@ -53,4 +53,6 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long>, JpaSpec
 	@EntityGraph(attributePaths = {"company", "user", "user.authorities"})
 	@Cacheable(cacheNames = APP_USERS_BY_LOGIN_CACHE)
 	Optional<AppUser> findOneWithCompanyAndAuthoritiesByUserLogin(String login);
+
+	Optional<AppUser> findOneByUser_Login(String login);
 }

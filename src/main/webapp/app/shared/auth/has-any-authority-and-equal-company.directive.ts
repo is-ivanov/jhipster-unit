@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AccountService } from '../../core/auth/account.service';
 import { takeUntil } from 'rxjs/operators';
@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 @Directive({
   selector: '[jhiHasAnyAuthorityAndEqualCompany]'
 })
-export class HasAnyAuthorityAndEqualCompanyDirective {
+export class HasAnyAuthorityAndEqualCompanyDirective implements OnDestroy{
 	private authorities!: string | string[];
 	private companyId!: number;
 

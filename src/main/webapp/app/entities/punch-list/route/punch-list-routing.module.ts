@@ -7,6 +7,7 @@ import { PunchListDetailComponent } from '../detail/punch-list-detail.component'
 import { PunchListUpdateComponent } from '../update/punch-list-update.component';
 import { PunchListRoutingResolveService } from './punch-list-routing-resolve.service';
 import { Authority } from '../../../config/authority.constants';
+import { PunchListEditRouteAccessService } from './punch-list-edit-route-access.service';
 
 const punchListRoute: Routes = [
 	{
@@ -41,9 +42,9 @@ const punchListRoute: Routes = [
 			punchList: PunchListRoutingResolveService
 		},
 		data: {
-			authorities: [Authority.ADMIN, Authority.CUSTOMER, Authority.COMMISSIONER]
+			authorities: [Authority.CUSTOMER, Authority.COMMISSIONER]
 		},
-		canActivate: [UserRouteAccessService]
+		canActivate: [PunchListEditRouteAccessService]
 	}
 ];
 

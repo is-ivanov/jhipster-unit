@@ -74,4 +74,7 @@ public interface AppUserService {
 	 */
 	@Transactional(readOnly = true)
 	Optional<AppUser> getCurrentUserWithCompanyAndAuthorities();
+
+	@Transactional(readOnly = true)
+	AppUser getCurrentUser();
 }

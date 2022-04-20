@@ -12,7 +12,9 @@
       "updated": "A Punch List is updated with identifier {{ param }}",
       "deleted": "A Punch List is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Are you sure you want to delete Punch List {{ id }}?"
+				"question.start": "Are you sure you want to delete Punch List",
+				"question.middle": "for project",
+				"question.end": "with ID {{ id }}?"
       },
       "detail": {
         "title": "Punch List"
@@ -21,7 +23,16 @@
       "number": "Number",
       "name": "Name",
       "description": "Description",
-      "project": "Project"
+      "project": "Project",
+			"author": "Author",
+			"company": "Company",
+			"filter": {
+				"number.placeholder": "Filter by number",
+				"name.placeholder": "Filter by name",
+				"description.placeholder": "Filter by desc",
+				"author.placeholder": "Filter by author",
+				"company.placeholder": "Filter by company"
+			}
     }
   }
 }

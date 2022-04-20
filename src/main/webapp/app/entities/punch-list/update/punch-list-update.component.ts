@@ -103,20 +103,13 @@ export class PunchListUpdateComponent implements OnInit {
 	}
 
 	protected createFromForm(): PunchList {
-		// return {
-		//   ...new PunchList(),
-		//   id: this.editForm.get(['id'])!.value,
-		//   number: this.editForm.get(['number'])!.value,
-		//   name: this.editForm.get(['name'])!.value,
-		//   description: this.editForm.get(['description'])!.value,
-		//   project: this.editForm.get(['project'])!.value,
-		// };
-		return new PunchList(
-			this.editForm.get(['id'])!.value,
-			this.editForm.get(['number'])!.value,
-			this.editForm.get(['name'])!.value,
-			this.editForm.get(['description'])!.value,
-			this.editForm.get(['project'])!.value
-		);
+		return {
+			...new PunchList(),
+			id: this.editForm.get(['id'])!.value,
+			number: this.editForm.get(['number'])!.value,
+			name: this.editForm.get(['name'])!.value,
+			description: this.editForm.get(['description'])!.value,
+			project: this.editForm.get(['project'])!.value
+		};
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 /**
@@ -101,5 +102,13 @@ public class AppUserServiceImpl implements AppUserService {
 	public Optional<AppUser> getCurrentUserWithCompanyAndAuthorities() {
 		return SecurityUtils.getCurrentUserLogin()
 			.flatMap(appUserRepository::findOneWithCompanyAndAuthoritiesByUserLogin);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public AppUser getCurrentUser() {
+		return SecurityUtils.getCurrentUserLogin()
+			.flatMap(appUserRepository::findOneByUser_Login)
+			.orElseThrow(() -> new EntityNotFoundException("Current user not found"));
 	}
 }

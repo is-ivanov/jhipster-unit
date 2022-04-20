@@ -23,7 +23,6 @@ public class PunchListDTO implements Serializable {
 	@NotNull
     private ProjectDTO project;
 
-	@NotNull
 	private AppUserDTO author;
 
     public Long getId() {
@@ -79,12 +78,11 @@ public class PunchListDTO implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof PunchListDTO)) {
+        if (!(o instanceof PunchListDTO punchListDTO)) {
             return false;
         }
 
-        PunchListDTO punchListDTO = (PunchListDTO) o;
-        if (this.id == null) {
+		if (this.id == null) {
             return false;
         }
         return Objects.equals(this.id, punchListDTO.id);
@@ -104,6 +102,7 @@ public class PunchListDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", project=" + getProject() +
+            ", author=" + getAuthor() +
             "}";
     }
 }

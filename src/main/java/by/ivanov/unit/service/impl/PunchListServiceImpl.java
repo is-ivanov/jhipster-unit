@@ -2,16 +2,18 @@ package by.ivanov.unit.service.impl;
 
 import by.ivanov.unit.domain.PunchList;
 import by.ivanov.unit.repository.PunchListRepository;
+import by.ivanov.unit.service.AppUserService;
 import by.ivanov.unit.service.PunchListService;
 import by.ivanov.unit.service.dto.PunchListDTO;
 import by.ivanov.unit.service.mapper.PunchListMapper;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 /**
  * Service Implementation for managing {@link PunchList}.
@@ -26,15 +28,20 @@ public class PunchListServiceImpl implements PunchListService {
 
     private final PunchListMapper punchListMapper;
 
-    public PunchListServiceImpl(PunchListRepository punchListRepository, PunchListMapper punchListMapper) {
-        this.punchListRepository = punchListRepository;
-        this.punchListMapper = punchListMapper;
-    }
+	private final AppUserService appUserService;
 
-    @Override
+	public PunchListServiceImpl(PunchListRepository punchListRepository, PunchListMapper punchListMapper,
+								AppUserService appUserService) {
+		this.punchListRepository = punchListRepository;
+		this.punchListMapper = punchListMapper;
+		this.appUserService = appUserService;
+	}
+
+	@Override
     public PunchListDTO save(PunchListDTO punchListDTO) {
         log.debug("Request to save PunchList : {}", punchListDTO);
         PunchList punchList = punchListMapper.toEntity(punchListDTO);
+		punchList.setAuthor(appUserService.getCurrentUser());
         punchList = punchListRepository.save(punchList);
         return punchListMapper.toDto(punchList);
     }
