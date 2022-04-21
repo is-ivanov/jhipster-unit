@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static by.ivanov.unit.security.AuthoritiesConstants.*;
+import static by.ivanov.unit.security.AuthoritiesConstants.COMMISSIONER;
+import static by.ivanov.unit.security.AuthoritiesConstants.CUSTOMER;
 
 /**
  * REST controller for managing {@link by.ivanov.unit.domain.PunchList}.
@@ -91,7 +92,7 @@ public class PunchListResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/punch-lists/{id}")
-	@PreAuthorize("hasRole('" + ADMIN + "')")
+	@PreAuthorize("hasAnyRole('" + COMMISSIONER + "', '" + CUSTOMER + "')")
     public ResponseEntity<PunchListDTO> updatePunchList(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody PunchListDTO punchListDTO
@@ -127,7 +128,8 @@ public class PunchListResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/punch-lists/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<PunchListDTO> partialUpdatePunchList(
+	@PreAuthorize("hasAnyRole('" + COMMISSIONER + "', '" + CUSTOMER + "')")
+	public ResponseEntity<PunchListDTO> partialUpdatePunchList(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody PunchListDTO punchListDTO
     ) throws URISyntaxException {
@@ -201,7 +203,8 @@ public class PunchListResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/punch-lists/{id}")
-    public ResponseEntity<Void> deletePunchList(@PathVariable Long id) {
+	@PreAuthorize("hasAnyRole('" + COMMISSIONER + "', '" + CUSTOMER + "')")
+	public ResponseEntity<Void> deletePunchList(@PathVariable Long id) {
         log.debug("REST request to delete PunchList : {}", id);
         punchListService.delete(id);
         return ResponseEntity

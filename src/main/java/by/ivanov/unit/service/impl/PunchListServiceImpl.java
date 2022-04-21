@@ -1,5 +1,6 @@
 package by.ivanov.unit.service.impl;
 
+import by.ivanov.unit.domain.AppUser;
 import by.ivanov.unit.domain.PunchList;
 import by.ivanov.unit.repository.PunchListRepository;
 import by.ivanov.unit.service.AppUserService;
@@ -50,7 +51,10 @@ public class PunchListServiceImpl implements PunchListService {
     public PunchListDTO update(PunchListDTO punchListDTO) {
         log.debug("Request to save PunchList : {}", punchListDTO);
         PunchList punchList = punchListMapper.toEntity(punchListDTO);
-        punchList = punchListRepository.save(punchList);
+		Optional<AppUser> appUser = punchListRepository.findById(punchListDTO.getId())
+			.map(PunchList::getAuthor);
+		appUser.ifPresent(punchList::setAuthor);
+		punchList = punchListRepository.save(punchList);
         return punchListMapper.toDto(punchList);
     }
 
