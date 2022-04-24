@@ -54,7 +54,7 @@ public class PunchItem implements Serializable {
 	private String location;
 
 	@NotNull
-	@Column(name = COLUMN_DESCRIPTION_NAME, nullable = false)
+	@Column(name = COLUMN_DESCRIPTION_NAME, nullable = false, length = 300)
 	private String description;
 
 	@Size(max = 20)

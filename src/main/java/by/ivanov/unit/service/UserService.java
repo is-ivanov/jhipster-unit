@@ -15,10 +15,6 @@ import by.ivanov.unit.service.dto.AdminUserDTO;
 import by.ivanov.unit.service.dto.UserDTO;
 import by.ivanov.unit.service.exception.MyEntityNotFoundException;
 import by.ivanov.unit.web.rest.CompanyResource;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -29,6 +25,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.security.RandomUtil;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service class for managing users.
@@ -129,7 +130,7 @@ public class UserService {
 		// new user gets registration key
 		newUser.setActivationKey(RandomUtil.generateActivationKey());
 		Set<Authority> authorities = new HashSet<>();
-		authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
+		authorityRepository.findById(AuthoritiesConstants.ROLE_USER).ifPresent(authorities::add);
 		newUser.setAuthorities(authorities);
 		userRepository.save(newUser);
 		this.clearUserCaches(newUser);
@@ -173,6 +174,7 @@ public class UserService {
 			user.setAuthorities(authorities);
 		}
 		userRepository.save(user);
+		updateUserCompany(user, userDTO.getCompanyId());
 		this.clearUserCaches(user);
 		log.debug("Created Information for User: {}", user);
 		return user;
@@ -329,6 +331,7 @@ public class UserService {
 
 	private void clearUserCaches(User user) {
 		Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
+		Objects.requireNonNull(cacheManager.getCache(AppUserRepository.APP_USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
 		if (user.getEmail() != null) {
 			Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
 		}

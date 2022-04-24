@@ -1,7 +1,9 @@
 package by.ivanov.unit.config;
 
-import java.time.Duration;
-import org.ehcache.config.builders.*;
+import by.ivanov.unit.repository.AppUserRepository;
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.ExpiryPolicyBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
 import org.ehcache.jsr107.Eh107Configuration;
 import org.hibernate.cache.jcache.ConfigSettings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,12 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.info.GitProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.interceptor.KeyGenerator;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import tech.jhipster.config.JHipsterProperties;
 import tech.jhipster.config.cache.PrefixedKeyGenerator;
+
+import java.time.Duration;
 
 @Configuration
 @EnableCaching
@@ -29,8 +34,10 @@ public class CacheConfiguration {
         jcacheConfiguration =
             Eh107Configuration.fromEhcacheCacheConfiguration(
                 CacheConfigurationBuilder
-                    .newCacheConfigurationBuilder(Object.class, Object.class, ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
-                    .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(ehcache.getTimeToLiveSeconds())))
+                    .newCacheConfigurationBuilder(Object.class, Object.class,
+						ResourcePoolsBuilder.heap(ehcache.getMaxEntries()))
+                    .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(
+						Duration.ofSeconds(ehcache.getTimeToLiveSeconds())))
                     .build()
             );
     }
@@ -62,6 +69,7 @@ public class CacheConfiguration {
             createCache(cm, by.ivanov.unit.domain.PunchItem.class.getName() + ".comments");
             createCache(cm, by.ivanov.unit.domain.AppUser.class.getName());
             // jhipster-needle-ehcache-add-entry
+			createCache(cm, AppUserRepository.APP_USERS_BY_LOGIN_CACHE);
         };
     }
 

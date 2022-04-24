@@ -1,14 +1,20 @@
 package by.ivanov.unit.repository;
 
 import by.ivanov.unit.domain.PunchList;
-import java.util.List;
-import java.util.Optional;
 import org.javers.spring.annotation.JaversSpringDataAuditable;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.*;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring Data SQL repository for the PunchList entity.
@@ -23,6 +29,11 @@ public interface PunchListRepository extends JpaRepository<PunchList, Long>, Jpa
 	default List<PunchList> findAllWithEagerRelationships() {
 		return this.findAllWithToOneRelationships();
 	}
+
+	@Override
+	@EntityGraph(attributePaths = {"author.company", "author.user", "project"})
+	@NotNull
+	Page<PunchList> findAll(Specification<PunchList> spec, @NotNull Pageable pageable);
 
 	default Page<PunchList> findAllWithEagerRelationships(Pageable pageable) {
 		return this.findAllWithToOneRelationships(pageable);

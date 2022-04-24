@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface ProjectMapper extends EntityMapper<ProjectDTO, Project> {
     @Mapping(target = "generalContractor", source = "generalContractor", qualifiedByName = "companyId")
-    @Mapping(target = "subContractors", source = "subContractors", qualifiedByName = "companyIdSet")
+	@Mapping(target = "subContractors", ignore = true)
     ProjectDTO toDto(Project s);
 
 	@Mapping(target = "generalContractor", source = "generalContractor",

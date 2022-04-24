@@ -25,6 +25,8 @@ function accountWithAuthorities(authorities: string[]): Account {
     lastName: '',
     login: '',
     imageUrl: '',
+	  companyId: 1,
+	  companyName: ''
   };
 }
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
+
+	<changeSet id="20220415134510-1" author="ivan">
+		<addColumn tableName="punch_list">
+			<column name="author_id" type="bigint"/>
+		</addColumn>
+	</changeSet>
+
+	<changeSet id="20220415134510-2" author="ivan" context="faker">
+		<loadUpdateData tableName="punch_list"
+		                primaryKey="id"
+		                file="config/liquibase/fake-data/add_author_to_punch_list.csv"
+		                separator=";"
+		                usePreparedStatements="true"
+		                onlyUpdate="true"
+		>
+			<column name="id" type="numeric"/>
+			<column name="author_id" type="numeric"/>
+		</loadUpdateData>
+	</changeSet>
+
+	<changeSet id="20220415134510-3" author="ivan">
+		<addNotNullConstraint columnName="author_id"
+		                      tableName="punch_list"
+		/>
+	</changeSet>
+
+	<changeSet id="20220415134510-4" author="ivan">
+		<addForeignKeyConstraint baseColumnNames="author_id"
+		                         baseTableName="punch_list"
+		                         constraintName="fk_punch_list__author"
+		                         referencedColumnNames="id"
+		                         referencedTableName="app_user"
+		/>
+	</changeSet>
+</databaseChangeLog>

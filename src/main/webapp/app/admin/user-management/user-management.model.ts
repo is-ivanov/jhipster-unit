@@ -1,8 +1,10 @@
-export interface IUser {
-  id?: number;
-  login?: string;
-  firstName?: string | null;
-  lastName?: string | null;
+import { IUser } from '../../entities/user/user.model';
+
+export interface IUserAccount extends IUser{
+  // id?: number;
+  // login?: string;
+  // firstName?: string | null;
+  // lastName?: string | null;
   email?: string;
   activated?: boolean;
   langKey?: string;
@@ -14,12 +16,12 @@ export interface IUser {
 	companyId?: number;
 }
 
-export class User implements IUser {
+export class User implements IUserAccount {
   constructor(
     public id?: number,
     public login?: string,
-    public firstName?: string | null,
-    public lastName?: string | null,
+    public firstName?: string,
+    public lastName?: string,
     public email?: string,
     public activated?: boolean,
     public langKey?: string,

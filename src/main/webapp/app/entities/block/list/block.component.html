@@ -72,7 +72,7 @@
 						id="field-description"
 						placeholder="{{ 'unitApp.block.filter.description.placeholder' | translate }}"
 						[(ngModel)]="filterDescription"
-						(change)="loadPage(1)"
+						(search)="loadPage(1)"
 					/>
 				</td>
 				<td>
@@ -85,17 +85,17 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let block of blocks; trackBy: trackId" data-cy="entityTable">
-				<td class="text-center">
+				<td class="text-center align-middle">
 					<a [routerLink]="['/block', block.id, 'view']">{{ block.id }}</a>
 				</td>
-				<td class="text-center">{{ block.number }}</td>
-				<td>{{ block.description }}</td>
-				<td>
+				<td class="text-center align-middle">{{ block.number }}</td>
+				<td class="align-middle">{{ block.description }}</td>
+				<td class="align-middle">
 					<div *ngIf="block.project">
 						<a [routerLink]="['/project', block.project?.id, 'view']">{{ block.project?.name }}</a>
 					</div>
 				</td>
-				<td class="text-end">
+				<td class="text-end py-1 align-middle">
 					<div class="btn-group">
 						<button
 							type="submit"

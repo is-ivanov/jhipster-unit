@@ -12,7 +12,9 @@
       "updated": "Ведомость обновлена с идентификатором {{ param }}",
       "deleted": "Ведомость удалена с идентификатором {{ param }}",
       "delete": {
-        "question": "Вы уверены что хотите удалить ведомость {{ id }}?"
+        "question.start": "Вы уверены что хотите удалить ведомость",
+        "question.middle": "объекта",
+        "question.end": "с ID {{ id }}?"
       },
       "detail": {
         "title": "Ведомость замечаний"
@@ -21,7 +23,16 @@
       "number": "Номер",
       "name": "Название",
       "description": "Описание",
-      "project": "Проект"
+      "project": "Проект",
+			"author": "Автор",
+			"company": "Организ.",
+			"filter": {
+				"number.placeholder": "Фильтр по номеру",
+				"name.placeholder": "Фильтр по названию",
+				"description.placeholder": "Фильтр по описанию",
+				"author.placeholder": "Фильтр по автору",
+				"company.placeholder": "Фильтр по орг."
+			}
     }
   }
 }

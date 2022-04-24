@@ -1,46 +1,60 @@
 <div class="d-flex justify-content-center">
-  <div class="col-8">
-    <div *ngIf="punchList">
-      <h2 data-cy="punchListDetailsHeading"><span jhiTranslate="unitApp.punchList.detail.title">Punch List</span></h2>
+	<div class="col-8">
+		<div *ngIf="punchList">
+			<h2 data-cy="punchListDetailsHeading"><span jhiTranslate="unitApp.punchList.detail.title">Punch List</span></h2>
 
-      <hr />
+			<hr />
 
-      <jhi-alert-error></jhi-alert-error>
+			<jhi-alert-error></jhi-alert-error>
 
-      <jhi-alert></jhi-alert>
+			<jhi-alert></jhi-alert>
 
-      <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="global.field.id">ID</span></dt>
-        <dd>
-          <span>{{ punchList.id }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.punchList.number">Number</span></dt>
-        <dd>
-          <span>{{ punchList.number }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.punchList.name">Name</span></dt>
-        <dd>
-          <span>{{ punchList.name }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.punchList.description">Description</span></dt>
-        <dd>
-          <span>{{ punchList.description }}</span>
-        </dd>
-        <dt><span jhiTranslate="unitApp.punchList.project">Project</span></dt>
-        <dd>
-          <div *ngIf="punchList.project">
-            <a [routerLink]="['/project', punchList.project?.id, 'view']">{{ punchList.project?.name }}</a>
-          </div>
-        </dd>
-      </dl>
+			<dl class="row-md jh-entity-details">
+				<dt><span jhiTranslate="global.field.id">ID</span></dt>
+				<dd>
+					<span>{{ punchList.id }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.punchList.number">Number</span></dt>
+				<dd>
+					<span>{{ punchList.number }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.punchList.name">Name</span></dt>
+				<dd>
+					<span>{{ punchList.name }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.punchList.description">Description</span></dt>
+				<dd>
+					<span>{{ punchList.description }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.punchList.project">Project</span></dt>
+				<dd>
+					<div *ngIf="punchList.project">
+						<a [routerLink]="['/project', punchList.project?.id, 'view']">{{ punchList.project?.name }}</a>
+					</div>
+				</dd>
+				<dt><span jhiTranslate="unitApp.punchList.author">Author</span></dt>
+				<dd>
+					<span>{{ punchList.author?.user | fullName }}</span>
+				</dd>
+				<dt><span jhiTranslate="unitApp.punchList.company">Company</span></dt>
+				<dd>
+					<span>{{ punchList.author?.company?.shortName }}</span>
+				</dd>
+			</dl>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
-        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
-      </button>
+			<button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+				<fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+			</button>
 
-      <button type="button" [routerLink]="['/punch-list', punchList.id, 'edit']" class="btn btn-primary">
-        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
-      </button>
-    </div>
-  </div>
+			<button
+				*jhiHasAnyAuthorityAndEqualCompany=
+					"['ROLE_CUSTOMER', 'ROLE_COMMISSIONER']; companyId: punchList.author?.company?.id ?? 0"
+				type="button"
+				[routerLink]="['/punch-list', punchList.id, 'edit']"
+				class="btn btn-primary"
+			>
+				<fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+			</button>
+		</div>
+	</div>
 </div>

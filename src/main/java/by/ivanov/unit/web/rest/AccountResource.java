@@ -3,21 +3,25 @@ package by.ivanov.unit.web.rest;
 import by.ivanov.unit.domain.User;
 import by.ivanov.unit.repository.UserRepository;
 import by.ivanov.unit.security.SecurityUtils;
+import by.ivanov.unit.service.AppUserService;
 import by.ivanov.unit.service.MailService;
 import by.ivanov.unit.service.UserService;
 import by.ivanov.unit.service.dto.AdminUserDTO;
 import by.ivanov.unit.service.dto.PasswordChangeDTO;
-import by.ivanov.unit.web.rest.errors.*;
+import by.ivanov.unit.web.rest.errors.EmailAlreadyUsedException;
+import by.ivanov.unit.web.rest.errors.InvalidPasswordException;
+import by.ivanov.unit.web.rest.errors.LoginAlreadyUsedException;
 import by.ivanov.unit.web.rest.vm.KeyAndPasswordVM;
 import by.ivanov.unit.web.rest.vm.ManagedUserVM;
-import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * REST controller for managing the current user's account.
@@ -41,10 +45,14 @@ public class AccountResource {
 
 	private final MailService mailService;
 
-	public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+	private final AppUserService appUserService;
+
+	public AccountResource(UserRepository userRepository, UserService userService,
+						   MailService mailService, AppUserService appUserService) {
 		this.userRepository = userRepository;
 		this.userService = userService;
 		this.mailService = mailService;
+		this.appUserService = appUserService;
 	}
 
 	/**
@@ -101,8 +109,8 @@ public class AccountResource {
 	 */
 	@GetMapping("/account")
 	public AdminUserDTO getAccount() {
-		return userService
-			.getUserWithAuthorities()
+		return appUserService
+			.getCurrentUserWithCompanyAndAuthorities()
 			.map(AdminUserDTO::new)
 			.orElseThrow(() -> new AccountResourceException("User could not be found"));
 	}
@@ -184,7 +192,7 @@ public class AccountResource {
 			keyAndPassword.getKey()
 		);
 
-		if (!user.isPresent()) {
+		if (user.isEmpty()) {
 			throw new AccountResourceException("No user was found for this reset key");
 		}
 	}

@@ -8,7 +8,12 @@ import { AppUserRoutingModule } from './route/app-user-routing.module';
 
 @NgModule({
   imports: [SharedModule, AppUserRoutingModule],
-  declarations: [AppUserComponent, AppUserDetailComponent, AppUserUpdateComponent, AppUserDeleteDialogComponent],
+  declarations: [
+		AppUserComponent,
+	  AppUserDetailComponent,
+	  AppUserUpdateComponent,
+	  AppUserDeleteDialogComponent
+  ],
   entryComponents: [AppUserDeleteDialogComponent],
 })
 export class AppUserModule {}

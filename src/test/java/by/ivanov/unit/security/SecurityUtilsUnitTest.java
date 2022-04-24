@@ -1,10 +1,5 @@
 package by.ivanov.unit.security;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +8,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Test class for the {@link SecurityUtils} utility class.
@@ -67,35 +68,35 @@ class SecurityUtilsUnitTest {
     void testHasCurrentUserThisAuthority() {
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ROLE_USER));
         securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", authorities));
         SecurityContextHolder.setContext(securityContext);
 
-        assertThat(SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.USER)).isTrue();
-        assertThat(SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ADMIN)).isFalse();
+        assertThat(SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ROLE_USER)).isTrue();
+        assertThat(SecurityUtils.hasCurrentUserThisAuthority(AuthoritiesConstants.ROLE_ADMIN)).isFalse();
     }
 
     @Test
     void testHasCurrentUserAnyOfAuthorities() {
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ROLE_USER));
         securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", authorities));
         SecurityContextHolder.setContext(securityContext);
 
-        assertThat(SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN)).isTrue();
-        assertThat(SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ANONYMOUS, AuthoritiesConstants.ADMIN)).isFalse();
+        assertThat(SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ROLE_USER, AuthoritiesConstants.ROLE_ADMIN)).isTrue();
+        assertThat(SecurityUtils.hasCurrentUserAnyOfAuthorities(AuthoritiesConstants.ANONYMOUS, AuthoritiesConstants.ROLE_ADMIN)).isFalse();
     }
 
     @Test
     void testHasCurrentUserNoneOfAuthorities() {
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.USER));
+        authorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ROLE_USER));
         securityContext.setAuthentication(new UsernamePasswordAuthenticationToken("user", "user", authorities));
         SecurityContextHolder.setContext(securityContext);
 
-        assertThat(SecurityUtils.hasCurrentUserNoneOfAuthorities(AuthoritiesConstants.USER, AuthoritiesConstants.ADMIN)).isFalse();
-        assertThat(SecurityUtils.hasCurrentUserNoneOfAuthorities(AuthoritiesConstants.ANONYMOUS, AuthoritiesConstants.ADMIN)).isTrue();
+        assertThat(SecurityUtils.hasCurrentUserNoneOfAuthorities(AuthoritiesConstants.ROLE_USER, AuthoritiesConstants.ROLE_ADMIN)).isFalse();
+        assertThat(SecurityUtils.hasCurrentUserNoneOfAuthorities(AuthoritiesConstants.ANONYMOUS, AuthoritiesConstants.ROLE_ADMIN)).isTrue();
     }
 }

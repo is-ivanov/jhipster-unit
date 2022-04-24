@@ -74,9 +74,10 @@ relationship ManyToOne {
   	PunchItem{punchList(number) required} to PunchList
   	PunchItem{priority(name) required} to PriorityPunch
     PunchItem{executor(shortName) } to Company
-    PunchItem{author(lastName) required} to User
+    PunchItem{author(lastName) required} to AppUser
     CommentPunch{punchItem required} to PunchItem{comments}
     Project{generalContractor} to Company
+    PunchList{author(lastName) required} to AppUser
 }
 
 relationship OneToOne {

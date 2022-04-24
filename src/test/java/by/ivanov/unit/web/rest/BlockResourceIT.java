@@ -125,7 +125,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void createBlock() throws Exception {
         int databaseSizeBeforeCreate = blockRepository.findAll().size();
         // Create the Block
@@ -144,7 +144,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void createBlockWithExistingId() throws Exception {
         // Create the Block with an existing ID
         block.setId(1L);
@@ -164,7 +164,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void checkNumberIsRequired() throws Exception {
         int databaseSizeBeforeTest = blockRepository.findAll().size();
         // set the field null
@@ -523,7 +523,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void putNewBlock() throws Exception {
         // Initialize the database
         blockRepository.saveAndFlush(block);
@@ -555,7 +555,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void putNonExistingBlock() throws Exception {
         int databaseSizeBeforeUpdate = blockRepository.findAll().size();
         block.setId(count.incrementAndGet());
@@ -579,7 +579,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void putWithIdMismatchBlock() throws Exception {
         int databaseSizeBeforeUpdate = blockRepository.findAll().size();
         block.setId(count.incrementAndGet());
@@ -622,7 +622,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void partialUpdateBlockWithPatch() throws Exception {
         // Initialize the database
         blockRepository.saveAndFlush(block);
@@ -653,7 +653,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void fullUpdateBlockWithPatch() throws Exception {
         // Initialize the database
         blockRepository.saveAndFlush(block);
@@ -684,7 +684,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void patchNonExistingBlock() throws Exception {
         int databaseSizeBeforeUpdate = blockRepository.findAll().size();
         block.setId(count.incrementAndGet());
@@ -708,7 +708,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void patchWithIdMismatchBlock() throws Exception {
         int databaseSizeBeforeUpdate = blockRepository.findAll().size();
         block.setId(count.incrementAndGet());
@@ -751,7 +751,7 @@ class BlockResourceIT {
 
     @Test
     @Transactional
-    @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+    @WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
     void deleteBlock() throws Exception {
         // Initialize the database
         blockRepository.saveAndFlush(block);

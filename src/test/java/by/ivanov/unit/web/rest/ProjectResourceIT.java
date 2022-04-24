@@ -1,11 +1,5 @@
 package by.ivanov.unit.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import by.ivanov.unit.IntegrationTest;
 import by.ivanov.unit.domain.Project;
 import by.ivanov.unit.repository.ProjectRepository;
@@ -13,11 +7,6 @@ import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.ProjectService;
 import by.ivanov.unit.service.dto.ProjectDTO;
 import by.ivanov.unit.service.mapper.ProjectMapper;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +19,18 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link ProjectResource} REST controller.
@@ -99,7 +100,7 @@ class ProjectResourceIT {
 
 	@Test
 	@Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void createProject() throws Exception {
 		int databaseSizeBeforeCreate = projectRepository.findAll().size();
 		// Create the Project
@@ -122,7 +123,7 @@ class ProjectResourceIT {
 
 	@Test
 	@Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void createProjectWithExistingId() throws Exception {
 		// Create the Project with an existing ID
 		project.setId(1L);
@@ -225,7 +226,7 @@ class ProjectResourceIT {
 
 	@Test
 	@Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putNewProject() throws Exception {
 		// Initialize the database
 		projectRepository.saveAndFlush(project);
@@ -257,7 +258,7 @@ class ProjectResourceIT {
 
 	@Test
 	@Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putNonExistingProject() throws Exception {
 		int databaseSizeBeforeUpdate = projectRepository.findAll().size();
 		project.setId(count.incrementAndGet());
@@ -281,7 +282,7 @@ class ProjectResourceIT {
 
 	@Test
 	@Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void putWithIdMismatchProject() throws Exception {
 		int databaseSizeBeforeUpdate = projectRepository.findAll().size();
 		project.setId(count.incrementAndGet());
@@ -328,7 +329,7 @@ class ProjectResourceIT {
 
 	@Test
 	@Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void partialUpdateProjectWithPatch() throws Exception {
 		// Initialize the database
 		projectRepository.saveAndFlush(project);
@@ -359,7 +360,7 @@ class ProjectResourceIT {
 
 	@Test
 	@Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void fullUpdateProjectWithPatch() throws Exception {
 		// Initialize the database
 		projectRepository.saveAndFlush(project);
@@ -390,7 +391,7 @@ class ProjectResourceIT {
 
 	@Test
 	@Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void patchNonExistingProject() throws Exception {
 		int databaseSizeBeforeUpdate = projectRepository.findAll().size();
 		project.setId(count.incrementAndGet());
@@ -414,7 +415,7 @@ class ProjectResourceIT {
 
 	@Test
 	@Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void patchWithIdMismatchProject() throws Exception {
 		int databaseSizeBeforeUpdate = projectRepository.findAll().size();
 		project.setId(count.incrementAndGet());
@@ -461,7 +462,7 @@ class ProjectResourceIT {
 
 	@Test
 	@Transactional
-	@WithMockUser(authorities = AuthoritiesConstants.ADMIN)
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
 	void deleteProject() throws Exception {
 		// Initialize the database
 		projectRepository.saveAndFlush(project);

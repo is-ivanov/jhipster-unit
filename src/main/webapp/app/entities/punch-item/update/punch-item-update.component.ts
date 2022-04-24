@@ -43,7 +43,7 @@ export class PunchItemUpdateComponent implements OnInit {
     id: [],
     number: [null, [Validators.required]],
     location: [],
-    description: [null, [Validators.required]],
+    description: [null, [Validators.required, Validators.maxLength(300)]],
     revisionDrawing: [null, [Validators.maxLength(20)]],
     status: [null, [Validators.required]],
     closedDate: [],

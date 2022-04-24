@@ -6,13 +6,6 @@ import by.ivanov.unit.service.PunchListService;
 import by.ivanov.unit.service.criteria.PunchListCriteria;
 import by.ivanov.unit.service.dto.PunchListDTO;
 import by.ivanov.unit.web.rest.errors.BadRequestAlertException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,11 +13,23 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import static by.ivanov.unit.security.AuthoritiesConstants.COMMISSIONER;
+import static by.ivanov.unit.security.AuthoritiesConstants.CUSTOMER;
 
 /**
  * REST controller for managing {@link by.ivanov.unit.domain.PunchList}.
@@ -46,11 +51,9 @@ public class PunchListResource {
 
     private final PunchListQueryService punchListQueryService;
 
-    public PunchListResource(
-        PunchListService punchListService,
-        PunchListRepository punchListRepository,
-        PunchListQueryService punchListQueryService
-    ) {
+    public PunchListResource(PunchListService punchListService,
+							 PunchListRepository punchListRepository,
+							 PunchListQueryService punchListQueryService) {
         this.punchListService = punchListService;
         this.punchListRepository = punchListRepository;
         this.punchListQueryService = punchListQueryService;
@@ -64,7 +67,9 @@ public class PunchListResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/punch-lists")
-    public ResponseEntity<PunchListDTO> createPunchList(@Valid @RequestBody PunchListDTO punchListDTO) throws URISyntaxException {
+	@PreAuthorize("hasAnyRole('" + COMMISSIONER + "', '" + CUSTOMER + "')")
+    public ResponseEntity<PunchListDTO> createPunchList(@Valid @RequestBody PunchListDTO punchListDTO)
+		throws URISyntaxException {
         log.debug("REST request to save PunchList : {}", punchListDTO);
         if (punchListDTO.getId() != null) {
             throw new BadRequestAlertException("A new punchList cannot already have an ID", ENTITY_NAME, "idexists");
@@ -87,6 +92,7 @@ public class PunchListResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/punch-lists/{id}")
+	@PreAuthorize("hasAnyRole('" + COMMISSIONER + "', '" + CUSTOMER + "')")
     public ResponseEntity<PunchListDTO> updatePunchList(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody PunchListDTO punchListDTO
@@ -122,7 +128,8 @@ public class PunchListResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/punch-lists/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<PunchListDTO> partialUpdatePunchList(
+	@PreAuthorize("hasAnyRole('" + COMMISSIONER + "', '" + CUSTOMER + "')")
+	public ResponseEntity<PunchListDTO> partialUpdatePunchList(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody PunchListDTO punchListDTO
     ) throws URISyntaxException {
@@ -196,7 +203,8 @@ public class PunchListResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/punch-lists/{id}")
-    public ResponseEntity<Void> deletePunchList(@PathVariable Long id) {
+	@PreAuthorize("hasAnyRole('" + COMMISSIONER + "', '" + CUSTOMER + "')")
+	public ResponseEntity<Void> deletePunchList(@PathVariable Long id) {
         log.debug("REST request to delete PunchList : {}", id);
         punchListService.delete(id);
         return ResponseEntity

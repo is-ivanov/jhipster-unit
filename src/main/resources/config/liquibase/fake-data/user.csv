@@ -1,0 +1,9 @@
+id;login;password_hash;first_name;last_name;email;image_url;activated;lang_key;created_by;last_modified_by
+3;pais1;$2y$10$R9FGVkV9qC1rhSzHqlSfxur5Setb40eP.Qk8NlM9oJO63dQxIFCkq;Олег;Паисовец;o.pais@mnpz.by;;TRUE;ru;system;system
+4;onhz1;$2y$10$8oobrpkg510THCv6e5K4aeKijx.zRScyv8Y/Gk0KWCJ0RiN5RoIim;Иван;Пускач;IvanPuskach@mail.ru;;TRUE;ru;system;system
+5;npz-ep1;$2y$10$oTKybf3fy1TIlgGjejxex.dd3D8XO68WipF17UUhTrA42P8HJxiIi;Пётр;Энергетик;PetrEp@mnpz.by;;TRUE;ru;system;system
+6;kug1;$2a$10$G2MvPMYJtowfQDxGcY.tD.Y6EJ2L0KM4k8UwgDq7XXYO5BEQk72sC;Вадим;Куговец;VadimKug@mnpz.by;;TRUE;ru;system;system
+7;onhz2;$2y$10$Z378Agi80MZxplj0YhQw7.0F2vuy.Np2oHNQLj6fBRUxmmkvWgUFm;Володя;Онхазэшник;VolodyaOnhz@mail.ru;;TRUE;ru;system;system
+8;onhz3;$2y$10$hppAoTcqF06lGK2nxXdRpexVCYaYr6WWHSkcrlwvzsyLxzR4vL//q;Александр;Пусковой;AlexOne@mail.ru;;FALSE;ru;system;system
+9;socar;$2y$10$y7SK..o52HR3uUYeLzLQ4u4yUV0k8Bw5IOq0FXIMFpnw8QzW4oYwS;Emir;Serdar;EmirSerdar@socar.ru;;TRUE;en;system;system
+10;ptmptm;$2a$10$n8rJTjXG70CcKzzt6txpfuossjXlEvx7Bptgssgk2aXoYYvYvG6Xe;Николай;Пэтээмовец;ptmmozyr@mail.ru;;TRUE;ru;system;system

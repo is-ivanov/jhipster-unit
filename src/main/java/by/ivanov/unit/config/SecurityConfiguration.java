@@ -1,11 +1,12 @@
 package by.ivanov.unit.config;
 
-import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.security.jwt.JWTConfigurer;
 import by.ivanov.unit.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,11 +15,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.web.filter.CorsFilter;
 import org.zalando.problem.spring.web.advice.security.SecurityProblemSupport;
 import tech.jhipster.config.JHipsterProperties;
+
+import static by.ivanov.unit.security.AuthoritiesConstants.*;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -93,18 +97,19 @@ public class SecurityConfiguration {
 			.antMatchers(HttpMethod.GET, "/api/lines/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/priority-punches/**").permitAll()
 			.antMatchers(HttpMethod.GET, "/api/type-punches/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/api/punch-lists/**").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
-            .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/api/admin/**").hasAuthority(ROLE_ADMIN)
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/health/**").permitAll()
             .antMatchers("/management/info").permitAll()
             .antMatchers("/management/prometheus").permitAll()
-            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/management/**").hasAuthority(ROLE_ADMIN)
         .and()
             .httpBasic()
         .and()
@@ -112,6 +117,29 @@ public class SecurityConfiguration {
         return http.build();
         // @formatter:on
     }
+
+	@Bean
+	public RoleHierarchy roleHierarchy() {
+		RoleHierarchyImpl hierarchy = new RoleHierarchyImpl();
+		String includes = " > ";
+		hierarchy.setHierarchy(ROLE_ADMIN + includes + ROLE_GENERAL_CONTRACTOR + Constants.LF +
+			ROLE_GENERAL_CONTRACTOR + includes + ROLE_CONTRACTOR + Constants.LF +
+			ROLE_CONTRACTOR + includes + ROLE_USER + Constants.LF +
+			ROLE_ADMIN + includes + ROLE_CUSTOMER + Constants.LF +
+			ROLE_CUSTOMER + includes + ROLE_USER + Constants.LF +
+			ROLE_ADMIN + includes + ROLE_COMMISSIONER + Constants.LF +
+			ROLE_COMMISSIONER + includes + ROLE_USER + Constants.LF +
+			ROLE_USER + includes + ANONYMOUS
+		);
+		return hierarchy;
+	}
+
+	@Bean
+	public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
+		DefaultWebSecurityExpressionHandler expressionHandler = new DefaultWebSecurityExpressionHandler();
+		expressionHandler.setRoleHierarchy(roleHierarchy());
+		return expressionHandler;
+	}
 
 	private JWTConfigurer securityConfigurerAdapter() {
 		return new JWTConfigurer(tokenProvider);

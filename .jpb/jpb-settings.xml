@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DatabaseMigrationSettings">
+  <component name="DatabaseMigrationSettings" mainChangeLogName="#date(&quot;yyyyMMddHHmmss&quot;)_changelog">
     <database-infos>
       <database-info>
         <option name="enabled" value="true" />
@@ -11,6 +11,7 @@
   <component name="JpaPluginProjectSettings">
     <option name="entityNameTemplate" />
     <option name="useConstantsForEntities" value="true" />
+    <option name="useLazyOnToOneAssociations" value="true" />
     <option name="scaffoldingLanguage" />
   </component>
 </project>

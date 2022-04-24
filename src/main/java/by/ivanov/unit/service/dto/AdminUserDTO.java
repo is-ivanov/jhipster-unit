@@ -4,10 +4,14 @@ import by.ivanov.unit.config.Constants;
 import by.ivanov.unit.domain.AppUser;
 import by.ivanov.unit.domain.Authority;
 import by.ivanov.unit.domain.User;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.validation.constraints.*;
 
 /**
  * A DTO representing a user, with his authorities.
@@ -53,6 +57,8 @@ public class AdminUserDTO {
 
 	private Long companyId;
 
+	private String companyName;
+
 	public AdminUserDTO() {
 		// Empty constructor needed for Jackson.
 	}
@@ -89,6 +95,7 @@ public class AdminUserDTO {
 		this.lastModifiedDate = user.getLastModifiedDate();
 		this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
 		this.companyId = appUser.getCompany().getId();
+		this.companyName = appUser.getCompany().getShortName();
 	}
 
 	public Long getId() {
@@ -203,6 +210,14 @@ public class AdminUserDTO {
 		this.companyId = companyId;
 	}
 
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
 	// prettier-ignore
 	@Override
 	public String toString() {
@@ -217,7 +232,9 @@ public class AdminUserDTO {
 			", createdBy=" + createdBy +
 			", createdDate=" + createdDate +
 			", lastModifiedBy='" + lastModifiedBy + '\'' +
-			", lastModifiedDate=" + lastModifiedDate +
+			", lastModifiedDate=" + lastModifiedDate + '\'' +
+			", companyId=" + companyId + '\'' +
+			", companyName=" + companyName + '\'' +
 			", authorities=" + authorities +
 			"}";
 	}
