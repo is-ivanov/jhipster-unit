@@ -192,7 +192,7 @@ jhipster:
     management-include-pattern: ${server.servlet.context-path:}/management/**
     title: Unit API
     description: Unit API documentation
-    version: 0.0.1
+    version: 0.0.4
     terms-of-service-url:
     contact-name:
     contact-url:
