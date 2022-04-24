@@ -24,6 +24,8 @@ describe('Home Component', () => {
     lastName: null,
     login: 'login',
     imageUrl: null,
+	  companyId: 1,
+	  companyName: 'npz',
   };
 
   beforeEach(waitForAsync(() => {

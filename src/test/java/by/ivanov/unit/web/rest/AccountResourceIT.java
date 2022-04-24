@@ -2,11 +2,14 @@ package by.ivanov.unit.web.rest;
 
 import by.ivanov.unit.IntegrationTest;
 import by.ivanov.unit.config.Constants;
+import by.ivanov.unit.domain.Company;
 import by.ivanov.unit.domain.User;
+import by.ivanov.unit.repository.AppUserRepository;
 import by.ivanov.unit.repository.AuthorityRepository;
 import by.ivanov.unit.repository.CompanyRepository;
 import by.ivanov.unit.repository.UserRepository;
 import by.ivanov.unit.security.AuthoritiesConstants;
+import by.ivanov.unit.service.AppUserService;
 import by.ivanov.unit.service.UserService;
 import by.ivanov.unit.service.dto.AdminUserDTO;
 import by.ivanov.unit.service.dto.PasswordChangeDTO;
@@ -23,10 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static by.ivanov.unit.web.rest.AccountResourceIT.TEST_USER_LOGIN;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -62,6 +62,12 @@ class AccountResourceIT {
 	@Autowired
 	private MockMvc restAccountMockMvc;
 
+	@Autowired
+	private AppUserRepository appUserRepository;
+
+	@Autowired
+	private AppUserService appUserService;
+
 	@Test
 	@WithUnauthenticatedMockUser
 	void testNonAuthenticatedUser() throws Exception {
@@ -87,6 +93,7 @@ class AccountResourceIT {
 	}
 
 	@Test
+	@Transactional
 	void testGetExistingAccount() throws Exception {
 		Set<String> authorities = new HashSet<>();
 		authorities.add(AuthoritiesConstants.ROLE_ADMIN);
@@ -99,6 +106,8 @@ class AccountResourceIT {
 		user.setImageUrl("http://placehold.it/50x50");
 		user.setLangKey("en");
 		user.setAuthorities(authorities);
+		List<Company> companies = companyRepository.findAll();
+		user.setCompanyId(companies.get(0).getId());
 		userService.createUser(user);
 
 		restAccountMockMvc
@@ -397,7 +406,7 @@ class AccountResourceIT {
 
 		testUser4.get().setActivated(true);
 		AdminUserDTO adminUserDTO = new AdminUserDTO(testUser4.get());
-		adminUserDTO.setCompanyId(1l);
+		adminUserDTO.setCompanyId(1L);
 		userService.updateUser(adminUserDTO);
 
 		// Register 4th (already activated) user

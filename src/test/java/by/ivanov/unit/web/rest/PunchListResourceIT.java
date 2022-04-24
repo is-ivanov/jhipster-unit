@@ -1,24 +1,15 @@
 package by.ivanov.unit.web.rest;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import by.ivanov.unit.IntegrationTest;
+import by.ivanov.unit.domain.AppUser;
 import by.ivanov.unit.domain.Project;
 import by.ivanov.unit.domain.PunchList;
+import by.ivanov.unit.repository.AppUserRepository;
 import by.ivanov.unit.repository.PunchListRepository;
+import by.ivanov.unit.security.AuthoritiesConstants;
 import by.ivanov.unit.service.PunchListService;
-import by.ivanov.unit.service.criteria.PunchListCriteria;
 import by.ivanov.unit.service.dto.PunchListDTO;
 import by.ivanov.unit.service.mapper.PunchListMapper;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,11 +18,22 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Integration tests for the {@link PunchListResource} REST controller.
@@ -85,8 +87,21 @@ class PunchListResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static PunchList createEntity(EntityManager em) {
-        PunchList punchList = new PunchList().number(DEFAULT_NUMBER).name(DEFAULT_NAME).description(DEFAULT_DESCRIPTION);
-        // Add required entity
+		PunchList punchList = new PunchList()
+			.number(DEFAULT_NUMBER)
+			.name(DEFAULT_NAME)
+			.description(DEFAULT_DESCRIPTION);
+		// Add required entity
+		AppUser author;
+		if (TestUtil.findAll(em, AppUser.class).isEmpty()) {
+			author = AppUserResourceIT.createEntity(em);
+			em.persist(author);
+			em.flush();
+		} else {
+			author = TestUtil.findAll(em, AppUser.class).get(0);
+		}
+		punchList.setAuthor(author);
+
         Project project;
         if (TestUtil.findAll(em, Project.class).isEmpty()) {
             project = ProjectResourceIT.createEntity(em);
@@ -127,7 +142,8 @@ class PunchListResourceIT {
 
     @Test
     @Transactional
-    void createPunchList() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
+	void createPunchList() throws Exception {
         int databaseSizeBeforeCreate = punchListRepository.findAll().size();
         // Create the PunchList
         PunchListDTO punchListDTO = punchListMapper.toDto(punchList);
@@ -146,7 +162,8 @@ class PunchListResourceIT {
 
     @Test
     @Transactional
-    void createPunchListWithExistingId() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
+	void createPunchListWithExistingId() throws Exception {
         // Create the PunchList with an existing ID
         punchList.setId(1L);
         PunchListDTO punchListDTO = punchListMapper.toDto(punchList);
@@ -586,7 +603,8 @@ class PunchListResourceIT {
 
     @Test
     @Transactional
-    void putNewPunchList() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
+	void putNewPunchList() throws Exception {
         // Initialize the database
         punchListRepository.saveAndFlush(punchList);
 
@@ -618,7 +636,8 @@ class PunchListResourceIT {
 
     @Test
     @Transactional
-    void putNonExistingPunchList() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
+	void putNonExistingPunchList() throws Exception {
         int databaseSizeBeforeUpdate = punchListRepository.findAll().size();
         punchList.setId(count.incrementAndGet());
 
@@ -641,7 +660,8 @@ class PunchListResourceIT {
 
     @Test
     @Transactional
-    void putWithIdMismatchPunchList() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
+	void putWithIdMismatchPunchList() throws Exception {
         int databaseSizeBeforeUpdate = punchListRepository.findAll().size();
         punchList.setId(count.incrementAndGet());
 
@@ -683,7 +703,8 @@ class PunchListResourceIT {
 
     @Test
     @Transactional
-    void partialUpdatePunchListWithPatch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
+	void partialUpdatePunchListWithPatch() throws Exception {
         // Initialize the database
         punchListRepository.saveAndFlush(punchList);
 
@@ -714,7 +735,8 @@ class PunchListResourceIT {
 
     @Test
     @Transactional
-    void fullUpdatePunchListWithPatch() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
+	void fullUpdatePunchListWithPatch() throws Exception {
         // Initialize the database
         punchListRepository.saveAndFlush(punchList);
 
@@ -745,7 +767,8 @@ class PunchListResourceIT {
 
     @Test
     @Transactional
-    void patchNonExistingPunchList() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
+	void patchNonExistingPunchList() throws Exception {
         int databaseSizeBeforeUpdate = punchListRepository.findAll().size();
         punchList.setId(count.incrementAndGet());
 
@@ -768,7 +791,8 @@ class PunchListResourceIT {
 
     @Test
     @Transactional
-    void patchWithIdMismatchPunchList() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
+	void patchWithIdMismatchPunchList() throws Exception {
         int databaseSizeBeforeUpdate = punchListRepository.findAll().size();
         punchList.setId(count.incrementAndGet());
 
@@ -812,7 +836,8 @@ class PunchListResourceIT {
 
     @Test
     @Transactional
-    void deletePunchList() throws Exception {
+	@WithMockUser(authorities = AuthoritiesConstants.ROLE_ADMIN)
+	void deletePunchList() throws Exception {
         // Initialize the database
         punchListRepository.saveAndFlush(punchList);
 

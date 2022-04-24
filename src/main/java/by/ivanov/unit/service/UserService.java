@@ -174,6 +174,7 @@ public class UserService {
 			user.setAuthorities(authorities);
 		}
 		userRepository.save(user);
+		updateUserCompany(user, userDTO.getCompanyId());
 		this.clearUserCaches(user);
 		log.debug("Created Information for User: {}", user);
 		return user;
@@ -330,6 +331,7 @@ public class UserService {
 
 	private void clearUserCaches(User user) {
 		Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
+		Objects.requireNonNull(cacheManager.getCache(AppUserRepository.APP_USERS_BY_LOGIN_CACHE)).evict(user.getLogin());
 		if (user.getEmail() != null) {
 			Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
 		}
