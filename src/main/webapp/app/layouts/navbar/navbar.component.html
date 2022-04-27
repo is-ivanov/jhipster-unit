@@ -24,12 +24,40 @@
 			[ngSwitch]="account !== null"
 		>
 			<ul class="navbar-nav ms-auto">
-				<li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-					<a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+				<li class="nav-item">
+					<a
+						class="nav-link"
+						routerLink="/"
+						routerLinkActive="active"
+						[routerLinkActiveOptions]="{ exact: true }"
+						(click)="collapseNavbar()"
+					>
 						<span>
 							<fa-icon icon="home"></fa-icon>
 							<span jhiTranslate="global.menu.home">Home</span>
 						</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a
+						class="nav-link"
+						routerLink="punch-list"
+						routerLinkActive="active"
+						[routerLinkActiveOptions]="{ exact: true }"
+						(click)="collapseNavbar()"
+					>
+						<span jhiTranslate="global.menu.entities.punchList">Punch List</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a
+						class="nav-link"
+						routerLink="punch-item"
+						routerLinkActive="active"
+						[routerLinkActiveOptions]="{ exact: true }"
+						(click)="collapseNavbar()"
+					>
+						<span jhiTranslate="global.menu.entities.punchItem">Punch Item</span>
 					</a>
 				</li>
 				<!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
@@ -161,7 +189,7 @@
 								<span jhiTranslate="global.menu.entities.typePunch">Type Punch</span>
 							</a>
 						</li>
-						<li>
+						<li *jhiHasAnyAuthority="'ROLE_ADMIN'">
 							<a
 								class="dropdown-item"
 								routerLink="app-user"
