@@ -14,7 +14,6 @@ const punchItemRoute: Routes = [
     data: {
       defaultSort: 'id,asc',
     },
-    canActivate: [UserRouteAccessService],
   },
   {
     path: ':id/view',
@@ -22,7 +21,6 @@ const punchItemRoute: Routes = [
     resolve: {
       punchItem: PunchItemRoutingResolveService,
     },
-    canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',
