@@ -18,7 +18,7 @@
         "title": "Punch Item"
       },
       "id": "ID",
-      "number": "Number",
+      "number": "#",
       "location": "Location",
       "description": "Description",
       "revisionDrawing": "Revision Drawing",
@@ -27,7 +27,8 @@
       "type": "Type",
       "line": "Line",
       "punchList": "Punch List",
-      "priority": "Priority",
+			"punchListShort": "List",
+			"priority": "Priority",
       "executor": "Executor",
       "author": "Author",
       "comments": "Comments"

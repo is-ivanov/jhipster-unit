@@ -18,7 +18,7 @@
         "title": "Замечание"
       },
       "id": "ID",
-      "number": "Номер",
+      "number": "№ п/п",
       "location": "Место",
       "description": "Описание",
       "revisionDrawing": "Изм. черт.",
@@ -27,6 +27,7 @@
       "type": "Тип",
       "line": "Линия",
       "punchList": "Ведомость",
+			"punchListShort": "Ведом.",
       "priority": "Приоритет",
       "executor": "Исполнитель",
       "author": "Выдал",

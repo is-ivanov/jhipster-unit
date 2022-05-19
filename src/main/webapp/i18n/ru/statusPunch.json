@@ -3,7 +3,7 @@
     "StatusPunch": {
       "null": "",
       "INITIATED": "ВЫДАНО",
-      "READY_FOR_REVIEW": "ГОТОВО ДЛЯ ПРОВЕРКИ",
+      "READY_FOR_REVIEW": "ДЛЯ ПРОВЕРКИ",
       "UNDER_REVIEW": "НА ПРОВЕРКЕ",
       "NOT_ACCEPTED": "НЕ ПРИНЯТО",
       "CLOSED": "ПРИНЯТО",
